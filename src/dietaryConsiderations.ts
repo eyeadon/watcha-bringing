@@ -4,7 +4,7 @@ const dietaryConsiderations = [
   "Vegan",
   "Vegetarian",
   "Pescatarian",
-  "Spicy",
+  "Not Spicy",
   "Other",
 ] as const;
 

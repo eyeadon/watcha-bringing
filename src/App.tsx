@@ -1,18 +1,28 @@
 import { useState } from "react";
 import "./App.css";
 import DishForm from "./components/DishForm";
-import dishCategories from "./dishCategories";
+import DishFilter from "./components/DishFilter";
+import DishList from "./components/DishList";
+import Dish from "./Dish";
 
 function App() {
   const [selectedCategory, setSelectedCategory] = useState("");
 
-  const [dish, setDish] = useState([
-    { id: 1, category: "Appetizer", name: "chicken fingers", amount: 10 },
+  // const [dishes, setDishes] = useState<Dish | null>(null);
+
+  const [dishes, setDishes] = useState<Dish[]>([
+    {
+      id: 0,
+      category: "",
+      name: "",
+      amount: 0,
+      dietary: [],
+    },
   ]);
 
-  const visibleExpenses = selectedCategory
-    ? dish.filter((element) => element.category === selectedCategory)
-    : dish;
+  const visibleDishes = selectedCategory
+    ? dishes.filter((element) => element.category === selectedCategory)
+    : dishes;
 
   // function applyExpenseFilter(arr) {
   //   if (selectedCategory === "All categories") return expenses;
@@ -21,22 +31,25 @@ function App() {
 
   return (
     <div>
-      <div className="mb-5">
-        <DishForm
-          onSubmit={(expense) =>
-            setDish([...dish, { ...expense, id: dish.length + 1 }])
-          }
+      <div className="container">
+        <div className="mb-5">
+          <DishForm
+            onSubmit={(newDish) => {
+              setDishes([...dishes, { ...newDish, id: dishes.length + 1 }]);
+              console.log(dishes);
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <DishFilter
+            onSelectCategory={(category) => setSelectedCategory(category)}
+          />
+        </div>
+        <DishList
+          dishes={visibleDishes}
+          // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
         />
       </div>
-      {/* <div className="mb-3">
-        <ExpenseFilter
-          onSelectCategory={(category) => setSelectedCategory(category)}
-        />
-      </div>
-      <ExpenseList
-        expenses={visibleExpenses}
-        onDelete={(id) => setDish(dish.filter((e) => e.id !== id))}
-      /> */}
     </div>
   );
 }

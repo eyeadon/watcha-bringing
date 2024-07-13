@@ -10,7 +10,9 @@ const dishSchema = z.object({
   }),
   name: z.string().min(3, { message: "Enter at leats 3 characters" }).max(50),
   amount: z.number({ invalid_type_error: "Amount is required" }).min(0).max(99),
-  dietary: z.enum(dietaryConsiderations),
+  // dietary: z.enum(dietaryConsiderations).optional().array(),
+  dietary: z.enum(dietaryConsiderations).array().optional(),
+  // dietary: z.boolean().optional(),
 });
 
 type DishFormData = z.infer<typeof dishSchema>;
@@ -40,6 +42,7 @@ const DishForm = ({ onSubmit }: Props) => {
         <label htmlFor="category" className="form-label">
           Category
         </label>
+        {/* // hook form register function, spread result, copy all previous values */}
         <select {...register("category")} id="category" className="form-select">
           <option value="Select">Select Dish</option>
           {dishCategories.map((category) => (
@@ -52,12 +55,12 @@ const DishForm = ({ onSubmit }: Props) => {
           <p className="text-danger">{errors.category.message}</p>
         )}
       </div>
+
       <div className="mb-3">
         <label htmlFor="name" className="form-label">
           Dish Name
         </label>
         <input
-          // hook form register function, spread result, copy all previous values
           {...register("name")}
           id="name"
           type="text"
@@ -65,6 +68,7 @@ const DishForm = ({ onSubmit }: Props) => {
         />
         {errors.name && <p className="text-danger">{errors.name.message}</p>}
       </div>
+
       <div className="mb-3">
         <label htmlFor="amount" className="form-label">
           Amount
@@ -79,10 +83,12 @@ const DishForm = ({ onSubmit }: Props) => {
           <p className="text-danger">{errors.amount.message}</p>
         )}
       </div>
+
       <div className="mb-3">
-        <label className="form-label">Dietary Considerations</label>
-        {dietaryConsiderations.map((diet) => (
-          <div className="form-check">
+        <label className="form-label">Dietary Considerations Included</label>
+        {dietaryConsiderations.map((diet, index) => (
+          // had to add key to div
+          <div className="form-check" key={index}>
             <input
               {...register("dietary")}
               id="dietary"
@@ -96,7 +102,9 @@ const DishForm = ({ onSubmit }: Props) => {
             </label>
           </div>
         ))}
-        {/* <div className="form-check">
+        {/* 
+        // bootstrap checkbox format
+        <div className="form-check">
           <input
           className="form-check-input"
           type="checkbox"
@@ -114,7 +122,7 @@ const DishForm = ({ onSubmit }: Props) => {
       </div>
 
       {/* Submit */}
-      <button disabled={!isValid} className="btn btn-primary">
+      <button disabled={!isValid} className="btn btn-primary" type="submit">
         Submit
       </button>
     </form>
