@@ -15,7 +15,7 @@ const dishSchema = z.object({
   // dietary: z.boolean().optional(),
 });
 
-type DishFormData = z.infer<typeof dishSchema>;
+export type DishFormData = z.infer<typeof dishSchema>;
 
 interface Props {
   onSubmit: (data: DishFormData) => void;
