@@ -1,4 +1,4 @@
-import Dish from "../Dish";
+import { Dish } from "../interfaces/interfaces";
 
 interface Props {
   dishes: Dish[];
