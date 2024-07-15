@@ -47,9 +47,9 @@ function App() {
   // }
 
   return (
-    <div>
-      <div className="container">
-        <div className="mb-5">
+    <div className="container">
+      <div className="row">
+        <div className="col-sm mb-5">
           <DishForm
             onSubmit={(newDish) => {
               setDishes(setDishesHelper(dishes, newDish));
@@ -57,11 +57,17 @@ function App() {
             }}
           />
         </div>
-        <div className="mb-3">
-          <DishFilter
-            onSelectCategory={(category) => setSelectedCategory(category)}
-          />
+        <div className="col-sm mb-5">
+          <p>col2</p>
         </div>
+        {/* end row */}
+      </div>
+      <div className="mb-3">
+        <DishFilter
+          onSelectCategory={(category) => setSelectedCategory(category)}
+        />
+      </div>
+      <div className="mb-3">
         <DishList
           dishes={visibleDishes}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
