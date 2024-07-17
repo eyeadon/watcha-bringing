@@ -1,21 +1,28 @@
-import { useState } from "react";
+import { ReactNode, useState } from "react";
 
 interface Props {
-  children: string;
+  children: ReactNode;
+  buttonLabelText: string;
 }
 
-const ExpandableSection = ({ children }: Props) => {
-  const [isExpanded, setExpanded] = useState(false); // false -> +
+const ExpandableSection = ({ children, buttonLabelText }: Props) => {
+  const [isExpanded, setExpanded] = useState(false); // false -> + icon
 
   const showDiv = isExpanded ? children : null;
 
   return (
-    <p>
+    <>
+      <div className="mb-3">
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={() => setExpanded(!isExpanded)}
+        >
+          {isExpanded ? "-" : "+ " + buttonLabelText}
+        </button>
+      </div>
       {showDiv}
-      <button onClick={() => setExpanded(!isExpanded)}>
-        {isExpanded ? "Less" : "More"}
-      </button>
-    </p>
+    </>
   );
 };
 

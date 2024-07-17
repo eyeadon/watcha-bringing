@@ -7,6 +7,7 @@ import DishFilter from "./components/DishFilter";
 import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
 import { Bev, Dish } from "./interfaces/interfaces";
+import ExpandableSection from "./components/ExpandableSection";
 
 function App() {
   const [dishes, setDishes] = useState<Dish[] | null>(null);
@@ -88,24 +89,29 @@ function App() {
     <div className="container">
       <h1>Watcha Bringing?</h1>
       <div className="row">
-        <div className="col-sm mb-5">
-          <h2>What Dish?</h2>
-          <DishForm
-            onSubmit={(newDish) => {
-              setDishes(setItemHelper(dishes, newDish));
-              console.log(dishes);
-            }}
-          />
-        </div>
-        <div className="col-sm mb-5">
-          <h2>What Beverage?</h2>
-          <BevForm
-            onSubmit={(newBev) => {
-              setBevs(setItemHelper(bevs, newBev));
-              console.log(bevs);
-            }}
-          />
-        </div>
+        <ExpandableSection buttonLabelText="Add Dish">
+          <div className="col-sm mb-5">
+            <h2>What Dish?</h2>
+            <DishForm
+              onSubmit={(newDish) => {
+                setDishes(setItemHelper(dishes, newDish));
+                console.log(dishes);
+              }}
+            />
+          </div>
+        </ExpandableSection>
+
+        <ExpandableSection buttonLabelText="Add Beverage">
+          <div className="col-sm mb-5">
+            <h2>What Beverage?</h2>
+            <BevForm
+              onSubmit={(newBev) => {
+                setBevs(setItemHelper(bevs, newBev));
+                console.log(bevs);
+              }}
+            />
+          </div>
+        </ExpandableSection>
         {/* end row */}
       </div>
       <div className="mb-3">
