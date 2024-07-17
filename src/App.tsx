@@ -1,17 +1,20 @@
 import { useState } from "react";
 import "./App.css";
-import DishForm, { DishFormData } from "./components/DishForm";
+import BevFilter from "./components/BevFilter";
+import BevForm from "./components/BevForm";
+import BevList from "./components/BevList";
 import DishFilter from "./components/DishFilter";
+import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
-import { Dish, Bev } from "./interfaces/interfaces";
-import BevForm, { BevFormData } from "./components/BevForm";
+import { Bev, Dish } from "./interfaces/interfaces";
 
 function App() {
-  const [selectedCategory, setSelectedCategory] = useState("");
-
   const [dishes, setDishes] = useState<Dish[] | null>(null);
 
   const [bevs, setBevs] = useState<Bev[] | null>(null);
+
+  const [selectedDishCategory, setSelectedDishCategory] = useState("");
+  const [selectedBevCategory, setSelectedBevCategory] = useState("");
 
   // const [dishes, setDishes] = useState<Dish[]>([
   //   {
@@ -22,14 +25,6 @@ function App() {
   //     dietary: [],
   //   },
   // ]);
-
-  function visibleDishesHelper(arr: Dish[] | null, selCat: string) {
-    if (arr === null) return [];
-
-    return selCat
-      ? arr.filter((element: Dish) => element.category === selCat)
-      : arr;
-  }
 
   // function setDishesHelper(arr: Dish[] | null, newDish: DishFormData) {
   //   if (arr === null) return [{ ...newDish, id: 1 }];
@@ -54,8 +49,31 @@ function App() {
   //   return arg;
   // }
 
+  function visibleItemsHelper(
+    arr: Dish[] | Bev[] | null,
+    selCat: string,
+    allCats: string
+  ) {
+    if (arr === null) return [];
+    if (selCat === allCats) return arr;
+
+    return selCat
+      ? arr.filter((element: Dish | Bev) => element.category === selCat)
+      : arr;
+  }
+
   // if dishes is null, value will be []
-  const visibleDishes = visibleDishesHelper(dishes, selectedCategory);
+  const visibleDishes = visibleItemsHelper(
+    dishes,
+    selectedDishCategory,
+    "All Dish Categories"
+  );
+
+  const visibleBevs = visibleItemsHelper(
+    bevs,
+    selectedBevCategory,
+    "All Beverage Categories"
+  );
 
   // const visibleDishes = selectedCategory
   //   ? dishes.filter((element) => element.category === selectedCategory)
@@ -94,12 +112,25 @@ function App() {
         <h2>Who's Bringing What?</h2>
         <h3>Dishes</h3>
         <DishFilter
-          onSelectCategory={(category) => setSelectedCategory(category)}
+          onSelectCategory={(category) => setSelectedDishCategory(category)}
         />
       </div>
       <div className="mb-3">
         <DishList
           dishes={visibleDishes}
+          // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
+        />
+      </div>
+
+      <div className="mb-3">
+        <h3>Beverages</h3>
+        <BevFilter
+          onSelectCategory={(category) => setSelectedBevCategory(category)}
+        />
+      </div>
+      <div className="mb-3">
+        <BevList
+          bevs={visibleBevs}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
         />
       </div>
