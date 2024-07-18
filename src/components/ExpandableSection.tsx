@@ -12,10 +12,9 @@ const ExpandableSection = ({ children, buttonLabelText }: Props) => {
   const showDiv = isExpanded ? children : null;
 
   const renderIcon = isExpanded ? (
-    <DashLg color="white" />
+    <DashLg key="dashlg" color="white" />
   ) : (
-    // was making whole thing a string by + buttonLabelText
-    [<PlusLg color="white" />, " ", buttonLabelText]
+    [<PlusLg key="pluslg" color="white" className="me-1" />, buttonLabelText]
   );
 
   return (

@@ -7,6 +7,7 @@ interface Props {
 const BevFilter = ({ onSelectCategory }: Props) => {
   return (
     <select
+      name="select"
       className="form-select"
       onChange={(event) => onSelectCategory(event.target.value)}
     >
