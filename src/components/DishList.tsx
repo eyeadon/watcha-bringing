@@ -1,4 +1,26 @@
 import { Dish } from "../interfaces/interfaces";
+import { useQuery } from "@tanstack/react-query";
+import APIClient from "../services/apiClient";
+
+const apiClient = new APIClient<Dish>("/genres");
+
+// hiding endpoint details behind useGenres hook, not in GenreList
+// const useGenres = () => useData<Genre>("/genres");
+
+// const useGenres = () => ({ data: genres, isLoading: false, error: null });
+
+const useGenres = () =>
+  useQuery({
+    queryKey: ["genres"],
+    // queryFn: () =>
+    //   apiClient.get<FetchResponse<Genre>>("/genres").then((res) => res.data),
+    queryFn: apiClient.getAll,
+
+    staleTime: ms("24h"),
+    initialData: genres,
+  });
+
+export default useGenres;
 
 interface Props {
   dishes: Dish[];
