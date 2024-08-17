@@ -1,4 +1,5 @@
 import { Dish } from "../interfaces/interfaces";
+import useDishes from "../hooks/useDishes";
 
 interface Props {
   dishes: Dish[];
@@ -6,6 +7,8 @@ interface Props {
 }
 
 const DishList = ({ dishes }: Props) => {
+  // const { data, isLoading, error } = useDishes();
+
   if (dishes.length === 0) return null;
 
   return (
