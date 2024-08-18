@@ -1,4 +1,4 @@
-import bevCategories from "../bevCategories";
+import bevCategories from "../categories/bevCategories";
 
 interface Props {
   onSelectCategory: (category: string) => void;

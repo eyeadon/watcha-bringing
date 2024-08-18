@@ -1,4 +1,4 @@
-import dishCategories from "../dishCategories";
+import dishCategories from "../categories/dishCategories";
 
 interface Props {
   onSelectCategory: (category: string) => void;

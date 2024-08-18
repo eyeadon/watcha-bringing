@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import bevCategories from "../bevCategories";
+import bevCategories from "../categories/bevCategories";
 
 const bevSchema = z.object({
   category: z.enum(bevCategories, {

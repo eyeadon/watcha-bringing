@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import dishCategories from "../dishCategories";
-import dietaryConsiderations from "../dietaryConsiderations";
+import dishCategories from "../categories/dishCategories";
+import dietaryConsiderations from "../categories/dietaryConsiderations";
 
 const dishSchema = z.object({
   category: z.enum(dishCategories, {
