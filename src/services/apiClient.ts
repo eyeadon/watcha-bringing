@@ -8,10 +8,10 @@ export interface FetchResponse<T> {
 
 //TODO need baseURL
 const axiosInstance = axios.create({
-  baseURL: "",
-  params: {
-    key: "",
-  },
+  baseURL: "http://localhost:3000",
+  // params: {
+  //   key: "",
+  // },
 });
 
 // from tutorial
@@ -55,6 +55,20 @@ class APIClient<T> {
   post = (data: T) => {
     return axiosInstance
       .post<FetchResponse<T>>(this.endpoint, data)
+      .then((res) => res.data);
+  };
+
+  //TODO test
+  put = (id: number | string, data: T) => {
+    return axiosInstance
+      .put<FetchResponse<T>>(this.endpoint + "/" + id, data)
+      .then((res) => res.data);
+  };
+
+  //TODO test
+  delete = (id: number | string) => {
+    return axiosInstance
+      .delete<T>(this.endpoint + "/" + id)
       .then((res) => res.data);
   };
 }

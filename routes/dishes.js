@@ -1,6 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const { Dish, validate } = require("../models/dish");
+import { Dish, validateDish as validate } from "../models/dish.js";
 
 // get all
 router.get("/", async (req, res) => {
@@ -74,4 +74,4 @@ router.delete("/:id", async (req, res) => {
   res.send(dish);
 });
 
-module.exports = router;
+export default router;

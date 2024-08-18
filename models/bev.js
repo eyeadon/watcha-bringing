@@ -1,5 +1,5 @@
-const Joi = require("joi");
-const mongoose = require("mongoose");
+import Joi from "joi";
+import mongoose from "mongoose";
 
 // uses default connection
 const Bev = mongoose.model(
@@ -40,5 +40,4 @@ function validateBev(bev) {
   return schema.validate(bev);
 }
 
-exports.Bev = Bev;
-exports.validate = validateBev;
+export { Bev, validateBev };

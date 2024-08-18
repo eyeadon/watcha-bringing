@@ -1,15 +1,16 @@
 import { Dish } from "../interfaces/interfaces";
 import useDishes from "../hooks/useDishes";
 
-interface Props {
-  dishes: Dish[];
-  // onDelete: (id: number) => void;
-}
+// interface Props {
+//   dishes: Dish[];
+//   // onDelete: (id: number) => void;
+// }
 
-const DishList = ({ dishes }: Props) => {
-  // const { data, isLoading, error } = useDishes();
+// consumer of useDishes hook
+const DishList = () => {
+  const { data, isLoading, error } = useDishes();
 
-  if (dishes.length === 0) return null;
+  if (error) return null;
 
   return (
     <table className="table table-bordered">
@@ -22,7 +23,7 @@ const DishList = ({ dishes }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {dishes.map((dish) => (
+        {data?.results.map((dish) => (
           <tr key={dish.id}>
             <td>{dish.category}</td>
             <td>{dish.name}</td>
