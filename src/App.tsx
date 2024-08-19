@@ -10,6 +10,7 @@ import { Bev, Dish } from "./interfaces/interfaces";
 import ExpandableSection from "./components/ExpandableSection";
 
 function App() {
+  // const { data, isLoading, error } = useDishes();
   const [dishes, setDishes] = useState<Dish[] | null>(null);
 
   const [bevs, setBevs] = useState<Bev[] | null>(null);
@@ -94,6 +95,7 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
+                // apiClient.post(newDish)
                 setDishes(setItemHelper(dishes, newDish));
                 console.log(dishes);
               }}
@@ -114,6 +116,7 @@ function App() {
         </ExpandableSection>
         {/* end row */}
       </div>
+
       <div className="mb-3">
         <h2>Who's Bringing What?</h2>
         <h3>Dishes</h3>

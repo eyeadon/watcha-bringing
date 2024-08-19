@@ -1,10 +1,10 @@
 import axios, { AxiosRequestConfig } from "axios";
 
-export interface FetchResponse<T> {
-  count: number;
-  next: string | null;
-  results: T[];
-}
+// export interface FetchResponse<T> {
+//   count: number;
+//   next: string | null;
+//   results: T[];
+// }
 
 //TODO need baseURL
 const axiosInstance = axios.create({
@@ -40,7 +40,9 @@ class APIClient<T> {
       axiosInstance
         // config is for passing config object of query string params to back end
         // config is optional in get
-        .get<FetchResponse<T>>(this.endpoint, config)
+        // .get<FetchResponse<T>>(this.endpoint, config)
+        // added <T[]> here, not using FetchResponse<T>
+        .get<T[]>(this.endpoint, config)
         .then((res) => res.data)
     );
   };
@@ -53,16 +55,22 @@ class APIClient<T> {
   };
 
   post = (data: T) => {
-    return axiosInstance
-      .post<FetchResponse<T>>(this.endpoint, data)
-      .then((res) => res.data);
+    return (
+      axiosInstance
+        // .post<FetchResponse<T>>(this.endpoint, data)
+        .post<T>(this.endpoint, data)
+        .then((res) => res.data)
+    );
   };
 
   //TODO test
   put = (id: number | string, data: T) => {
-    return axiosInstance
-      .put<FetchResponse<T>>(this.endpoint + "/" + id, data)
-      .then((res) => res.data);
+    return (
+      axiosInstance
+        // .put<FetchResponse<T>>(this.endpoint + "/" + id, data)
+        .put<T>(this.endpoint + "/" + id, data)
+        .then((res) => res.data)
+    );
   };
 
   //TODO test
