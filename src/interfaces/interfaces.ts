@@ -1,5 +1,4 @@
 export interface Dish {
-  id: number;
   category: string;
   name: string;
   amount: number;
@@ -7,7 +6,6 @@ export interface Dish {
 }
 
 export interface Bev {
-  id: number;
   category: string;
   name: string;
   amount: number;

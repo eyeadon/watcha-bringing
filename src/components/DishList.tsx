@@ -20,7 +20,8 @@ const DishList = ({ dishes }: Props) => {
       </thead>
       <tbody>
         {dishes.map((dish) => (
-          <tr key={dish.id}>
+          // TODO add key?
+          <tr key="">
             <td>{dish.category}</td>
             <td>{dish.name}</td>
             <td>{dish.amount}</td>
