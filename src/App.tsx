@@ -46,11 +46,11 @@ function App() {
   // }
 
   //                    generic type parameter
-  // function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
-  //   if (arr === null) return [{ ...newItem }];
+  function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
+    if (arr === null) return [{ ...newItem, id: 1 }];
 
-  //   return [...arr, { ...newItem }];
-  // }
+    return [...arr, { ...newItem, id: arr.length + 1 }];
+  }
 
   // function identity<Type>(arg: Type): Type {
   //   return arg;
