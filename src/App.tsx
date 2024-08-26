@@ -23,28 +23,6 @@ function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
 
-  // const [dishes, setDishes] = useState<Dish[]>([
-  //   {
-  //     id: 0,
-  //     category: "",
-  //     name: "",
-  //     amount: 0,
-  //     dietary: [],
-  //   },
-  // ]);
-
-  // function setDishesHelper(arr: Dish[] | null, newDish: DishFormData) {
-  //   if (arr === null) return [{ ...newDish, id: 1 }];
-
-  //   return [...arr, { ...newDish, id: arr.length + 1 }];
-  // }
-
-  // function setBevsHelper(arr: Bev[] | null, newBev: BevFormData) {
-  //   if (arr === null) return [{ ...newBev, id: 1 }];
-
-  //   return [...arr, { ...newBev, id: arr.length + 1 }];
-  // }
-
   //                    generic type parameter
   function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
     if (arr === null) return [{ ...newItem, id: 1 }];
@@ -81,15 +59,6 @@ function App() {
   //   selectedBevCategory,
   //   "All Beverage Categories"
   // );
-
-  // const visibleDishes = selectedCategory
-  //   ? dishes.filter((element) => element.category === selectedCategory)
-  //   : dishes;
-
-  // function applyExpenseFilter(arr) {
-  //   if (selectedCategory === "All categories") return expenses;
-  //   return arr.filter((element) => element.category === selectedCategory);
-  // }
 
   return (
     <div className="container">
