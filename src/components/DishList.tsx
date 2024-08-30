@@ -24,7 +24,7 @@ const DishList = ({ selectedDishCategory }: Props) => {
 
   const { data, isLoading, error } = useDishes();
 
-  // if dishes is null, value will be []
+  // if dishes is undefined, value will be []
   const visibleDishes = visibleItemsFilterHelper(
     data,
     selectedDishCategory,

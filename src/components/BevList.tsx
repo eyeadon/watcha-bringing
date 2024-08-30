@@ -1,12 +1,35 @@
 import { Bev } from "../interfaces/interfaces";
+import useBevs from "../hooks/useBevs";
 
 interface Props {
-  bevs: Bev[];
+  selectedBevCategory: string;
   // onDelete: (id: number) => void;
 }
 
-const BevList = ({ bevs }: Props) => {
-  if (bevs.length === 0) return null;
+function visibleItemsFilterHelper(
+  arr: Bev[] | undefined,
+  selCat: string,
+  allCats: string
+) {
+  if (arr === undefined) return [];
+  if (selCat === allCats) return arr;
+
+  return selCat
+    ? arr.filter((element: Bev) => element.category === selCat)
+    : arr;
+}
+
+const BevList = ({ selectedBevCategory }: Props) => {
+  // if (bevs.length === 0) return null;
+
+  const { data, isLoading, error } = useBevs();
+
+  // if bevs is undefined, value will be []
+  const visibleBevs = visibleItemsFilterHelper(
+    data,
+    selectedBevCategory,
+    "All Beverage Categories"
+  );
 
   return (
     <table className="table table-bordered">
@@ -18,15 +41,15 @@ const BevList = ({ bevs }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {bevs.map((bev) => (
-          <tr key={bev.id}>
+        {visibleBevs.map((bev) => (
+          <tr key="">
             <td>{bev.category}</td>
             <td>{bev.name}</td>
             <td>{bev.amount}</td>
             {/* <td>
               <button
                 className="btn btn-outline-danger"
-                onClick={() => onDelete(dish.id)}
+                onClick={() => onDelete(bev.id)}
               >
                 Delete
               </button> 

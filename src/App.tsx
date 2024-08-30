@@ -8,18 +8,12 @@ import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
 import { Bev, Dish } from "./interfaces/interfaces";
 import ExpandableSection from "./components/ExpandableSection";
-import useDishes from "./hooks/useDishes";
 import APIClient from "./services/apiClient";
 
-const apiClient = new APIClient<Dish | Bev>("/dishes");
+const apiClientDish = new APIClient<Dish>("/dishes");
+const apiClientBev = new APIClient<Bev>("/bevs");
 
 function App() {
-  // const [dishes, setDishes] = useState<Dish[] | null>(null);
-  const { data, isLoading, error } = useDishes();
-  const dishes = data;
-
-  // const [bevs, setBevs] = useState<Bev[] | null>(null);
-
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
 
@@ -34,12 +28,6 @@ function App() {
   //   return arg;
   // }
 
-  // const visibleBevs = visibleItemsFilterHelper(
-  //   bevs,
-  //   selectedBevCategory,
-  //   "All Beverage Categories"
-  // );
-
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
@@ -49,10 +37,7 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
-                // console.log(newDish);
-                apiClient.post(newDish);
-                // setDishes(setItemHelper(dishes, newDish));
-                // console.log(dishes);
+                apiClientDish.post(newDish);
               }}
             />
           </div>
@@ -63,8 +48,7 @@ function App() {
             <h2>What Beverage?</h2>
             <BevForm
               onSubmit={(newBev) => {
-                // setBevs(setItemHelper(bevs, newBev));
-                // console.log(bevs);
+                apiClientBev.post(newBev);
               }}
             />
           </div>
@@ -97,10 +81,10 @@ function App() {
         />
       </div>
       <div className="mb-3">
-        {/* <BevList
-          bevs={visibleBevs}
+        <BevList
+          selectedBevCategory={selectedBevCategory}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        /> */}
+        />
       </div>
     </div>
   );
