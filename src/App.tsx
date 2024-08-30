@@ -34,26 +34,6 @@ function App() {
   //   return arg;
   // }
 
-  function visibleItemsFilterHelper(
-    arr: Dish[] | Bev[] | undefined,
-    selCat: string,
-    allCats: string
-  ) {
-    if (arr === undefined) return [];
-    if (selCat === allCats) return arr;
-
-    return selCat
-      ? arr.filter((element: Dish | Bev) => element.category === selCat)
-      : arr;
-  }
-
-  // if dishes is null, value will be []
-  const visibleDishes = visibleItemsFilterHelper(
-    dishes,
-    selectedDishCategory,
-    "All Dish Categories"
-  );
-
   // const visibleBevs = visibleItemsFilterHelper(
   //   bevs,
   //   selectedBevCategory,
@@ -69,10 +49,10 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
-                console.log(newDish);
+                // console.log(newDish);
                 apiClient.post(newDish);
                 // setDishes(setItemHelper(dishes, newDish));
-                console.log(dishes);
+                // console.log(dishes);
               }}
             />
           </div>
@@ -96,20 +76,24 @@ function App() {
         <h2>Who's Bringing What?</h2>
         <h3>Dishes</h3>
         <DishFilter
-          onSelectCategory={(category) => setSelectedDishCategory(category)}
+          onSelectCategory={(category) =>
+            setSelectedDishCategory(category.toLowerCase())
+          }
         />
       </div>
       <div className="mb-3">
-        {/* <DishList
-          dishes={visibleDishes}
+        <DishList
+          selectedDishCategory={selectedDishCategory}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        /> */}
+        />
       </div>
 
       <div className="mb-3">
         <h3>Beverages</h3>
         <BevFilter
-          onSelectCategory={(category) => setSelectedBevCategory(category)}
+          onSelectCategory={(category) =>
+            setSelectedBevCategory(category.toLowerCase())
+          }
         />
       </div>
       <div className="mb-3">

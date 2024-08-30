@@ -1,12 +1,42 @@
 import { Dish } from "../interfaces/interfaces";
+import useDishes from "../hooks/useDishes";
 
 interface Props {
-  dishes: Dish[];
+  selectedDishCategory: string;
   // onDelete: (id: number) => void;
 }
 
-const DishList = ({ dishes }: Props) => {
-  if (dishes.length === 0) return null;
+function visibleItemsFilterHelper(
+  arr: Dish[] | undefined,
+  selCat: string,
+  allCats: string
+) {
+  console.log(arr);
+  if (arr === undefined) return [];
+  if (selCat === allCats) return arr;
+
+  // return selCat
+  //   ? arr.filter((element: Dish) => element.category === selCat)
+  //   : arr;
+  console.log(selCat);
+  let result = selCat
+    ? arr.filter((element: Dish) => element.category === selCat)
+    : arr;
+  console.log(result);
+  return result;
+}
+
+const DishList = ({ selectedDishCategory }: Props) => {
+  // if (dishes.length === 0) return null;
+
+  const { data, isLoading, error } = useDishes();
+
+  // if dishes is null, value will be []
+  const visibleDishes = visibleItemsFilterHelper(
+    data,
+    selectedDishCategory,
+    "All Dish Categories"
+  );
 
   return (
     <table className="table table-bordered">
@@ -19,7 +49,7 @@ const DishList = ({ dishes }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {dishes.map((dish) => (
+        {visibleDishes.map((dish) => (
           // TODO add key?
           <tr key="">
             <td>{dish.category}</td>
