@@ -11,19 +11,12 @@ function visibleItemsFilterHelper(
   selCat: string,
   allCats: string
 ) {
-  console.log(arr);
   if (arr === undefined) return [];
   if (selCat === allCats) return arr;
 
-  // return selCat
-  //   ? arr.filter((element: Dish) => element.category === selCat)
-  //   : arr;
-  console.log(selCat);
-  let result = selCat
+  return selCat
     ? arr.filter((element: Dish) => element.category === selCat)
     : arr;
-  console.log(result);
-  return result;
 }
 
 const DishList = ({ selectedDishCategory }: Props) => {
