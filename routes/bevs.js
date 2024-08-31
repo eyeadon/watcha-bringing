@@ -23,6 +23,7 @@ router.post("/", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const bev = new Bev({
+    publicId: req.body.publicId,
     category: req.body.category,
     name: req.body.name,
     amount: req.body.amount,
@@ -48,6 +49,7 @@ router.put("/:id", async (req, res) => {
     req.params.id,
     {
       $set: {
+        publicId: req.body.publicId,
         category: req.body.category,
         name: req.body.name,
         amount: req.body.amount,

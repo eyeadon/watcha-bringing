@@ -42,18 +42,10 @@ const BevList = ({ selectedBevCategory }: Props) => {
       </thead>
       <tbody>
         {visibleBevs.map((bev) => (
-          <tr key="">
+          <tr key={bev.publicId}>
             <td>{bev.category}</td>
             <td>{bev.name}</td>
             <td>{bev.amount}</td>
-            {/* <td>
-              <button
-                className="btn btn-outline-danger"
-                onClick={() => onDelete(bev.id)}
-              >
-                Delete
-              </button> 
-            </td> */}
           </tr>
         ))}
       </tbody>

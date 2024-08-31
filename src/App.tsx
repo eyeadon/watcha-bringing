@@ -9,6 +9,7 @@ import DishList from "./components/DishList";
 import { Bev, Dish } from "./interfaces/interfaces";
 import ExpandableSection from "./components/ExpandableSection";
 import APIClient from "./services/apiClient";
+import { nanoid } from "nanoid";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -37,7 +38,7 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
-                apiClientDish.post(newDish);
+                apiClientDish.post({ ...newDish, publicId: nanoid() });
               }}
             />
           </div>
@@ -48,7 +49,7 @@ function App() {
             <h2>What Beverage?</h2>
             <BevForm
               onSubmit={(newBev) => {
-                apiClientBev.post(newBev);
+                apiClientBev.post({ ...newBev, publicId: nanoid() });
               }}
             />
           </div>

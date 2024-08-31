@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 const Dish = mongoose.model(
   "Dish",
   new mongoose.Schema({
+    publicId: { type: String, required: true },
     category: {
       type: String,
       required: true,
@@ -36,6 +37,7 @@ const Dish = mongoose.model(
 
 function validateDish(dish) {
   const schema = Joi.object({
+    publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
     category: Joi.string().min(3).max(50).required(),
     name: Joi.string().min(3).max(50).required(),
     amount: Joi.number().min(1).max(255).required(),

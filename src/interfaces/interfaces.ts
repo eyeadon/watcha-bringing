@@ -1,4 +1,5 @@
 export interface Dish {
+  publicId: string;
   category: string;
   name: string;
   amount: number;
@@ -6,6 +7,7 @@ export interface Dish {
 }
 
 export interface Bev {
+  publicId: string;
   category: string;
   name: string;
   amount: number;

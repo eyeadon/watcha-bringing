@@ -43,8 +43,7 @@ const DishList = ({ selectedDishCategory }: Props) => {
       </thead>
       <tbody>
         {visibleDishes.map((dish) => (
-          // TODO add key?
-          <tr key="">
+          <tr key={dish.publicId}>
             <td>{dish.category}</td>
             <td>{dish.name}</td>
             <td>{dish.amount}</td>
@@ -53,14 +52,6 @@ const DishList = ({ selectedDishCategory }: Props) => {
                 return index === arr.length - 1 ? diet : `${diet}, `;
               })}
             </td>
-            {/* <td>
-              <button
-                className="btn btn-outline-danger"
-                onClick={() => onDelete(dish.id)}
-              >
-                Delete
-              </button> 
-            </td> */}
           </tr>
         ))}
       </tbody>
