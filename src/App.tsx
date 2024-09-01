@@ -38,7 +38,11 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
-                apiClientDish.post({ ...newDish, publicId: nanoid() });
+                let result = apiClientDish.post({
+                  ...newDish,
+                  publicId: nanoid(),
+                });
+                console.log(result);
               }}
             />
           </div>
@@ -82,10 +86,10 @@ function App() {
         />
       </div>
       <div className="mb-3">
-        <BevList
+        {/* <BevList
           selectedBevCategory={selectedBevCategory}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        />
+        /> */}
       </div>
     </div>
   );
