@@ -53,7 +53,11 @@ function App() {
             <h2>What Beverage?</h2>
             <BevForm
               onSubmit={(newBev) => {
-                apiClientBev.post({ ...newBev, publicId: nanoid() });
+                let result = apiClientBev.post({
+                  ...newBev,
+                  publicId: nanoid(),
+                });
+                console.log(result);
               }}
             />
           </div>
