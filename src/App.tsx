@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
 import BevForm from "./components/BevForm";
@@ -10,6 +10,8 @@ import { Bev, Dish } from "./interfaces/interfaces";
 import ExpandableSection from "./components/ExpandableSection";
 import APIClient from "./services/apiClient";
 import { nanoid } from "nanoid";
+import useDishes from "./hooks/useDishes";
+import useBevs from "./hooks/useBevs";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -18,16 +20,58 @@ function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
 
-  //                    generic type parameter
-  function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
-    if (arr === null) return [{ ...newItem, id: 1 }];
+  const responseDishes = useDishes();
+  // const { data, isLoading, error } = useDishes();
+  const responseBevs = useBevs();
+  // const { data, isLoading, error } = useBevs();
 
-    return [...arr, { ...newItem, id: arr.length + 1 }];
-  }
+  const [dishes, setDishes] = useState<Dish[] | undefined>([]);
+  const [bevs, setBevs] = useState<Bev[] | undefined>([]);
+
+  // first load of db data
+  useEffect(() => {
+    setDishes(responseDishes.data);
+    setBevs(responseBevs.data);
+  }, [responseDishes, responseBevs]);
+
+  // //                    generic type parameter
+  // function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
+  //   if (arr === null) return [{ ...newItem, id: 1 }];
+
+  //   return [...arr, { ...newItem, id: arr.length + 1 }];
+  // }
 
   // function identity<Type>(arg: Type): Type {
   //   return arg;
   // }
+
+  function visibleItemsFilterHelper(
+    arr: Dish[] | Bev[] | undefined,
+    selCat: string,
+    allCats: string
+  ) {
+    if (arr === undefined) return [];
+    if (selCat === allCats) return arr;
+
+    return selCat
+      ? arr.filter((element: Dish | Bev) => element.category === selCat)
+      : arr;
+  }
+
+  // if data is undefined, value will be []
+  // DishList is consumer
+  const visibleDishes = visibleItemsFilterHelper(
+    dishes,
+    selectedDishCategory,
+    "All Dish Categories"
+  );
+
+  // if data is undefined, value will be []
+  const visibleBevs = visibleItemsFilterHelper(
+    bevs,
+    selectedBevCategory,
+    "All Beverage Categories"
+  );
 
   return (
     <div className="container">
@@ -38,11 +82,20 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
+                const publicId = nanoid();
+
                 let result = apiClientDish.post({
                   ...newDish,
-                  publicId: nanoid(),
+                  publicId: publicId,
                 });
+
+                setDishes([
+                  ...(dishes || []),
+                  { ...newDish, publicId: publicId },
+                ]);
+
                 console.log(result);
+                console.log(dishes);
               }}
             />
           </div>
@@ -53,11 +106,17 @@ function App() {
             <h2>What Beverage?</h2>
             <BevForm
               onSubmit={(newBev) => {
+                const publicId = nanoid();
+
                 let result = apiClientBev.post({
                   ...newBev,
-                  publicId: nanoid(),
+                  publicId: publicId,
                 });
+
+                setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
+
                 console.log(result);
+                console.log(bevs);
               }}
             />
           </div>
@@ -76,7 +135,7 @@ function App() {
       </div>
       <div className="mb-3">
         <DishList
-          selectedDishCategory={selectedDishCategory}
+          dishes={visibleDishes}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
         />
       </div>
@@ -90,10 +149,10 @@ function App() {
         />
       </div>
       <div className="mb-3">
-        {/* <BevList
-          selectedBevCategory={selectedBevCategory}
+        <BevList
+          bevs={visibleBevs}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        /> */}
+        />
       </div>
     </div>
   );

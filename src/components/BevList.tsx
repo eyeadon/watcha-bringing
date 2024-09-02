@@ -2,7 +2,7 @@ import { Bev } from "../interfaces/interfaces";
 import useBevs from "../hooks/useBevs";
 
 interface Props {
-  selectedBevCategory: string;
+  bevs: Bev[];
   // onDelete: (id: number) => void;
 }
 
@@ -19,17 +19,8 @@ function visibleItemsFilterHelper(
     : arr;
 }
 
-const BevList = ({ selectedBevCategory }: Props) => {
-  // if (bevs.length === 0) return null;
-
-  const { data, isLoading, error } = useBevs();
-
-  // if bevs is undefined, value will be []
-  const visibleBevs = visibleItemsFilterHelper(
-    data,
-    selectedBevCategory,
-    "All Beverage Categories"
-  );
+const BevList = ({ bevs }: Props) => {
+  if (bevs.length === 0) return null;
 
   return (
     <table className="table table-bordered">
@@ -41,7 +32,7 @@ const BevList = ({ selectedBevCategory }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {visibleBevs.map((bev) => (
+        {bevs.map((bev) => (
           <tr key={bev.publicId}>
             <td>{bev.category}</td>
             <td>{bev.name}</td>
