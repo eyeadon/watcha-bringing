@@ -20,19 +20,14 @@ function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
 
-  const responseDishes = useDishes();
-  // const { data, isLoading, error } = useDishes();
-  const responseBevs = useBevs();
-  // const { data, isLoading, error } = useBevs();
-
   const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
 
-  // first load of db data
-  useEffect(() => {
-    setDishes(responseDishes.data);
-    setBevs(responseBevs.data);
-  }, [responseDishes, responseBevs]);
+  const responseDishes = useDishes();
+  // const { data, isLoading, error } = useDishes();
+  console.log(responseDishes.data);
+  const responseBevs = useBevs();
+  // const { data, isLoading, error } = useBevs();
 
   // //                    generic type parameter
   // function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
