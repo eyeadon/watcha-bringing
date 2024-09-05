@@ -24,9 +24,11 @@ function App() {
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
 
   const responseDishes = useDishes();
-  // const { data, isLoading, error } = useDishes();
-  console.log(responseDishes.data);
-  const responseBevs = useBevs();
+
+  useEffect(() => {
+    if (responseDishes.data) setDishes(responseDishes.data);
+  }, [responseDishes.data]);
+
   // const { data, isLoading, error } = useBevs();
 
   // //                    generic type parameter
