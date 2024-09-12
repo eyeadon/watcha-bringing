@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
 import BevForm from "./components/BevForm";
@@ -30,19 +30,6 @@ function App() {
     if (responseDishes.data) setDishes(responseDishes.data);
     if (responseBevs.data) setBevs(responseBevs.data);
   }, [responseDishes.data, responseBevs.data]);
-
-  // const { data, isLoading, error } = useBevs();
-
-  // //                    generic type parameter
-  // function setItemHelper<T>(arr: Dish[] | Bev[] | null, newItem: T) {
-  //   if (arr === null) return [{ ...newItem, id: 1 }];
-
-  //   return [...arr, { ...newItem, id: arr.length + 1 }];
-  // }
-
-  // function identity<Type>(arg: Type): Type {
-  //   return arg;
-  // }
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
