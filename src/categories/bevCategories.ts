@@ -1,13 +1,13 @@
 const beverageCategories = [
-  "Soda",
-  "Seltzer",
-  "Beer",
-  "Wine",
-  "Cocktail",
-  "Juice",
-  "Coffee",
-  "Tea",
-  "Other",
+  "soda",
+  "seltzer",
+  "beer",
+  "wine",
+  "cocktail",
+  "juice",
+  "coffee",
+  "tea",
+  "other",
 ] as const;
 
 export default beverageCategories;

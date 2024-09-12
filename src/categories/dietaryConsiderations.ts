@@ -1,11 +1,11 @@
 const dietaryConsiderations = [
-  "Gluten Free",
-  "Dairy Free",
-  "Vegan",
-  "Vegetarian",
-  "Pescatarian",
-  "Not Spicy",
-  "Other",
+  "gluten free",
+  "dairy free",
+  "vegan",
+  "vegetarian",
+  "pescatarian",
+  "not spicy",
+  "other",
 ] as const;
 
 export default dietaryConsiderations;

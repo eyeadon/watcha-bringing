@@ -12,6 +12,7 @@ import APIClient from "./services/apiClient";
 import { nanoid } from "nanoid";
 import useDishes from "./hooks/useDishes";
 import useBevs from "./hooks/useBevs";
+import { capitalizeFirstLetter } from "./functions/functions";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -79,6 +80,7 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
+                console.log(newDish);
                 const publicId = nanoid();
 
                 let result = apiClientDish.post({

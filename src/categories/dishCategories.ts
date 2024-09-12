@@ -1,10 +1,10 @@
 const dishCategories = [
-  "Appetizer",
-  "Side",
-  "Snack",
-  "Entree",
-  "Dessert",
-  "Other",
+  "appetizer",
+  "side",
+  "snack",
+  "entree",
+  "dessert",
+  "other",
 ] as const;
 
 export default dishCategories;

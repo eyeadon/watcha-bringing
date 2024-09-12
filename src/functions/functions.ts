@@ -13,4 +13,8 @@ function visibleItemsFilterHelper(
     : arr;
 }
 
-export { visibleItemsFilterHelper };
+function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+export { visibleItemsFilterHelper, capitalizeFirstLetter };

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import dishCategories from "../categories/dishCategories";
 import dietaryConsiderations from "../categories/dietaryConsiderations";
+import { capitalizeFirstLetter } from "../functions/functions";
 
 const dishSchema = z.object({
   category: z.enum(dishCategories, {
@@ -47,7 +48,7 @@ const DishForm = ({ onSubmit }: Props) => {
           <option value="Select">Select Dish</option>
           {dishCategories.map((category) => (
             <option key={category} value={category}>
-              {category}
+              {capitalizeFirstLetter(category)}
             </option>
           ))}
         </select>
