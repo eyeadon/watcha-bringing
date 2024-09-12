@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
 import BevForm from "./components/BevForm";
@@ -25,7 +25,7 @@ function App() {
 
   const responseDishes = useDishes();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (responseDishes.data) setDishes(responseDishes.data);
   }, [responseDishes.data]);
 
