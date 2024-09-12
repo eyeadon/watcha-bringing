@@ -1,10 +1,10 @@
 const dietaryConsiderations = [
   "gluten free",
   "dairy free",
-  "vegan",
   "vegetarian",
   "pescatarian",
-  "not spicy",
+  "vegan",
+  "spicy",
   "other",
 ] as const;
 
