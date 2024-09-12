@@ -24,10 +24,12 @@ function App() {
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
 
   const responseDishes = useDishes();
+  const responseBevs = useBevs();
 
   useLayoutEffect(() => {
     if (responseDishes.data) setDishes(responseDishes.data);
-  }, [responseDishes.data]);
+    if (responseBevs.data) setBevs(responseBevs.data);
+  }, [responseDishes.data, responseBevs.data]);
 
   // const { data, isLoading, error } = useBevs();
 
@@ -79,7 +81,6 @@ function App() {
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={(newDish) => {
-                console.log(newDish);
                 const publicId = nanoid();
 
                 let result = apiClientDish.post({
