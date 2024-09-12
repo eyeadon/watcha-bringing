@@ -12,7 +12,7 @@ const dishSchema = z.object({
   name: z.string().min(3, { message: "Enter at leats 3 characters" }).max(50),
   amount: z.number({ invalid_type_error: "Amount is required" }).min(0).max(99),
   // dietary: z.enum(dietaryConsiderations).optional().array(),
-  dietary: z.enum(dietaryConsiderations).array().optional(),
+  dietary: z.array(z.enum(dietaryConsiderations)).optional(),
   // dietary: z.boolean().optional(),
 });
 
@@ -86,7 +86,9 @@ const DishForm = ({ onSubmit }: Props) => {
       </div>
 
       <div className="mb-3">
-        <label className="form-label">Dietary Considerations Included</label>
+        <label className="form-label">
+          Dietary Considerations Included (optional)
+        </label>
         {dietaryConsiderations.map((diet, index) => (
           // had to add key to div
           <div className="form-check" key={index}>
