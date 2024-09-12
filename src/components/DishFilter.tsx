@@ -1,4 +1,5 @@
 import dishCategories from "../categories/dishCategories";
+import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {
   onSelectCategory: (category: string) => void;
@@ -14,7 +15,7 @@ const DishFilter = ({ onSelectCategory }: Props) => {
       <option value="">All Dish Categories</option>
       {dishCategories.map((category) => (
         <option key={category} value={category}>
-          {category}
+          {capitalizeFirstLetter(category)}
         </option>
       ))}
     </select>

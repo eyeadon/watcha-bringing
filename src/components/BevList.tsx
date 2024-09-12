@@ -1,26 +1,18 @@
 import { Bev } from "../interfaces/interfaces";
-import useBevs from "../hooks/useBevs";
+import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {
   bevs: Bev[];
   // onDelete: (id: number) => void;
 }
 
-function visibleItemsFilterHelper(
-  arr: Bev[] | undefined,
-  selCat: string,
-  allCats: string
-) {
-  if (arr === undefined) return [];
-  if (selCat === allCats) return arr;
-
-  return selCat
-    ? arr.filter((element: Bev) => element.category === selCat)
-    : arr;
-}
-
 const BevList = ({ bevs }: Props) => {
   if (bevs.length === 0) return null;
+
+  bevs.forEach((bev) => {
+    bev.category = capitalizeFirstLetter(bev.category);
+    bev.name = capitalizeFirstLetter(bev.name);
+  });
 
   return (
     <table className="table table-bordered">

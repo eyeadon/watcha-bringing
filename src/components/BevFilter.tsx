@@ -1,4 +1,5 @@
 import bevCategories from "../categories/bevCategories";
+import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {
   onSelectCategory: (category: string) => void;
@@ -14,7 +15,7 @@ const BevFilter = ({ onSelectCategory }: Props) => {
       <option value="">All Beverage Categories</option>
       {bevCategories.map((category) => (
         <option key={category} value={category}>
-          {category}
+          {capitalizeFirstLetter(category)}
         </option>
       ))}
     </select>

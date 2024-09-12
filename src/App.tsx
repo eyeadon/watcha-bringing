@@ -12,7 +12,6 @@ import APIClient from "./services/apiClient";
 import { nanoid } from "nanoid";
 import useDishes from "./hooks/useDishes";
 import useBevs from "./hooks/useBevs";
-import { capitalizeFirstLetter } from "./functions/functions";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -125,9 +124,7 @@ function App() {
         <h2>Who's Bringing What?</h2>
         <h3>Dishes</h3>
         <DishFilter
-          onSelectCategory={(category) =>
-            setSelectedDishCategory(category.toLowerCase())
-          }
+          onSelectCategory={(category) => setSelectedDishCategory(category)}
         />
       </div>
       <div className="mb-3">
@@ -140,9 +137,7 @@ function App() {
       <div className="mb-3">
         <h3>Beverages</h3>
         <BevFilter
-          onSelectCategory={(category) =>
-            setSelectedBevCategory(category.toLowerCase())
-          }
+          onSelectCategory={(category) => setSelectedBevCategory(category)}
         />
       </div>
       <div className="mb-3">
