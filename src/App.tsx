@@ -26,6 +26,7 @@ function App() {
   const responseDishes = useDishes();
   const responseBevs = useBevs();
 
+  // initial load of data for lists being displayed
   useLayoutEffect(() => {
     if (responseDishes.data) setDishes(responseDishes.data);
     if (responseBevs.data) setBevs(responseBevs.data);

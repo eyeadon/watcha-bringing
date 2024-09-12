@@ -9,11 +9,6 @@ interface Props {
 const BevList = ({ bevs }: Props) => {
   if (bevs.length === 0) return null;
 
-  bevs.forEach((bev) => {
-    bev.category = capitalizeFirstLetter(bev.category);
-    bev.name = capitalizeFirstLetter(bev.name);
-  });
-
   return (
     <table className="table table-bordered">
       <thead>
@@ -26,8 +21,8 @@ const BevList = ({ bevs }: Props) => {
       <tbody>
         {bevs.map((bev) => (
           <tr key={bev.publicId}>
-            <td>{bev.category}</td>
-            <td>{bev.name}</td>
+            <td>{capitalizeFirstLetter(bev.category)}</td>
+            <td>{capitalizeFirstLetter(bev.name)}</td>
             <td>{bev.amount}</td>
           </tr>
         ))}

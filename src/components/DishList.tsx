@@ -9,13 +9,6 @@ interface Props {
 const DishList = ({ dishes }: Props) => {
   if (dishes.length === 0) return null;
 
-  dishes.forEach((dish) => {
-    dish.category = capitalizeFirstLetter(dish.category);
-    dish.name = capitalizeFirstLetter(dish.name);
-    if (dish.dietary !== undefined && dish.dietary.length > 0)
-      dish.dietary.forEach((diet) => (diet = capitalizeFirstLetter(diet)));
-  });
-
   return (
     <table className="table table-bordered">
       <thead>
@@ -29,8 +22,8 @@ const DishList = ({ dishes }: Props) => {
       <tbody>
         {dishes.map((dish) => (
           <tr key={dish.publicId}>
-            <td>{dish.category}</td>
-            <td>{dish.name}</td>
+            <td>{capitalizeFirstLetter(dish.category)}</td>
+            <td>{capitalizeFirstLetter(dish.name)}</td>
             <td>{dish.amount}</td>
             <td>
               {dish.dietary?.map((diet, index, arr) => {
