@@ -92,7 +92,6 @@ function App() {
                 ]);
 
                 console.log(result);
-                console.log(dishes);
               }}
             />
           </div>
@@ -113,7 +112,6 @@ function App() {
                 setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
 
                 console.log(result);
-                console.log(bevs);
               }}
             />
           </div>
