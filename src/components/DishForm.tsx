@@ -94,7 +94,7 @@ const DishForm = ({ onSubmit }: Props) => {
           <div className="form-check" key={index}>
             <input
               {...register("dietary")}
-              id="dietary"
+              id={diet}
               className="form-check-input"
               type="checkbox"
               key={diet}
