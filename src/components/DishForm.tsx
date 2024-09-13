@@ -24,10 +24,16 @@ const DishForm = ({ onSubmit }: Props) => {
   // returns object
   const {
     register,
+    // trigger,
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<DishFormData>({ resolver: zodResolver(dishSchema) });
+  } = useForm<DishFormData>({
+    resolver: zodResolver(dishSchema),
+    defaultValues: {
+      dietary: [],
+    },
+  });
 
   return (
     <form
