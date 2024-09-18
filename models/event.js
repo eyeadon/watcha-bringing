@@ -2,8 +2,18 @@ import Joi from "joi";
 import mongoose from "mongoose";
 
 const addressSchema = new Schema({
-  street: String,
-  city: String,
+  street: {
+    type: String,
+    minlength: 3,
+    maxlength: 50,
+    trim: true,
+  },
+  city: {
+    type: String,
+    minlength: 3,
+    maxlength: 50,
+    trim: true,
+  },
   state: {
     type: String,
     minlength: 2,
@@ -15,6 +25,7 @@ const addressSchema = new Schema({
     type: String,
     minlength: 5,
     maxlength: 5,
+    match: /^[0-9]{5}$/,
     trim: true,
   },
 });
@@ -73,7 +84,15 @@ function validateEvent(event) {
     category: Joi.string().min(3).max(50).required(),
     name: Joi.string().min(3).max(50).required(),
     host: Joi.string().min(3).max(50).required(),
-    address: Joi.object({}),
+    address: Joi.object({
+      street: Joi.string().min(3).max(50),
+      city: Joi.string().min(3).max(50),
+      state: Joi.string().min(2).max(2),
+      zipcode: Joi.string()
+        .min(5)
+        .max(5)
+        .pattern(/^[0-9]{5}$/, "zipcode"),
+    }),
     date: Joi.date(),
     startTime: Joi.string(),
     endTime: Joi.string(),
