@@ -35,14 +35,14 @@ const Event = mongoose.model(
   "Event",
   new mongoose.Schema({
     publicId: { type: String, required: true },
-    category: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-      lowercase: true,
-      trim: true,
-    },
+    // category: {
+    //   type: String,
+    //   required: true,
+    //   minlength: 3,
+    //   maxlength: 50,
+    //   lowercase: true,
+    //   trim: true,
+    // },
     name: {
       type: String,
       required: true,
@@ -81,7 +81,7 @@ const Event = mongoose.model(
 function validateEvent(event) {
   const schema = Joi.object({
     publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
-    category: Joi.string().min(3).max(50).required(),
+    // category: Joi.string().min(3).max(50).required(),
     name: Joi.string().min(3).max(50).required(),
     host: Joi.string().min(3).max(50).required(),
     address: Joi.object({
