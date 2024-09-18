@@ -6,7 +6,7 @@ interface Props {
   buttonLabelText: string;
 }
 
-const ExpandableSection = ({ children, buttonLabelText }: Props) => {
+const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
   const [isExpanded, setExpanded] = useState(false); // false -> + icon
 
   const showDiv = isExpanded ? children : null;
@@ -21,7 +21,6 @@ const ExpandableSection = ({ children, buttonLabelText }: Props) => {
     <>
       <div className="mb-3">
         <button
-          id="myButton"
           type="button"
           className="btn btn-primary"
           onClick={() => setExpanded(!isExpanded)}
@@ -34,4 +33,4 @@ const ExpandableSection = ({ children, buttonLabelText }: Props) => {
   );
 };
 
-export default ExpandableSection;
+export default ExpandableSectionButton;

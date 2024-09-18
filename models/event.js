@@ -1,7 +1,7 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-const addressSchema = new Schema({
+const addressSchema = new mongoose.Schema({
   street: {
     type: String,
     minlength: 3,

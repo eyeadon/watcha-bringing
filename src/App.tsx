@@ -7,7 +7,7 @@ import DishFilter from "./components/DishFilter";
 import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
 import { Bev, Dish } from "./interfaces/interfaces";
-import ExpandableSection from "./components/ExpandableSection";
+import ExpandableSectionButton from "./components/ExpandableSectionButton";
 import APIClient from "./services/apiClient";
 import { nanoid } from "nanoid";
 import useDishes from "./hooks/useDishes";
@@ -64,7 +64,7 @@ function App() {
     <div className="container">
       <h1>Watcha Bringing?</h1>
       <div className="row">
-        <ExpandableSection buttonLabelText="Add Dish">
+        <ExpandableSectionButton buttonLabelText="Add Dish">
           <div className="col-sm mb-5">
             <h2>What Dish?</h2>
             <DishForm
@@ -85,9 +85,9 @@ function App() {
               }}
             />
           </div>
-        </ExpandableSection>
+        </ExpandableSectionButton>
 
-        <ExpandableSection buttonLabelText="Add Beverage">
+        <ExpandableSectionButton buttonLabelText="Add Beverage">
           <div className="col-sm mb-5">
             <h2>What Beverage?</h2>
             <BevForm
@@ -105,7 +105,7 @@ function App() {
               }}
             />
           </div>
-        </ExpandableSection>
+        </ExpandableSectionButton>
         {/* end row */}
       </div>
 
