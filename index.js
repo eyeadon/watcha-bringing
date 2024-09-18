@@ -25,6 +25,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import dishes from "./routes/dishes.js";
 import bevs from "./routes/bevs.js";
+import events from "./routes/events.js";
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/dishes", dishes);
 app.use("/api/bevs", bevs);
+app.use("/api/events", events);
 
 // require("./startup/prod")(app);
 
