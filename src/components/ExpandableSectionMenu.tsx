@@ -12,6 +12,8 @@ const ExpandableSectionMenu = ({ children, menuArray }: Props) => {
 
   const showDiv = isExpanded ? children : null;
 
+  if (menuArray.length === 0) return null;
+
   return (
     <>
       <div className="mb-3">

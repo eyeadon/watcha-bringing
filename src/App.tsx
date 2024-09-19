@@ -6,12 +6,14 @@ import BevList from "./components/BevList";
 import DishFilter from "./components/DishFilter";
 import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
-import { Bev, Dish } from "./interfaces/interfaces";
+import { Bev, Dish, Event } from "./interfaces/interfaces";
 import ExpandableSectionButton from "./components/ExpandableSectionButton";
 import APIClient from "./services/apiClient";
 import { nanoid } from "nanoid";
 import useDishes from "./hooks/useDishes";
 import useBevs from "./hooks/useBevs";
+import ExpandableSectionMenu from "./components/ExpandableSectionMenu";
+import useEvents from "./hooks/useEvents";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -22,15 +24,18 @@ function App() {
 
   const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
+  const [events, setEvents] = useState<Event[] | undefined>([]);
 
   const responseDishes = useDishes();
   const responseBevs = useBevs();
+  const responseEvents = useEvents();
 
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
     if (responseDishes.data) setDishes(responseDishes.data);
     if (responseBevs.data) setBevs(responseBevs.data);
-  }, [responseDishes.data, responseBevs.data]);
+    if (responseEvents.data) setEvents(responseEvents.data);
+  }, [responseDishes.data, responseBevs.data, responseEvents.data]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -63,78 +68,88 @@ function App() {
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
+      <h2>Events</h2>
       <div className="row">
-        <ExpandableSectionButton buttonLabelText="Add Dish">
-          <div className="col-sm mb-5">
-            <h2>What Dish?</h2>
-            <DishForm
-              onSubmit={(newDish) => {
-                const publicId = nanoid();
+        <ExpandableSectionMenu menuArray={events ? events : []}>
+          <div className="row">
+            <ExpandableSectionButton buttonLabelText="Add Dish">
+              <div className="col-sm mb-5">
+                <h2>What Dish?</h2>
+                <DishForm
+                  onSubmit={(newDish) => {
+                    const publicId = nanoid();
 
-                let result = apiClientDish.post({
-                  ...newDish,
-                  publicId: publicId,
-                });
+                    let result = apiClientDish.post({
+                      ...newDish,
+                      publicId: publicId,
+                    });
 
-                setDishes([
-                  ...(dishes || []),
-                  { ...newDish, publicId: publicId },
-                ]);
+                    setDishes([
+                      ...(dishes || []),
+                      { ...newDish, publicId: publicId },
+                    ]);
 
-                console.log(result);
-              }}
+                    console.log(result);
+                  }}
+                />
+              </div>
+            </ExpandableSectionButton>
+
+            <ExpandableSectionButton buttonLabelText="Add Beverage">
+              <div className="col-sm mb-5">
+                <h2>What Beverage?</h2>
+                <BevForm
+                  onSubmit={(newBev) => {
+                    const publicId = nanoid();
+
+                    let result = apiClientBev.post({
+                      ...newBev,
+                      publicId: publicId,
+                    });
+
+                    setBevs([
+                      ...(bevs || []),
+                      { ...newBev, publicId: publicId },
+                    ]);
+
+                    console.log(result);
+                  }}
+                />
+              </div>
+            </ExpandableSectionButton>
+            {/* end row */}
+          </div>
+
+          <div className="mb-3">
+            <h2>Who's Bringing What?</h2>
+            <h3>Dishes</h3>
+            <DishFilter
+              onSelectCategory={(category) => setSelectedDishCategory(category)}
             />
           </div>
-        </ExpandableSectionButton>
-
-        <ExpandableSectionButton buttonLabelText="Add Beverage">
-          <div className="col-sm mb-5">
-            <h2>What Beverage?</h2>
-            <BevForm
-              onSubmit={(newBev) => {
-                const publicId = nanoid();
-
-                let result = apiClientBev.post({
-                  ...newBev,
-                  publicId: publicId,
-                });
-
-                setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
-
-                console.log(result);
-              }}
+          <div className="mb-3">
+            <DishList
+              dishes={visibleDishes}
+              // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
             />
           </div>
-        </ExpandableSectionButton>
-        {/* end row */}
+
+          <div className="mb-3">
+            <h3>Beverages</h3>
+            <BevFilter
+              onSelectCategory={(category) => setSelectedBevCategory(category)}
+            />
+          </div>
+          <div className="mb-3">
+            <BevList
+              bevs={visibleBevs}
+              // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
+            />
+          </div>
+        </ExpandableSectionMenu>
       </div>
 
-      <div className="mb-3">
-        <h2>Who's Bringing What?</h2>
-        <h3>Dishes</h3>
-        <DishFilter
-          onSelectCategory={(category) => setSelectedDishCategory(category)}
-        />
-      </div>
-      <div className="mb-3">
-        <DishList
-          dishes={visibleDishes}
-          // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        />
-      </div>
-
-      <div className="mb-3">
-        <h3>Beverages</h3>
-        <BevFilter
-          onSelectCategory={(category) => setSelectedBevCategory(category)}
-        />
-      </div>
-      <div className="mb-3">
-        <BevList
-          bevs={visibleBevs}
-          // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        />
-      </div>
+      {/* end container */}
     </div>
   );
 }
