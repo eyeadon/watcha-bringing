@@ -75,17 +75,18 @@ function App() {
     <div className="container">
       <h1>Watcha Bringing?</h1>
       <h2>Events</h2>
-      <div className="mb-3">
+      <div className="col-sm mb-3">
         {events?.map((menuItem) => (
-          <a
-            href="#"
-            key={menuItem.publicId}
-            onClick={() => {
-              setSelectedEvent(menuItem);
-            }}
-          >
-            {capitalizeFirstLetter(menuItem.name)}
-          </a>
+          <p key={menuItem.publicId}>
+            <a
+              href="#"
+              onClick={() => {
+                setSelectedEvent(menuItem);
+              }}
+            >
+              {capitalizeFirstLetter(menuItem.name)}
+            </a>
+          </p>
         ))}
       </div>
 
