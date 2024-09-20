@@ -1,7 +1,7 @@
 import express from "express";
-const router = express.Router();
 import { Event, validateEvent as validate } from "../models/event.js";
 import { Dish } from "../models/dish.js";
+const router = express.Router();
 
 // get all
 router.get("/", async (req, res) => {
@@ -16,11 +16,19 @@ router.get("/:id", async (req, res) => {
   if (!selectedEvent)
     return res.status(404).send("The event with the given ID was not found.");
 
-  // const dishesArray = selectedEvent.dishes.map((dishId) =>
-  //   Dish.findById(dishId)
-  //     .populate({ path: "Dish", strictPopulate: false })
-  //     .exec()
-  // );
+  res.send(selectedEvent);
+});
+
+// get single
+router.get("/subdoc/:publicId", async (req, res) => {
+  console.log(req.params.publicId);
+  const selectedEvent = await Event.findOne({ publicId: req.params.publicId });
+
+  if (!selectedEvent)
+    return res.status(404).send("The event with the given ID was not found.");
+
+  console.log(selectedEvent);
+
   const dishesArray = await Dish.find({
     _id: {
       $in: selectedEvent.dishes,
@@ -29,17 +37,16 @@ router.get("/:id", async (req, res) => {
     .populate({ path: "Dish", strictPopulate: false })
     .exec();
 
+  console.log(dishesArray);
+
   const eventWithDishes = {
     ...selectedEvent._doc,
     dishes: dishesArray,
   };
 
-  // console.log(selectedEvent);
-  // console.log(dishesArray);
   console.log(eventWithDishes);
 
   res.send(eventWithDishes);
-  // res.send(selectedEvent);
 });
 
 router.post("/", async (req, res) => {

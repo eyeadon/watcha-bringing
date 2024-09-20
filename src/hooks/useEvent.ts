@@ -10,7 +10,7 @@ const useEvent = (id: string) =>
     queryKey: ["event"],
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Event>>("/Eventes").then((res) => res.data),
-    queryFn: () => apiClient.get(id),
+    queryFn: () => apiClient.getSubDoc(id),
 
     staleTime: ms("24h"),
     // Eventes -> mongodb data

@@ -54,6 +54,13 @@ class APIClient<T> {
       .then((res) => res.data);
   };
 
+  // get sub doc
+  getSubDoc = (id: number | string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/" + "subdoc" + "/" + id)
+      .then((res) => res.data);
+  };
+
   post = (data: T) => {
     return (
       axiosInstance

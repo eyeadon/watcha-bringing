@@ -21,7 +21,6 @@ import useEvent from "./hooks/useEvent";
 // post, put
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
-const apiClientEvent = new APIClient<Event>("/events");
 
 function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
@@ -36,7 +35,8 @@ function App() {
   // const responseBevs = useBevs();
   const responseEvents = useEvents();
   const responseEvent = useEvent(
-    "66ecbcb1c747870f6d1224b7"
+    // "66ecbcb1c747870f6d1224b7"
+    "4jdh6jf8ejfu6768gjeu4"
     // selectedEvent?.publicId ? selectedEvent.publicId : ""
   );
 
