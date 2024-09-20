@@ -15,6 +15,7 @@ import useBevs from "./hooks/useBevs";
 import ExpandableSectionMenu from "./components/ExpandableSectionMenu";
 import useEvents from "./hooks/useEvents";
 import { capitalizeFirstLetter } from "./functions/functions";
+import useDish from "./hooks/useDish";
 
 // post, put
 const apiClientDish = new APIClient<Dish>("/dishes");
@@ -33,13 +34,15 @@ function App() {
   // const responseBevs = useBevs();
   const responseEvents = useEvents();
 
+  let responseDishes = buildItems(selectedEvent?.dishes);
+
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
     // if (responseDishes.data) setDishes(responseDishes.data);
     // if (responseBevs.data) setBevs(responseBevs.data);
     if (responseEvents.data) setEvents(responseEvents.data);
-    // }, [responseDishes.data, responseBevs.data, responseEvents.data]);
-  }, [responseEvents.data]);
+    if (selectedEvent) setDishes(responseDishes);
+  }, [responseEvents.data, responseDishes]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -71,20 +74,34 @@ function App() {
     "All Beverage Categories"
   );
 
+  // return Promise
+  function buildItems(arr: Dish[] | Bev[] | undefined) {
+    if (arr === undefined) return [];
+    // useDish returns {data}
+    let resArray: Array<Dish> = [];
+    arr.map((item) => {
+      let res = useDish(item.toString());
+      if (res.data === undefined) return;
+      resArray.push(res.data);
+    });
+    return resArray;
+  }
+
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
       <h2>Events</h2>
       <div className="col-sm mb-3">
-        {events?.map((menuItem) => (
-          <p key={menuItem.publicId}>
+        {events?.map((ev) => (
+          <p key={ev.publicId}>
             <a
               href="#"
               onClick={() => {
-                setSelectedEvent(menuItem);
+                setSelectedEvent(ev);
+                // setDishes(dishes);
               }}
             >
-              {capitalizeFirstLetter(menuItem.name)}
+              {capitalizeFirstLetter(ev.name)}
             </a>
           </p>
         ))}
