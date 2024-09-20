@@ -28,4 +28,6 @@ export interface Event {
   startTime: string;
   endTime: string;
   // guestCount: number;
+  dishes: Dish[];
+  bevs: Bev[];
 }

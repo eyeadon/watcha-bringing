@@ -10,5 +10,7 @@
   },
   "date": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
   "startTime": "string",
-  "endTime": "string"
+  "endTime": "string",
+  "dishes": ["66ecbb24fd910ab9b1257318"],
+  "bevs": ["66ecbb8afd910ab9b125731e"]
 }

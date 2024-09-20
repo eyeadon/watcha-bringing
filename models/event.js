@@ -75,6 +75,9 @@ const Event = mongoose.model(
       type: String,
       required: false,
     },
+    // array of ObjectIds
+    dishes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dish" }],
+    bevs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bev" }],
   })
 );
 

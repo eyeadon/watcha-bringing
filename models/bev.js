@@ -1,35 +1,34 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
+const bevSchema = new mongoose.Schema({
+  publicId: { type: String, required: true },
+  category: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 50,
+    lowercase: true,
+    trim: true,
+  },
+  name: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 50,
+    lowercase: true,
+    trim: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 255,
+  },
+});
+
 // uses default connection
-const Bev = mongoose.model(
-  "Bev",
-  new mongoose.Schema({
-    publicId: { type: String, required: true },
-    category: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-      lowercase: true,
-      trim: true,
-    },
-    name: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-      lowercase: true,
-      trim: true,
-    },
-    amount: {
-      type: Number,
-      required: true,
-      min: 1,
-      max: 255,
-    },
-  })
-);
+const Bev = mongoose.model("Bev", bevSchema);
 
 function validateBev(bev) {
   const schema = Joi.object({
@@ -42,4 +41,4 @@ function validateBev(bev) {
   return schema.validate(bev);
 }
 
-export { Bev, validateBev };
+export { Bev, bevSchema, validateBev };

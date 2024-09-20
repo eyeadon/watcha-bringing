@@ -31,6 +31,8 @@ router.post("/", async (req, res) => {
     date: req.body.date,
     startTime: req.body.startTimes,
     endTime: req.body.endTime,
+    dishes: req.body.dishes,
+    bevs: req.body.bevs,
   });
 
   try {
@@ -61,6 +63,8 @@ router.put("/:id", async (req, res) => {
         date: req.body.date,
         startTime: req.body.startTimes,
         endTime: req.body.endTime,
+        dishes: req.body.dishes,
+        bevs: req.body.bevs,
       },
     },
     // get updated document
