@@ -1,6 +1,7 @@
 import express from "express";
 const router = express.Router();
 import { Event, validateEvent as validate } from "../models/event.js";
+import { Dish } from "../models/dish.js";
 
 // get all
 router.get("/", async (req, res) => {
@@ -11,11 +12,34 @@ router.get("/", async (req, res) => {
 
 // get single
 router.get("/:id", async (req, res) => {
-  const Event = await Event.findById(req.params.id);
+  const selectedEvent = await Event.findById(req.params.id);
+  if (!selectedEvent)
+    return res.status(404).send("The event with the given ID was not found.");
 
-  if (!Event)
-    return res.status(404).send("The Event with the given ID was not found.");
-  res.send(Event);
+  // const dishesArray = selectedEvent.dishes.map((dishId) =>
+  //   Dish.findById(dishId)
+  //     .populate({ path: "Dish", strictPopulate: false })
+  //     .exec()
+  // );
+  const dishesArray = await Dish.find({
+    _id: {
+      $in: selectedEvent.dishes,
+    },
+  })
+    .populate({ path: "Dish", strictPopulate: false })
+    .exec();
+
+  const eventWithDishes = {
+    ...selectedEvent._doc,
+    dishes: dishesArray,
+  };
+
+  // console.log(selectedEvent);
+  // console.log(dishesArray);
+  console.log(eventWithDishes);
+
+  res.send(eventWithDishes);
+  // res.send(selectedEvent);
 });
 
 router.post("/", async (req, res) => {

@@ -10,7 +10,7 @@ const BevList = ({ bevs }: Props) => {
   if (bevs.length === 0) return null;
 
   return (
-    <table className="table table-bordered">
+    <table className="table table-bordered" key="bevTable">
       <thead>
         <tr>
           <th>Category</th>
@@ -18,7 +18,7 @@ const BevList = ({ bevs }: Props) => {
           <th>Amount</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody key="bevTableBody">
         {bevs.map((bev) => (
           <tr key={bev.publicId}>
             <td>{capitalizeFirstLetter(bev.category)}</td>

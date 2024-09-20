@@ -16,10 +16,12 @@ import ExpandableSectionMenu from "./components/ExpandableSectionMenu";
 import useEvents from "./hooks/useEvents";
 import { capitalizeFirstLetter } from "./functions/functions";
 import useDish from "./hooks/useDish";
+import useEvent from "./hooks/useEvent";
 
 // post, put
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
+const apiClientEvent = new APIClient<Event>("/events");
 
 function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
@@ -33,16 +35,20 @@ function App() {
   // const responseDishes = useDishes();
   // const responseBevs = useBevs();
   const responseEvents = useEvents();
+  const responseEvent = useEvent(
+    "66ecbcb1c747870f6d1224b7"
+    // selectedEvent?.publicId ? selectedEvent.publicId : ""
+  );
 
-  let responseDishes = buildItems(selectedEvent?.dishes);
+  // let responseDishes = buildItems(selectedEvent?.dishes);
 
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
     // if (responseDishes.data) setDishes(responseDishes.data);
     // if (responseBevs.data) setBevs(responseBevs.data);
     if (responseEvents.data) setEvents(responseEvents.data);
-    if (selectedEvent) setDishes(responseDishes);
-  }, [responseEvents.data, responseDishes]);
+    if (responseEvent.data) setDishes(responseEvent.data.dishes);
+  }, [responseEvents.data, responseEvent.data]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -60,32 +66,30 @@ function App() {
   // if data is undefined, value will be []
   // DishList is consumer
   const visibleDishes = visibleItemsFilterHelper(
-    // dishes,
-    selectedEvent?.dishes,
+    dishes,
     selectedDishCategory,
     "All Dish Categories"
   );
 
   // if data is undefined, value will be []
   const visibleBevs = visibleItemsFilterHelper(
-    // bevs,
-    selectedEvent?.bevs,
+    bevs,
     selectedBevCategory,
     "All Beverage Categories"
   );
 
-  // return Promise
-  function buildItems(arr: Dish[] | Bev[] | undefined) {
-    if (arr === undefined) return [];
-    // useDish returns {data}
-    let resArray: Array<Dish> = [];
-    arr.map((item) => {
-      let res = useDish(item.toString());
-      if (res.data === undefined) return;
-      resArray.push(res.data);
-    });
-    return resArray;
-  }
+  // // return Promise
+  // function buildItems(arr: Dish[] | Bev[] | undefined) {
+  //   if (arr === undefined) return [];
+  //   // useDish returns {data}
+  //   let resArray: Array<Dish> = [];
+  //   arr.map((item) => {
+  //     let res = useDish(item.toString());
+  //     if (res.data === undefined) return;
+  //     resArray.push(res.data);
+  //   });
+  //   return resArray;
+  // }
 
   return (
     <div className="container">
@@ -99,6 +103,8 @@ function App() {
               onClick={() => {
                 setSelectedEvent(ev);
                 // setDishes(dishes);
+                console.log(selectedEvent);
+                console.log(dishes);
               }}
             >
               {capitalizeFirstLetter(ev.name)}
