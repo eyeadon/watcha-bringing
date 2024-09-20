@@ -10,7 +10,7 @@ const DishList = ({ dishes }: Props) => {
   if (dishes.length === 0) return null;
 
   return (
-    <table className="table table-bordered">
+    <table className="table table-bordered" key="dishTable">
       <thead>
         <tr>
           <th>Category</th>
@@ -19,7 +19,7 @@ const DishList = ({ dishes }: Props) => {
           <th>Dietary</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody key="dishTableBody">
         {dishes.map((dish) => (
           <tr key={dish.publicId}>
             <td>{capitalizeFirstLetter(dish.category)}</td>

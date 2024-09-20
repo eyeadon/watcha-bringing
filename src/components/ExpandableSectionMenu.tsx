@@ -1,33 +1,18 @@
 import { ReactNode, useState } from "react";
 import { Event } from "../interfaces/interfaces";
-import { capitalizeFirstLetter } from "../functions/functions";
+// import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {
   children: ReactNode;
-  menuArray: Event[];
+  selectedEvent?: Event;
 }
 
-const ExpandableSectionMenu = ({ children, menuArray }: Props) => {
-  const [isExpanded, setExpanded] = useState(false); // false -> + icon
+const ExpandableSectionMenu = ({ children, selectedEvent }: Props) => {
+  // const [isExpanded, setExpanded] = useState(false); // false -> + icon
 
-  const showDiv = isExpanded ? children : null;
+  const showDiv = selectedEvent ? children : null;
 
-  if (menuArray.length === 0) return null;
-
-  return (
-    <>
-      <div className="mb-3">
-        {menuArray.map((menuItem) => (
-          <p>
-            <a href="#" onClick={() => setExpanded(!isExpanded)}>
-              {capitalizeFirstLetter(menuItem.name)}
-            </a>
-          </p>
-        ))}
-      </div>
-      {showDiv}
-    </>
-  );
+  return <>{showDiv}</>;
 };
 
 export default ExpandableSectionMenu;
