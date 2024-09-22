@@ -9,12 +9,12 @@ const useEventSubDoc = (id: string) =>
   useQuery({
     queryKey: ["event"],
     // queryFn: () =>
-    //   apiClient.get<FetchResponse<Event>>("/Eventes").then((res) => res.data),
+    //   apiClient.get<FetchResponse<Event>>("/events").then((res) => res.data),
     queryFn: () => apiClient.getSubDoc(id),
 
     staleTime: ms("24h"),
-    // Eventes -> mongodb data
-    // initialData: Eventes,
+    // events -> mongodb data
+    // initialData: events,
   });
 
 export default useEventSubDoc;
