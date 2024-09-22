@@ -5,16 +5,16 @@ import ms from "ms";
 
 const apiClient = new APIClient<Event>("/events");
 
-const useEvent = (id: string) =>
+const useEventSubDoc = (id: string) =>
   useQuery({
     queryKey: ["event"],
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Event>>("/Eventes").then((res) => res.data),
-    queryFn: () => apiClient.get(id),
+    queryFn: () => apiClient.getSubDoc(id),
 
     staleTime: ms("24h"),
     // Eventes -> mongodb data
     // initialData: Eventes,
   });
 
-export default useEvent;
+export default useEventSubDoc;

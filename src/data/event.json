@@ -1,6 +1,6 @@
 {
-  "publicId": "4jdh6jf8ejfu6768gjeu4",
-  "name": "event",
+  "publicId": "4jdh6jf8ejfu6768gjeu5",
+  "name": "event2",
   "host": "string",
   "address": {
     "street": "string",
@@ -11,6 +11,6 @@
   "date": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
   "startTime": "string",
   "endTime": "string",
-  "dishes": ["66ecbb24fd910ab9b1257318"],
+  "dishes": ["66ecbb24fd910ab9b1257318", "66ecbb2dfd910ab9b125731a"],
   "bevs": ["66ecbb8afd910ab9b125731e"]
 }

@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
 import BevForm from "./components/BevForm";
@@ -17,6 +17,8 @@ import useEvents from "./hooks/useEvents";
 import { capitalizeFirstLetter } from "./functions/functions";
 import useDish from "./hooks/useDish";
 import useEvent from "./hooks/useEvent";
+import useEventSubDoc from "./hooks/useEventSubDoc";
+import EventMenu from "./components/EventMenu";
 
 // post, put
 const apiClientDish = new APIClient<Dish>("/dishes");
@@ -25,7 +27,7 @@ const apiClientBev = new APIClient<Bev>("/bevs");
 function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
-  const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
+  const [selectedEvent, setSelectedEvent] = useState<Event>();
 
   const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
@@ -33,22 +35,28 @@ function App() {
 
   // const responseDishes = useDishes();
   // const responseBevs = useBevs();
-  const responseEvents = useEvents();
-  const responseEvent = useEvent(
-    // "66ecbcb1c747870f6d1224b7"
-    "4jdh6jf8ejfu6768gjeu4"
-    // selectedEvent?.publicId ? selectedEvent.publicId : ""
-  );
 
-  // let responseDishes = buildItems(selectedEvent?.dishes);
+  // returns UseQueryResult
+  const responseEvents = useEvents();
+  const responseEventSelection = useEventSubDoc(
+    // "4jdh6jf8ejfu6768gjeu4"
+    // "4jdh6jf8ejfu6768gjeu5"
+    selectedEvent?.publicId ? selectedEvent?.publicId : "4jdh6jf8ejfu6768gjeu4"
+  );
 
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
     // if (responseDishes.data) setDishes(responseDishes.data);
     // if (responseBevs.data) setBevs(responseBevs.data);
     if (responseEvents.data) setEvents(responseEvents.data);
-    if (responseEvent.data) setDishes(responseEvent.data.dishes);
-  }, [responseEvents.data, responseEvent.data]);
+  }, [responseEvents.data]);
+
+  useEffect(() => {
+    if (responseEventSelection.data) {
+      setDishes(responseEventSelection.data.dishes);
+      console.log("useEffect run");
+    }
+  }, [responseEventSelection.data, selectedEvent]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -78,41 +86,21 @@ function App() {
     "All Beverage Categories"
   );
 
-  // // return Promise
-  // function buildItems(arr: Dish[] | Bev[] | undefined) {
-  //   if (arr === undefined) return [];
-  //   // useDish returns {data}
-  //   let resArray: Array<Dish> = [];
-  //   arr.map((item) => {
-  //     let res = useDish(item.toString());
-  //     if (res.data === undefined) return;
-  //     resArray.push(res.data);
-  //   });
-  //   return resArray;
-  // }
-
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
       <h2>Events</h2>
-      <div className="col-sm mb-3">
-        {events?.map((ev) => (
-          <p key={ev.publicId}>
-            <a
-              href="#"
-              onClick={() => {
-                setSelectedEvent(ev);
-                // setDishes(dishes);
-                console.log(selectedEvent);
-                console.log(dishes);
-              }}
-            >
-              {capitalizeFirstLetter(ev.name)}
-            </a>
-          </p>
-        ))}
-      </div>
-
+      <EventMenu
+        events={events}
+        onSelectEvent={(ev) => {
+          setSelectedEvent(ev);
+          console.log(ev);
+          console.log(selectedEvent);
+          console.log(dishes);
+          // console.log(responseEventSelection);
+          console.log(responseEventSelection.data);
+        }}
+      />
       {/* <ExpandableSectionMenu selectedEvent={selectedEvent}> */}
 
       <div className="row">
