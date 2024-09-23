@@ -39,6 +39,7 @@ router.get("/subdoc/:publicId", async (req, res) => {
   //     bevs: [],
   //   };
   console.log(req.params.publicId);
+
   const selectedEvent = await Event.findOne({ publicId: req.params.publicId });
 
   if (!selectedEvent)
@@ -56,14 +57,7 @@ router.get("/subdoc/:publicId", async (req, res) => {
 
   console.log(dishesArray);
 
-  const eventWithDishes = {
-    ...selectedEvent._doc,
-    dishes: dishesArray,
-  };
-
-  console.log(eventWithDishes);
-
-  res.send(eventWithDishes);
+  res.send(dishesArray);
 });
 
 router.post("/", async (req, res) => {

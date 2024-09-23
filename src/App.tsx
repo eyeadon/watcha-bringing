@@ -38,7 +38,7 @@ function App() {
 
   // returns UseQueryResult
   const responseEvents = useEvents();
-  const responseEventSelection = useEventSubDoc(
+  const responseEventSelectionDishes = useEventSubDoc(
     // "4jdh6jf8ejfu6768gjeu4"
     // "4jdh6jf8ejfu6768gjeu5"
     selectedEvent?.publicId ? selectedEvent?.publicId : "4jdh6jf8ejfu6768gjeu4"
@@ -52,11 +52,11 @@ function App() {
   }, [responseEvents.data]);
 
   useEffect(() => {
-    if (responseEventSelection.data) {
-      setDishes(responseEventSelection.data.dishes);
+    if (responseEventSelectionDishes.data) {
+      setDishes(responseEventSelectionDishes.data);
       console.log("useEffect run");
     }
-  }, [responseEventSelection.data, selectedEvent]);
+  }, [responseEventSelectionDishes.data, selectedEvent]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -97,8 +97,8 @@ function App() {
           console.log(ev);
           console.log(selectedEvent);
           console.log(dishes);
-          // console.log(responseEventSelection);
-          console.log(responseEventSelection.data);
+          // console.log(responseEventSelectionDishes);
+          console.log(responseEventSelectionDishes.data);
         }}
       />
       {/* <ExpandableSectionMenu selectedEvent={selectedEvent}> */}
