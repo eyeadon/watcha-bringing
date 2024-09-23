@@ -1,3 +1,4 @@
+import { nanoid } from "nanoid";
 import { useEffect, useLayoutEffect, useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
@@ -6,23 +7,15 @@ import BevList from "./components/BevList";
 import DishFilter from "./components/DishFilter";
 import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
-import { Bev, Dish, Event } from "./interfaces/interfaces";
-import ExpandableSectionButton from "./components/ExpandableSectionButton";
-import APIClient from "./services/apiClient";
-import { nanoid } from "nanoid";
-import useDishes from "./hooks/useDishes";
-import useBevs from "./hooks/useBevs";
-import ExpandableSectionMenu from "./components/ExpandableSectionMenu";
-import useEvents from "./hooks/useEvents";
-import { capitalizeFirstLetter } from "./functions/functions";
-import useDish from "./hooks/useDish";
-import useEvent from "./hooks/useEvent";
-import useEventSubDoc from "./hooks/useEventSubDoc";
 import EventMenu from "./components/EventMenu";
+import ExpandableSectionButton from "./components/ExpandableSectionButton";
+import useEvents from "./hooks/useEvents";
+import { Bev, Dish, Event } from "./interfaces/interfaces";
+import APIClient from "./services/apiClient";
 
-// post, put
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
+const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
@@ -48,28 +41,21 @@ function App() {
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
   const [events, setEvents] = useState<Event[] | undefined>([]);
 
-  // const responseDishes = useDishes();
-  // const responseBevs = useBevs();
-
   // returns UseQueryResult
   const responseEvents = useEvents();
 
-  const getDishes = async (id: string) => {
-    await fetch("http://localhost:3000/api/events/subdoc/" + id)
-      .then((response) => response.json())
-      .then((data) => setDishes(data))
-      .catch((error) => console.error(error));
-  };
-
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
-    // if (responseDishes.data) setDishes(responseDishes.data);
-    // if (responseBevs.data) setBevs(responseBevs.data);
     setEvents(responseEvents.data);
   }, [responseEvents.data]);
 
+  const getEventDishes = async () => {
+    let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
+    setDishes(data);
+  };
+
   useEffect(() => {
-    getDishes(selectedEvent.publicId);
+    getEventDishes();
   }, [selectedEvent]);
 
   function visibleItemsFilterHelper(
