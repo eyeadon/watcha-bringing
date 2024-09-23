@@ -38,14 +38,14 @@ router.get("/subdoc/:publicId", async (req, res) => {
   //     dishes: [],
   //     bevs: [],
   //   };
-  console.log(req.params.publicId);
+  // console.log(req.params.publicId);
 
   const selectedEvent = await Event.findOne({ publicId: req.params.publicId });
 
   if (!selectedEvent)
     return res.status(404).send("The event with the given ID was not found.");
 
-  console.log(selectedEvent);
+  // console.log(selectedEvent);
 
   const dishesArray = await Dish.find({
     _id: {
@@ -55,7 +55,7 @@ router.get("/subdoc/:publicId", async (req, res) => {
     .populate({ path: "Dish", strictPopulate: false })
     .exec();
 
-  console.log(dishesArray);
+  console.log("useEventSubDoc run");
 
   res.send(dishesArray);
 });

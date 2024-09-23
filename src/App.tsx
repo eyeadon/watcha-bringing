@@ -48,7 +48,7 @@ function App() {
   useLayoutEffect(() => {
     // if (responseDishes.data) setDishes(responseDishes.data);
     // if (responseBevs.data) setBevs(responseBevs.data);
-    if (responseEvents.data) setEvents(responseEvents.data);
+    setEvents(responseEvents.data);
   }, [responseEvents.data]);
 
   useEffect(() => {
