@@ -27,7 +27,22 @@ const apiClientBev = new APIClient<Bev>("/bevs");
 function App() {
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
-  const [selectedEvent, setSelectedEvent] = useState<Event>();
+  const [selectedEvent, setSelectedEvent] = useState<Event>({
+    publicId: "4jdh6jf8ejfu6768gjeu4",
+    name: "",
+    host: "",
+    address: {
+      street: "",
+      city: "",
+      state: "",
+      zipcode: "",
+    },
+    date: new Date(),
+    startTime: "",
+    endTime: "",
+    dishes: [],
+    bevs: [],
+  });
 
   const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
@@ -38,11 +53,13 @@ function App() {
 
   // returns UseQueryResult
   const responseEvents = useEvents();
-  const responseEventSelectionDishes = useEventSubDoc(
-    // "4jdh6jf8ejfu6768gjeu4"
-    // "4jdh6jf8ejfu6768gjeu5"
-    selectedEvent?.publicId ? selectedEvent?.publicId : "4jdh6jf8ejfu6768gjeu4"
-  );
+
+  const getDishes = async (id: string) => {
+    await fetch("http://localhost:3000/api/events/subdoc/" + id)
+      .then((response) => response.json())
+      .then((data) => setDishes(data))
+      .catch((error) => console.error(error));
+  };
 
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
@@ -52,11 +69,8 @@ function App() {
   }, [responseEvents.data]);
 
   useEffect(() => {
-    if (responseEventSelectionDishes.data) {
-      setDishes(responseEventSelectionDishes.data);
-      console.log("useEffect run");
-    }
-  }, [responseEventSelectionDishes.data, selectedEvent]);
+    getDishes(selectedEvent.publicId);
+  }, [selectedEvent]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -97,8 +111,6 @@ function App() {
           console.log(ev);
           console.log(selectedEvent);
           console.log(dishes);
-          // console.log(responseEventSelectionDishes);
-          console.log(responseEventSelectionDishes.data);
         }}
       />
       {/* <ExpandableSectionMenu selectedEvent={selectedEvent}> */}
