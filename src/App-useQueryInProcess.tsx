@@ -127,19 +127,19 @@ function App() {
                   publicId: publicId,
                 });
 
-                // selectedEvent.dishes.push(newDish.publicId);
+                selectedEvent.dishes.push(newDish.publicId);
 
-                // let resultEvent = apiClientEvent.put(
-                //   responseEventSelectionDishes.data,
-                //   selectedEvent
-                // );
-                // // setDishes([
-                // //   ...(dishes || []),
-                // //   { ...newDish, publicId: publicId },
-                // // ]);
+                let resultEvent = apiClientEvent.put(
+                  responseEventSelectionDishes.data,
+                  selectedEvent
+                );
+                // setDishes([
+                //   ...(dishes || []),
+                //   { ...newDish, publicId: publicId },
+                // ]);
 
-                // console.log(resultDish);
-                // console.log(resultEvent);
+                console.log(resultDish);
+                console.log(resultEvent);
               }}
             />
           </div>
