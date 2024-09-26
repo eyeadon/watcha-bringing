@@ -16,11 +16,11 @@ import useEventSubDoc from "./hooks/useEventSubDoc";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
-const apiClientEvent = new APIClient<Event>("/events");
-// const apiClientEventDishes = new APIClient<Dish[]>("/events");
+// const apiClientEvent = new APIClient<Event>("/events");
+const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 function App() {
-  // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
+  const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
   const [events, setEvents] = useState<Event[] | undefined>([]);
 
@@ -52,23 +52,23 @@ function App() {
   }, [responseEvents.data]);
   console.log(responseEvents);
 
-  // returns UseQueryResult containing dishes
-  const responseEventSelectionDishes = useEventSubDoc(
-    // "4jdh6jf8ejfu6768gjeu4"
-    // "4jdh6jf8ejfu6768gjeu5"
-    selectedEvent.publicId
-  );
+  // // returns UseQueryResult containing dishes
+  // const responseEventSelectionDishes = useEventSubDoc(
+  //   // "4jdh6jf8ejfu6768gjeu4"
+  //   // "4jdh6jf8ejfu6768gjeu5"
+  //   selectedEvent.publicId
+  // );
 
-  console.log(responseEventSelectionDishes.data);
+  // console.log(responseEventSelectionDishes.data);
 
-  // const getEventDishes = async () => {
-  //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
-  //   setDishes(data);
-  // };
+  const getEventDishes = async () => {
+    let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
+    setDishes(data);
+  };
 
-  // useEffect(() => {
-  //   setDishes(responseEventSelectionDishes.data);
-  // }, [selectedEvent]);
+  useEffect(() => {
+    getEventDishes();
+  }, [selectedEvent]);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -86,7 +86,7 @@ function App() {
   // if data is undefined, value will be []
   // DishList is consumer
   const visibleDishes = visibleItemsFilterHelper(
-    responseEventSelectionDishes.data,
+    dishes,
     selectedDishCategory,
     "All Dish Categories"
   );
@@ -127,19 +127,12 @@ function App() {
                   publicId: publicId,
                 });
 
-                // selectedEvent.dishes.push(newDish.publicId);
-
-                // let resultEvent = apiClientEvent.put(
-                //   responseEventSelectionDishes.data,
-                //   selectedEvent
-                // );
-                // // setDishes([
-                // //   ...(dishes || []),
-                // //   { ...newDish, publicId: publicId },
-                // // ]);
+                setDishes([
+                  ...(dishes || []),
+                  { ...newDish, publicId: publicId },
+                ]);
 
                 // console.log(resultDish);
-                // console.log(resultEvent);
               }}
             />
           </div>
