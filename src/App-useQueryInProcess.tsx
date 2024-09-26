@@ -122,15 +122,23 @@ function App() {
               onSubmit={(newDish) => {
                 const publicId = nanoid();
 
-                let resultDish = apiClientDish.post({
-                  ...newDish,
-                  publicId: publicId,
-                });
+                let postDish = async () => {
+                  let resultDish = {
+                    ...newDish,
+                    publicId: publicId,
+                  };
 
-                selectedEvent.dishes.push(newDish.publicId);
+                  await apiClientDish.post(resultDish);
 
+                  selectedEvent.dishes.push(resultDish);
+                };
+
+                postDish();
+
+                // put = (id: number | string, data: T)
                 let resultEvent = apiClientEvent.put(
-                  responseEventSelectionDishes.data,
+                  // responseEventSelectionDishes.data._id,
+                  selectedEvent.publicId,
                   selectedEvent
                 );
                 // setDishes([
@@ -138,7 +146,6 @@ function App() {
                 //   { ...newDish, publicId: publicId },
                 // ]);
 
-                console.log(resultDish);
                 console.log(resultEvent);
               }}
             />
