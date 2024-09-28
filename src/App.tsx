@@ -20,6 +20,7 @@ import {
 } from "./interfaces/interfaces";
 import APIClient from "./services/apiClient";
 import useEventSubDoc from "./hooks/useEventSubDoc";
+import EventForm from "./components/EventForm";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -46,7 +47,7 @@ function App() {
       state: "",
       zipcode: "",
     },
-    date: new Date(),
+    date: "",
     startTime: "",
     endTime: "",
     dishes: [],
@@ -58,7 +59,7 @@ function App() {
 
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
-    if (responseEvents.data) setEvents(responseEvents.data);
+    setEvents(responseEvents.data);
   }, [responseEvents.data]);
   console.log(responseEvents);
 
@@ -70,7 +71,7 @@ function App() {
   );
 
   // dishes array
-  console.log(responseEventSelectionDishes.data);
+  // console.log(responseEventSelectionDishes.data);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -109,11 +110,39 @@ function App() {
         onSelectEvent={(ev) => {
           setSelectedEvent(ev);
 
-          console.log(ev);
-          console.log(selectedEvent);
-          // console.log(dishes);
+          // console.log(ev);
+          // console.log(selectedEvent);
         }}
       />
+
+      <div className="row">
+        <ExpandableSectionButton buttonLabelText="Add Event">
+          <div className="mb-5">
+            <EventForm
+              onSubmit={(newEvent) => {
+                const publicId = nanoid();
+
+                let postEvent = async () => {
+                  let resultEvent = await apiClientEvent.post({
+                    ...newEvent,
+                    publicId: publicId,
+                  });
+
+                  // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
+                  setSelectedEvent({
+                    ...newEvent,
+                    publicId: publicId,
+                  });
+
+                  console.log(resultEvent);
+                };
+
+                postEvent();
+              }}
+            />
+          </div>
+        </ExpandableSectionButton>
+      </div>
       {/* <ExpandableSectionMenu selectedEvent={selectedEvent}> */}
 
       <div className="row">
@@ -134,21 +163,26 @@ function App() {
 
                   const resultDishId = resultDish._id?.toString();
                   if (resultDishId === undefined) throw Error;
+                  if (selectedEvent.dishes === undefined) throw Error;
                   selectedEvent.dishes.push(resultDishId);
                 };
 
                 postDish();
 
-                if (selectedEvent._id === undefined) throw Error;
-
                 // put = (id: number | string, data: T)
-                let resultEvent = apiClientTEvent.put(
-                  // responseEventSelectionDishes.data._id,
-                  selectedEvent._id.toString(),
-                  selectedEvent
-                );
+                let putEvent = async () => {
+                  if (selectedEvent._id === undefined) throw Error;
 
-                console.log(resultEvent);
+                  let resultEvent = await apiClientTEvent.put(
+                    // responseEventSelectionDishes.data._id,
+                    selectedEvent._id.toString(),
+                    selectedEvent
+                  );
+
+                  console.log(resultEvent);
+                };
+
+                putEvent();
               }}
             />
           </div>

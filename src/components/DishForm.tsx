@@ -9,7 +9,7 @@ const dishSchema = z.object({
   category: z.enum(dishCategories, {
     errorMap: () => ({ message: "Category is required" }),
   }),
-  name: z.string().min(3, { message: "Enter at leats 3 characters" }).max(50),
+  name: z.string().min(3, { message: "Enter at least 3 characters" }).max(50),
   amount: z.number({ invalid_type_error: "Amount is required" }).min(0).max(99),
   dietary: z.enum(dietaryConsiderations).array().optional(),
 });

@@ -38,12 +38,12 @@ export interface Event {
     state: string;
     zipcode: string;
   };
-  date: Date;
+  date: string;
   startTime: string;
   endTime: string;
   // guestCount: number;
-  dishes: string[];
-  bevs: string[];
+  dishes?: string[];
+  bevs?: string[];
 }
 
 export interface EventDocumentType extends Event {

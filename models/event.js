@@ -30,7 +30,7 @@ const addressSchema = new mongoose.Schema(
       trim: true,
     },
   },
-  { id: false }
+  { _id: false }
 );
 
 // uses default connection
@@ -67,7 +67,7 @@ const Event = mongoose.model(
       required: false,
     },
     date: {
-      type: Date,
+      type: String,
       required: true,
     },
     startTime: {
