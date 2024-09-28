@@ -1,34 +1,37 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-const addressSchema = new mongoose.Schema({
-  street: {
-    type: String,
-    minlength: 3,
-    maxlength: 50,
-    trim: true,
+const addressSchema = new mongoose.Schema(
+  {
+    street: {
+      type: String,
+      minlength: 3,
+      maxlength: 50,
+      trim: true,
+    },
+    city: {
+      type: String,
+      minlength: 3,
+      maxlength: 50,
+      trim: true,
+    },
+    state: {
+      type: String,
+      minlength: 2,
+      maxlength: 2,
+      uppercase: true,
+      trim: true,
+    },
+    zipcode: {
+      type: String,
+      minlength: 5,
+      maxlength: 5,
+      match: /^[0-9]{5}$/,
+      trim: true,
+    },
   },
-  city: {
-    type: String,
-    minlength: 3,
-    maxlength: 50,
-    trim: true,
-  },
-  state: {
-    type: String,
-    minlength: 2,
-    maxlength: 2,
-    uppercase: true,
-    trim: true,
-  },
-  zipcode: {
-    type: String,
-    minlength: 5,
-    maxlength: 5,
-    match: /^[0-9]{5}$/,
-    trim: true,
-  },
-});
+  { id: false }
+);
 
 // uses default connection
 const Event = mongoose.model(

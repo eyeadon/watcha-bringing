@@ -10,24 +10,34 @@ import DishList from "./components/DishList";
 import EventMenu from "./components/EventMenu";
 import ExpandableSectionButton from "./components/ExpandableSectionButton";
 import useEvents from "./hooks/useEvents";
-import { Bev, Dish, Event } from "./interfaces/interfaces";
+import {
+  Bev,
+  Dish,
+  Event,
+  DishDocumentType,
+  BevDocumentType,
+  EventDocumentType,
+} from "./interfaces/interfaces";
 import APIClient from "./services/apiClient";
 import useEventSubDoc from "./hooks/useEventSubDoc";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
-// const apiClientEvent = new APIClient<Event>("/events");
-const apiClientEventDishes = new APIClient<Dish[]>("/events");
+const apiClientEvent = new APIClient<Event>("/events");
+const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
+const apiClientTEvent = new APIClient<EventDocumentType>("/events");
+// const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 function App() {
-  const [dishes, setDishes] = useState<Dish[] | undefined>([]);
+  // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
-  const [events, setEvents] = useState<Event[] | undefined>([]);
+
+  const [events, setEvents] = useState<EventDocumentType[] | undefined>([]);
 
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
-  const [selectedEvent, setSelectedEvent] = useState<Event>({
-    publicId: "4jdh6jf8ejfu6768gjeu4",
+  const [selectedEvent, setSelectedEvent] = useState<EventDocumentType>({
+    publicId: "none",
     name: "",
     host: "",
     address: {
@@ -48,27 +58,19 @@ function App() {
 
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
-    setEvents(responseEvents.data);
+    if (responseEvents.data) setEvents(responseEvents.data);
   }, [responseEvents.data]);
   console.log(responseEvents);
 
-  // // returns UseQueryResult containing dishes
-  // const responseEventSelectionDishes = useEventSubDoc(
-  //   // "4jdh6jf8ejfu6768gjeu4"
-  //   // "4jdh6jf8ejfu6768gjeu5"
-  //   selectedEvent.publicId
-  // );
+  // returns UseQueryResult containing dishes
+  const responseEventSelectionDishes = useEventSubDoc(
+    // "4jdh6jf8ejfu6768gjeu4"
+    // "4jdh6jf8ejfu6768gjeu5"
+    selectedEvent.publicId
+  );
 
-  // console.log(responseEventSelectionDishes.data);
-
-  const getEventDishes = async () => {
-    let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
-    setDishes(data);
-  };
-
-  useEffect(() => {
-    getEventDishes();
-  }, [selectedEvent]);
+  // dishes array
+  console.log(responseEventSelectionDishes.data);
 
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
@@ -86,7 +88,7 @@ function App() {
   // if data is undefined, value will be []
   // DishList is consumer
   const visibleDishes = visibleItemsFilterHelper(
-    dishes,
+    responseEventSelectionDishes.data,
     selectedDishCategory,
     "All Dish Categories"
   );
@@ -122,17 +124,31 @@ function App() {
               onSubmit={(newDish) => {
                 const publicId = nanoid();
 
-                let resultDish = apiClientDish.post({
-                  ...newDish,
-                  publicId: publicId,
-                });
+                let postDish = async () => {
+                  let resultDish = await apiClientTDish.post({
+                    ...newDish,
+                    publicId: publicId,
+                  });
 
-                setDishes([
-                  ...(dishes || []),
-                  { ...newDish, publicId: publicId },
-                ]);
+                  console.log(resultDish);
 
-                // console.log(resultDish);
+                  const resultDishId = resultDish._id?.toString();
+                  if (resultDishId === undefined) throw Error;
+                  selectedEvent.dishes.push(resultDishId);
+                };
+
+                postDish();
+
+                if (selectedEvent._id === undefined) throw Error;
+
+                // put = (id: number | string, data: T)
+                let resultEvent = apiClientTEvent.put(
+                  // responseEventSelectionDishes.data._id,
+                  selectedEvent._id.toString(),
+                  selectedEvent
+                );
+
+                console.log(resultEvent);
               }}
             />
           </div>
@@ -152,7 +168,7 @@ function App() {
 
                 setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
 
-                console.log(result);
+                // console.log(result);
               }}
             />
           </div>

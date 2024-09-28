@@ -61,15 +61,6 @@ function App() {
 
   console.log(responseEventSelectionDishes.data);
 
-  // const getEventDishes = async () => {
-  //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
-  //   setDishes(data);
-  // };
-
-  // useEffect(() => {
-  //   setDishes(responseEventSelectionDishes.data);
-  // }, [selectedEvent]);
-
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
     selCat: string,
@@ -123,30 +114,30 @@ function App() {
                 const publicId = nanoid();
 
                 let postDish = async () => {
-                  let resultDish = {
+                  let resultDish = await apiClientDish.post({
                     ...newDish,
                     publicId: publicId,
-                  };
+                  });
 
-                  await apiClientDish.post(resultDish);
+                  console.log(resultDish);
 
-                  selectedEvent.dishes.push(resultDish);
+                  // selectedEvent.dishes.push(resultDish);
                 };
 
                 postDish();
 
-                // put = (id: number | string, data: T)
-                let resultEvent = apiClientEvent.put(
-                  // responseEventSelectionDishes.data._id,
-                  selectedEvent.publicId,
-                  selectedEvent
-                );
-                // setDishes([
-                //   ...(dishes || []),
-                //   { ...newDish, publicId: publicId },
-                // ]);
+                // // put = (id: number | string, data: T)
+                // let resultEvent = apiClientEvent.put(
+                //   // responseEventSelectionDishes.data._id,
+                //   selectedEvent.publicId,
+                //   selectedEvent
+                // );
+                // // setDishes([
+                // //   ...(dishes || []),
+                // //   { ...newDish, publicId: publicId },
+                // // ]);
 
-                console.log(resultEvent);
+                // console.log(resultEvent);
               }}
             />
           </div>

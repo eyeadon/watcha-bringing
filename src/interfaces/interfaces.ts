@@ -1,3 +1,9 @@
+import { Types } from "mongoose";
+
+// export interface DocumentType {
+//   _id?: Types.ObjectId;
+// }
+
 export interface Dish {
   publicId: string;
   category: string;
@@ -6,11 +12,19 @@ export interface Dish {
   dietary?: string[];
 }
 
+export interface DishDocumentType extends Dish {
+  _id?: Types.ObjectId;
+}
+
 export interface Bev {
   publicId: string;
   category: string;
   name: string;
   amount: number;
+}
+
+export interface BevDocumentType extends Bev {
+  _id?: Types.ObjectId;
 }
 
 export interface Event {
@@ -28,6 +42,10 @@ export interface Event {
   startTime: string;
   endTime: string;
   // guestCount: number;
-  dishes: Dish[];
-  bevs: Bev[];
+  dishes: string[];
+  bevs: string[];
+}
+
+export interface EventDocumentType extends Event {
+  _id?: Types.ObjectId;
 }
