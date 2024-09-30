@@ -21,23 +21,12 @@ router.get("/:id", async (req, res) => {
 
 // get event with dishes/bevs as full objects
 router.get("/subdoc/:publicId", async (req, res) => {
-  if (req.params.publicId === "none")
-    return {
-      publicId: "none",
-      name: "",
-      host: "",
-      address: {
-        street: "",
-        city: "",
-        state: "",
-        zipcode: "",
-      },
-      date: "",
-      startTime: "",
-      endTime: "",
-      dishes: [],
-      bevs: [],
-    };
+  if (req.params.publicId === "none") {
+    const events = await Event.find();
+    res.send(events);
+    return;
+  }
+
   // console.log(req.params.publicId);
 
   const selectedEvent = await Event.findOne({ publicId: req.params.publicId });
@@ -105,7 +94,11 @@ router.put("/:id", async (req, res) => {
         date: req.body.date,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
-        dishes: req.body.dishes,
+        dishes: await Dish.find({
+          _id: {
+            $in: req.body.dishes,
+          },
+        }),
         bevs: req.body.bevs,
       },
     },

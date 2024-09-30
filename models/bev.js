@@ -1,31 +1,34 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-const bevSchema = new mongoose.Schema({
-  publicId: { type: String, required: true },
-  category: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 50,
-    lowercase: true,
-    trim: true,
+const bevSchema = new mongoose.Schema(
+  {
+    publicId: { type: String, required: true },
+    category: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 50,
+      lowercase: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 50,
+      lowercase: true,
+      trim: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 255,
+    },
   },
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 50,
-    lowercase: true,
-    trim: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 255,
-  },
-});
+  { versionKey: false }
+);
 
 // uses default connection
 const Bev = mongoose.model("Bev", bevSchema);

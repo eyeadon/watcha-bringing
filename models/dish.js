@@ -1,35 +1,38 @@
 import Joi from "joi";
 import mongoose from "mongoose";
 
-const dishSchema = new mongoose.Schema({
-  publicId: { type: String, required: true },
-  category: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 50,
-    lowercase: true,
-    trim: true,
+const dishSchema = new mongoose.Schema(
+  {
+    publicId: { type: String, required: true },
+    category: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 50,
+      lowercase: true,
+      trim: true,
+    },
+    name: {
+      type: String,
+      required: true,
+      minlength: 3,
+      maxlength: 50,
+      lowercase: true,
+      trim: true,
+    },
+    amount: {
+      type: Number,
+      required: true,
+      min: 1,
+      max: 255,
+    },
+    dietary: {
+      type: Array,
+      required: false,
+    },
   },
-  name: {
-    type: String,
-    required: true,
-    minlength: 3,
-    maxlength: 50,
-    lowercase: true,
-    trim: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-    min: 1,
-    max: 255,
-  },
-  dietary: {
-    type: Array,
-    required: false,
-  },
-});
+  { versionKey: false }
+);
 
 // uses default connection
 const Dish = mongoose.model("Dish", dishSchema);

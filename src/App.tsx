@@ -21,6 +21,7 @@ import {
 import APIClient from "./services/apiClient";
 import useEventSubDoc from "./hooks/useEventSubDoc";
 import EventForm from "./components/EventForm";
+import mongoose from "mongoose";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -150,7 +151,7 @@ function App() {
           <div className="mb-5">
             <h2>What Dish?</h2>
             <DishForm
-              onSubmit={(newDish) => {
+              onSubmit={async (newDish) => {
                 const publicId = nanoid();
 
                 let postDish = async () => {
@@ -162,27 +163,46 @@ function App() {
                   console.log(resultDish);
 
                   const resultDishId = resultDish._id?.toString();
+
                   if (resultDishId === undefined) throw Error;
                   if (selectedEvent.dishes === undefined) throw Error;
+
+                  // add new dish to selected event
                   selectedEvent.dishes.push(resultDishId);
                 };
 
-                postDish();
+                await postDish();
 
-                // put = (id: number | string, data: T)
                 let putEvent = async () => {
                   if (selectedEvent._id === undefined) throw Error;
 
-                  let resultEvent = await apiClientTEvent.put(
+                  const selectedEventId = selectedEvent._id.toString();
+
+                  const selectedEventWithoutId = { ...selectedEvent };
+                  delete selectedEventWithoutId._id;
+
+                  // selectedEventNoId.dishes?.forEach(
+                  //   (dish) =>
+                  //     ((dish as unknown as mongoose.Types.ObjectId) =
+                  //       new mongoose.Types.ObjectId(dish))
+                  // );
+                  // console.log(selectedEventNoId.dishes);
+
+                  // console.log(
+                  //   new mongoose.Types.ObjectId("66f72c9c7638f3c2aef12d96")
+                  // );
+
+                  // put = (id: number | string, data: T)
+                  let resultEvent = await apiClientEvent.put(
                     // responseEventSelectionDishes.data._id,
-                    selectedEvent._id.toString(),
-                    selectedEvent
+                    selectedEventId,
+                    selectedEventWithoutId
                   );
 
                   console.log(resultEvent);
                 };
 
-                putEvent();
+                await putEvent();
               }}
             />
           </div>

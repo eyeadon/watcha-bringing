@@ -36,52 +36,55 @@ const addressSchema = new mongoose.Schema(
 // uses default connection
 const Event = mongoose.model(
   "Event",
-  new mongoose.Schema({
-    publicId: { type: String, required: true },
-    // category: {
-    //   type: String,
-    //   required: true,
-    //   minlength: 3,
-    //   maxlength: 50,
-    //   lowercase: true,
-    //   trim: true,
-    // },
-    name: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-      lowercase: true,
-      trim: true,
+  new mongoose.Schema(
+    {
+      publicId: { type: String, required: true },
+      // category: {
+      //   type: String,
+      //   required: true,
+      //   minlength: 3,
+      //   maxlength: 50,
+      //   lowercase: true,
+      //   trim: true,
+      // },
+      name: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 50,
+        lowercase: true,
+        trim: true,
+      },
+      host: {
+        type: String,
+        required: true,
+        minlength: 3,
+        maxlength: 50,
+        lowercase: true,
+        trim: true,
+      },
+      address: {
+        type: addressSchema,
+        required: false,
+      },
+      date: {
+        type: String,
+        required: true,
+      },
+      startTime: {
+        type: String,
+        required: true,
+      },
+      endTime: {
+        type: String,
+        required: false,
+      },
+      // array of ObjectIds
+      dishes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dish" }],
+      bevs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bev" }],
     },
-    host: {
-      type: String,
-      required: true,
-      minlength: 3,
-      maxlength: 50,
-      lowercase: true,
-      trim: true,
-    },
-    address: {
-      type: addressSchema,
-      required: false,
-    },
-    date: {
-      type: String,
-      required: true,
-    },
-    startTime: {
-      type: String,
-      required: true,
-    },
-    endTime: {
-      type: String,
-      required: false,
-    },
-    // array of ObjectIds
-    dishes: [{ type: mongoose.Schema.Types.ObjectId, ref: "Dish" }],
-    bevs: [{ type: mongoose.Schema.Types.ObjectId, ref: "Bev" }],
-  })
+    { versionKey: false }
+  )
 );
 
 function validateEvent(event) {
@@ -102,6 +105,8 @@ function validateEvent(event) {
     date: Joi.date(),
     startTime: Joi.string(),
     endTime: Joi.string(),
+    dishes: Joi.array().items(Joi.string()),
+    bevs: Joi.array().items(Joi.string()),
   });
 
   return schema.validate(event);
