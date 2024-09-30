@@ -22,6 +22,7 @@ import APIClient from "./services/apiClient";
 import useEventSubDoc from "./hooks/useEventSubDoc";
 import EventForm from "./components/EventForm";
 import mongoose from "mongoose";
+import SelectedEvent from "./components/SelectedEvent";
 
 const apiClientDish = new APIClient<Dish>("/dishes");
 const apiClientBev = new APIClient<Bev>("/bevs");
@@ -110,11 +111,11 @@ function App() {
         events={events}
         onSelectEvent={(ev) => {
           setSelectedEvent(ev);
-
           // console.log(ev);
           // console.log(selectedEvent);
         }}
       />
+      <SelectedEvent selectedEvent={selectedEvent} />
 
       <div className="row">
         <ExpandableSectionButton buttonLabelText="Add Event">
