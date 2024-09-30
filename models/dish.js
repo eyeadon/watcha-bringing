@@ -7,7 +7,7 @@ const dishSchema = new mongoose.Schema(
     category: {
       type: String,
       required: true,
-      minlength: 3,
+      minlength: 2,
       maxlength: 50,
       lowercase: true,
       trim: true,
@@ -15,7 +15,7 @@ const dishSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      minlength: 3,
+      minlength: 2,
       maxlength: 50,
       lowercase: true,
       trim: true,
@@ -40,10 +40,10 @@ const Dish = mongoose.model("Dish", dishSchema);
 function validateDish(dish) {
   const schema = Joi.object({
     publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
-    category: Joi.string().min(3).max(50).required(),
-    name: Joi.string().min(3).max(50).required(),
+    category: Joi.string().min(2).max(50).required(),
+    name: Joi.string().min(2).max(50).required(),
     amount: Joi.number().min(1).max(255).required(),
-    dietary: Joi.array().items(Joi.string().min(3).max(50)),
+    dietary: Joi.array().items(Joi.string().min(2).max(50)),
   });
 
   return schema.validate(dish);

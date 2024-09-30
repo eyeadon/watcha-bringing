@@ -8,7 +8,7 @@ const bevSchema = z.object({
   category: z.enum(bevCategories, {
     errorMap: () => ({ message: "Category is required" }),
   }),
-  name: z.string().min(3, { message: "Enter at least 3 characters" }).max(50),
+  name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
   amount: z
     .number({ invalid_type_error: "Amount is required" })
     .min(0)

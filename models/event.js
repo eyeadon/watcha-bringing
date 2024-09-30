@@ -5,13 +5,13 @@ const addressSchema = new mongoose.Schema(
   {
     street: {
       type: String,
-      minlength: 3,
+      minlength: 2,
       maxlength: 50,
       trim: true,
     },
     city: {
       type: String,
-      minlength: 3,
+      minlength: 2,
       maxlength: 50,
       trim: true,
     },
@@ -42,7 +42,7 @@ const Event = mongoose.model(
       // category: {
       //   type: String,
       //   required: true,
-      //   minlength: 3,
+      //   minlength: 2,
       //   maxlength: 50,
       //   lowercase: true,
       //   trim: true,
@@ -50,7 +50,7 @@ const Event = mongoose.model(
       name: {
         type: String,
         required: true,
-        minlength: 3,
+        minlength: 2,
         maxlength: 50,
         lowercase: true,
         trim: true,
@@ -58,7 +58,7 @@ const Event = mongoose.model(
       host: {
         type: String,
         required: true,
-        minlength: 3,
+        minlength: 2,
         maxlength: 50,
         lowercase: true,
         trim: true,
@@ -90,12 +90,12 @@ const Event = mongoose.model(
 function validateEvent(event) {
   const schema = Joi.object({
     publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
-    // category: Joi.string().min(3).max(50).required(),
-    name: Joi.string().min(3).max(50).required(),
-    host: Joi.string().min(3).max(50).required(),
+    // category: Joi.string().min(2).max(50).required(),
+    name: Joi.string().min(2).max(50).required(),
+    host: Joi.string().min(2).max(50).required(),
     address: Joi.object({
-      street: Joi.string().min(3).max(50),
-      city: Joi.string().min(3).max(50),
+      street: Joi.string().min(2).max(50),
+      city: Joi.string().min(2).max(50),
       state: Joi.string().min(2).max(2),
       zipcode: Joi.string()
         .min(5)

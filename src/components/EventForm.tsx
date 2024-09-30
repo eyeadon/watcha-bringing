@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { capitalizeFirstLetter } from "../functions/functions";
 
 const eventSchema = z.object({
-  name: z.string().min(3, { message: "Enter at least 3 characters" }).max(50),
-  host: z.string().min(3, { message: "Enter at least 3 characters" }).max(50),
+  name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
+  host: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
   address: z.object({
     street: z
       .string()
-      .min(3, { message: "Enter at least 3 characters" })
+      .min(2, { message: "Enter at least 2 characters" })
       .max(50),
-    city: z.string().min(3, { message: "Enter at least 3 characters" }).max(50),
+    city: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
     state: z.string().min(2).max(2),
     zipcode: z.string().min(5).max(5),
   }),
