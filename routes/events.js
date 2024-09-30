@@ -22,8 +22,7 @@ router.get("/:id", async (req, res) => {
 // get event with dishes/bevs as full objects
 router.get("/subdoc/:publicId", async (req, res) => {
   if (req.params.publicId === "none") {
-    const events = await Event.find();
-    res.send(events);
+    res.send([]);
     return;
   }
 
@@ -105,7 +104,7 @@ router.put("/:id", async (req, res) => {
   if (!event)
     return res.status(404).send("The Event with the given ID was not found.");
 
-  console.log(event);
+  // console.log(event);
   res.send(event);
 });
 
