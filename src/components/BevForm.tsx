@@ -9,10 +9,7 @@ const bevSchema = z.object({
     errorMap: () => ({ message: "Category is required" }),
   }),
   name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
-  amount: z
-    .number({ invalid_type_error: "Amount is required" })
-    .min(0)
-    .max(999),
+  amount: z.number({ invalid_type_error: "Amount is required" }).min(1).max(99),
 });
 
 export type BevFormData = z.infer<typeof bevSchema>;
