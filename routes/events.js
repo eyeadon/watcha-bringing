@@ -94,11 +94,7 @@ router.put("/:id", async (req, res) => {
         date: req.body.date,
         startTime: req.body.startTime,
         endTime: req.body.endTime,
-        dishes: await Dish.find({
-          _id: {
-            $in: req.body.dishes,
-          },
-        }),
+        dishes: req.body.dishes,
         bevs: req.body.bevs,
       },
     },
