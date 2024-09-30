@@ -34,7 +34,7 @@ const apiClientTEvent = new APIClient<EventDocumentType>("/events");
 function App() {
   // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
-
+  // events for event menu
   const [events, setEvents] = useState<EventDocumentType[] | undefined>([]);
 
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
@@ -181,17 +181,6 @@ function App() {
 
                   const selectedEventWithoutId = { ...selectedEvent };
                   delete selectedEventWithoutId._id;
-
-                  // selectedEventNoId.dishes?.forEach(
-                  //   (dish) =>
-                  //     ((dish as unknown as mongoose.Types.ObjectId) =
-                  //       new mongoose.Types.ObjectId(dish))
-                  // );
-                  // console.log(selectedEventNoId.dishes);
-
-                  // console.log(
-                  //   new mongoose.Types.ObjectId("66f72c9c7638f3c2aef12d96")
-                  // );
 
                   // put = (id: number | string, data: T)
                   let resultEvent = await apiClientEvent.put(
