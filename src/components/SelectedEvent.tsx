@@ -6,7 +6,14 @@ interface Props {
 }
 
 const SelectedEvent = ({ selectedEvent }: Props) => {
-  return <h3>Current Event: {capitalizeFirstLetter(selectedEvent.name)}</h3>;
+  return (
+    <h3>
+      Current Event:&nbsp;
+      <span id="selectedEventTitle">
+        {capitalizeFirstLetter(selectedEvent.name)}
+      </span>
+    </h3>
+  );
 };
 
 export default SelectedEvent;
