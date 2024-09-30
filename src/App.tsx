@@ -123,18 +123,19 @@ function App() {
             <EventForm
               onSubmit={(newEvent) => {
                 const publicId = nanoid();
+                const newEventWithPublicId = {
+                  ...newEvent,
+                  publicId: publicId,
+                };
 
                 let postEvent = async () => {
-                  let resultEvent = await apiClientEvent.post({
-                    ...newEvent,
-                    publicId: publicId,
-                  });
+                  let resultEvent = await apiClientEvent.post(
+                    newEventWithPublicId
+                  );
 
                   // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
-                  setSelectedEvent({
-                    ...newEvent,
-                    publicId: publicId,
-                  });
+                  setSelectedEvent(resultEvent);
+                  setEvents([...(events || []), { ...resultEvent }]);
 
                   console.log(resultEvent);
                 };
@@ -190,6 +191,14 @@ function App() {
                   );
 
                   console.log(resultEvent);
+
+                  const latestEvents = [...(events || [])];
+                  latestEvents?.forEach((element) => {
+                    if (element.publicId === resultEvent.publicId)
+                      element = resultEvent;
+                  });
+
+                  setEvents(latestEvents);
                 };
 
                 await putEvent();
