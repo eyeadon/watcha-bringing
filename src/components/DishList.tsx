@@ -8,7 +8,7 @@ interface Props {
 
 const DishList = ({ dishes }: Props) => {
   if (dishes.length === 0) return null;
-
+  console.log("DishList run");
   return (
     <table className="table table-bordered" key="dishTable">
       <thead>

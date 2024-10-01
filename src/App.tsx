@@ -29,10 +29,10 @@ const apiClientBev = new APIClient<Bev>("/bevs");
 const apiClientEvent = new APIClient<Event>("/events");
 const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
 const apiClientTEvent = new APIClient<EventDocumentType>("/events");
-// const apiClientEventDishes = new APIClient<Dish[]>("/events");
+const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 function App() {
-  // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
+  const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
   // events for event menu
   const [events, setEvents] = useState<EventDocumentType[] | undefined>([]);
@@ -62,8 +62,8 @@ function App() {
   // initial load of data for lists being displayed
   useLayoutEffect(() => {
     setEvents(responseEvents.data);
+    console.log(responseEvents);
   }, [responseEvents.data]);
-  console.log(responseEvents);
 
   // returns UseQueryResult containing dishes
   const responseEventSelectionDishes = useEventSubDoc(
@@ -75,6 +75,15 @@ function App() {
   // dishes array
   // console.log(responseEventSelectionDishes.data);
 
+  // const getEventDishes = async () => {
+  //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
+  //   setDishes(data);
+  // };
+
+  // useEffect(() => {
+  //   getEventDishes();
+  // }, [selectedEvent]);
+
   function visibleItemsFilterHelper(
     arr: Dish[] | Bev[] | undefined,
     selCat: string,
@@ -82,7 +91,7 @@ function App() {
   ) {
     if (arr === undefined) return [];
     if (selCat === allCats) return arr;
-
+    console.log("func run");
     return selCat
       ? arr.filter((element: Dish | Bev) => element.category === selCat)
       : arr;
@@ -92,6 +101,7 @@ function App() {
   // DishList is consumer
   const visibleDishes = visibleItemsFilterHelper(
     responseEventSelectionDishes.data,
+    // dishes,
     selectedDishCategory,
     "All Dish Categories"
   );
@@ -135,6 +145,7 @@ function App() {
 
                   // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
                   setSelectedEvent(resultEvent);
+                  // add new event to events state variable
                   setEvents([...(events || []), { ...resultEvent }]);
 
                   console.log(resultEvent);
@@ -192,6 +203,7 @@ function App() {
 
                   console.log(resultEvent);
 
+                  // update event in events state variable
                   const latestEvents = [...(events || [])];
                   latestEvents?.forEach((element) => {
                     if (element.publicId === resultEvent.publicId)
