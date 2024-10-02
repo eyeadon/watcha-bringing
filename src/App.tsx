@@ -72,9 +72,6 @@ function App() {
     selectedEvent.publicId
   );
 
-  // dishes array
-  // console.log(responseEventSelectionDishes.data);
-
   // const getEventDishes = async () => {
   //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
   //   setDishes(data);
@@ -143,8 +140,8 @@ function App() {
                     newEventWithPublicId
                   );
 
-                  // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
                   setSelectedEvent(resultEvent);
+
                   // add new event to events state variable
                   setEvents([...(events || []), { ...resultEvent }]);
 
@@ -177,17 +174,22 @@ function App() {
 
                   const resultDishId = resultDish._id?.toString();
 
-                  if (resultDishId === undefined) throw Error;
-                  if (selectedEvent.dishes === undefined) throw Error;
+                  if (resultDishId === undefined)
+                    throw new Error("resultDishId is undefined");
+                  if (selectedEvent.dishes === undefined)
+                    throw new Error("selectedEvent.dishes is undefined");
 
                   // add new dish to selected event
-                  selectedEvent.dishes.push(resultDishId);
+                  selectedEvent.publicId !== "none"
+                    ? selectedEvent.dishes.push(resultDishId)
+                    : new Error("no event selected");
                 };
 
                 await postDish();
 
                 let putEvent = async () => {
-                  if (selectedEvent._id === undefined) throw Error;
+                  if (selectedEvent._id === undefined)
+                    throw new Error("selectedEvent._id is undefined");
 
                   const selectedEventId = selectedEvent._id.toString();
 
