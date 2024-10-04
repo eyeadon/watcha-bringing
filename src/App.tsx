@@ -66,9 +66,7 @@ function App() {
   }, [responseEvents.data]);
 
   // // returns UseQueryResult containing dishes
-  // const responseEventSelectionDishes = useEventSubDoc(
-  //   selectedEvent.publicId
-  // );
+  // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
 
   // const getEventDishes = async () => {
   //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
