@@ -65,12 +65,10 @@ function App() {
     console.log(responseEvents);
   }, [responseEvents.data]);
 
-  // returns UseQueryResult containing dishes
-  const responseEventSelectionDishes = useEventSubDoc(
-    // "4jdh6jf8ejfu6768gjeu4"
-    // "4jdh6jf8ejfu6768gjeu5"
-    selectedEvent.publicId
-  );
+  // // returns UseQueryResult containing dishes
+  // const responseEventSelectionDishes = useEventSubDoc(
+  //   selectedEvent.publicId
+  // );
 
   // const getEventDishes = async () => {
   //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
@@ -81,34 +79,12 @@ function App() {
   //   getEventDishes();
   // }, [selectedEvent]);
 
-  function visibleItemsFilterHelper(
-    arr: Dish[] | Bev[] | undefined,
-    selCat: string,
-    allCats: string
-  ) {
-    if (arr === undefined) return [];
-    if (selCat === allCats) return arr;
-    console.log("func run");
-    return selCat
-      ? arr.filter((element: Dish | Bev) => element.category === selCat)
-      : arr;
-  }
-
-  // if data is undefined, value will be []
-  // DishList is consumer
-  const visibleDishes = visibleItemsFilterHelper(
-    responseEventSelectionDishes.data,
-    // dishes,
-    selectedDishCategory,
-    "All Dish Categories"
-  );
-
-  // if data is undefined, value will be []
-  const visibleBevs = visibleItemsFilterHelper(
-    bevs,
-    selectedBevCategory,
-    "All Beverage Categories"
-  );
+  // // if data is undefined, value will be []
+  // const visibleBevs = visibleItemsFilterHelper(
+  //   bevs,
+  //   selectedBevCategory,
+  //   "All Beverage Categories"
+  // );
 
   return (
     <div className="container">
@@ -247,17 +223,20 @@ function App() {
         <h2>Who's Bringing What?</h2>
         <h3>Dishes</h3>
         <DishFilter
-          onSelectCategory={(category) => setSelectedDishCategory(category)}
+          onSelectCategory={(category) => {
+            setSelectedDishCategory(category);
+          }}
         />
       </div>
       <div className="mb-3">
         <DishList
-          dishes={visibleDishes}
+          selectedEvent={selectedEvent}
+          selectedDishCategory={selectedDishCategory}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
         />
       </div>
 
-      <div className="mb-3">
+      {/* <div className="mb-3">
         <h3>Beverages</h3>
         <BevFilter
           onSelectCategory={(category) => setSelectedBevCategory(category)}
@@ -268,7 +247,7 @@ function App() {
           bevs={visibleBevs}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
         />
-      </div>
+      </div> */}
 
       {/* </ExpandableSectionMenu> */}
 

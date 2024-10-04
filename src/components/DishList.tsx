@@ -1,14 +1,33 @@
-import { Dish } from "../interfaces/interfaces";
-import { capitalizeFirstLetter } from "../functions/functions";
+import { Dish, Event } from "../interfaces/interfaces";
+import {
+  capitalizeFirstLetter,
+  visibleItemsFilterHelper,
+} from "../functions/functions";
+import useEventSubDoc from "../hooks/useEventSubDoc";
 
 interface Props {
-  dishes: Dish[];
+  selectedEvent: Event;
+  selectedDishCategory: string;
   // onDelete: (id: number) => void;
 }
 
-const DishList = ({ dishes }: Props) => {
-  if (dishes.length === 0) return null;
+const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
+  if (selectedEvent.dishes === undefined) return null;
+
+  // returns UseQueryResult containing dishes in data property
+  const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
+
+  // if data is undefined, value will be []
+  // DishList is consumer
+  const visibleDishes: Dish[] = visibleItemsFilterHelper(
+    responseEventSelectionDishes.data,
+    selectedDishCategory,
+    "All Dish Categories"
+  );
+
   console.log("DishList run");
+  console.log(responseEventSelectionDishes.data);
+
   return (
     <table className="table table-bordered" key="dishTable">
       <thead>
@@ -20,7 +39,7 @@ const DishList = ({ dishes }: Props) => {
         </tr>
       </thead>
       <tbody key="dishTableBody">
-        {dishes.map((dish) => (
+        {visibleDishes.map((dish) => (
           <tr key={dish.publicId}>
             <td>{capitalizeFirstLetter(dish.category)}</td>
             <td>{capitalizeFirstLetter(dish.name)}</td>
