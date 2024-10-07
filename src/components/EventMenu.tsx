@@ -11,17 +11,19 @@ const EventMenu = ({ events, onSelectEvent }: Props) => {
   return (
     <div className="col-sm mb-3">
       {events?.map((ev) => (
-        <p key={ev.publicId}>
-          <a
-            href="#"
-            onClick={(event) => {
-              event.preventDefault();
-              onSelectEvent(ev);
-            }}
-          >
-            {capitalizeFirstLetter(ev.name)}
-          </a>
-        </p>
+        <div className="d-inline-flex p-2">
+          <p key={ev.publicId}>
+            <a
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                onSelectEvent(ev);
+              }}
+            >
+              {capitalizeFirstLetter(ev.name)}
+            </a>
+          </p>
+        </div>
       ))}
     </div>
   );
