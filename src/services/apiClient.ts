@@ -6,7 +6,6 @@ import axios, { AxiosRequestConfig } from "axios";
 //   results: T[];
 // }
 
-//TODO need baseURL
 const axiosInstance = axios.create({
   baseURL: "http://localhost:3000/api",
   // params: {
@@ -57,7 +56,7 @@ class APIClient<T> {
   // get sub doc
   getSubDoc = (id: number | string) => {
     return axiosInstance
-      .get<T>(this.endpoint + "/" + "subdoc" + "/" + id)
+      .get<T>(this.endpoint + "/subdoc/" + id)
       .then((res) => res.data);
   };
 
