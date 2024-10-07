@@ -32,7 +32,7 @@ const apiClientTEvent = new APIClient<EventDocumentType>("/events");
 const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 function App() {
-  const [dishes, setDishes] = useState<Dish[] | undefined>([]);
+  // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   const [bevs, setBevs] = useState<Bev[] | undefined>([]);
   // events for event menu
   const [events, setEvents] = useState<EventDocumentType[] | undefined>([]);
@@ -178,6 +178,8 @@ function App() {
                   );
 
                   console.log(resultEvent);
+
+                  setSelectedEvent(resultEvent);
 
                   // update event in events state variable
                   const latestEvents = [...(events || [])];

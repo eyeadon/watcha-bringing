@@ -6,7 +6,6 @@ import {
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import APIClient from "../services/apiClient";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 interface Props {
   selectedEvent: Event;
@@ -14,14 +13,7 @@ interface Props {
   // onDelete: (id: number) => void;
 }
 
-const axiosInstance = axios.create({
-  baseURL: "http://localhost:3000/api",
-  // params: {
-  //   key: "",
-  // },
-});
-
-// const apiClientEventDishes = new APIClient<Dish[]>("/events");
+const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
@@ -37,37 +29,23 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
   // const { data, isLoading, status } = useEventSubDoc(selectedEvent.publicId);
 
-  // const getEventDishes = async () => {
-  //   const responseEventSelectionDishes = await apiClientEventDishes.getSubDoc(
-  //     selectedEvent.publicId
-  //   );
-
-  // const visibleDishes = getEventDishes();
-
-  //   console.log(responseEventSelectionDishes);
-
-  // get sub doc
-  const getSubDoc = async (id: number | string) => {
-    let data = await axiosInstance
-      .get<Dish[]>("/events" + "/subdoc/" + id)
-      .then((res) => res.data)
-      .then((data) =>
-        visibleItemsFilterHelper(
-          data,
-          selectedDishCategory,
-          "All Dish Categories"
-        )
-      );
-
+  const getSubDoc = async () => {
+    let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
     setDishes(data);
   };
 
   useEffect(() => {
-    getSubDoc(selectedEvent.publicId);
+    getSubDoc();
   }, [selectedEvent]);
 
+  const eventDishes = visibleItemsFilterHelper(
+    dishes,
+    selectedDishCategory,
+    "All Dish Categories"
+  );
+
   console.log("DishList run");
-  console.log(dishes);
+  console.log(eventDishes);
 
   return (
     <table className="table table-bordered" key="dishTable">
@@ -81,20 +59,19 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       </thead>
       <tbody key="dishTableBody">
         {/* {status === "success" && */}
-        {Array.isArray(dishes) &&
-          dishes.map((dish: Dish) => (
-            <tr key={dish.publicId}>
-              <td>{capitalizeFirstLetter(dish.category)}</td>
-              <td>{capitalizeFirstLetter(dish.name)}</td>
-              <td>{dish.amount}</td>
-              <td>
-                {dish.dietary?.map((diet, index, arr) => {
-                  // last item has no comma after it
-                  return index === arr.length - 1 ? diet : `${diet}, `;
-                })}
-              </td>
-            </tr>
-          ))}
+        {eventDishes.map((dish: Dish) => (
+          <tr key={dish.publicId}>
+            <td>{capitalizeFirstLetter(dish.category)}</td>
+            <td>{capitalizeFirstLetter(dish.name)}</td>
+            <td>{dish.amount}</td>
+            <td>
+              {dish.dietary?.map((diet, index, arr) => {
+                // last item has no comma after it
+                return index === arr.length - 1 ? diet : `${diet}, `;
+              })}
+            </td>
+          </tr>
+        ))}
       </tbody>
       {/* <tfoot>
         <tr>
