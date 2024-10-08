@@ -7,7 +7,7 @@ const apiClient = new APIClient<Dish[]>("/events");
 
 const useEventSubDoc = (id: string) =>
   useQuery({
-    queryKey: ["event", id],
+    queryKey: ["selectedEvent", id],
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Event>>("/events").then((res) => res.data),
     queryFn: () => apiClient.getSubDoc(id),
