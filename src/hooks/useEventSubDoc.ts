@@ -1,5 +1,5 @@
 import { Dish, Event } from "../interfaces/interfaces";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, Query } from "@tanstack/react-query";
 import APIClient from "../services/apiClient";
 import ms from "ms";
 
@@ -13,8 +13,7 @@ const useEventSubDoc = (id: string) =>
     queryFn: () => apiClient.getSubDoc(id),
 
     staleTime: 0,
-    // events -> mongodb data
-    // initialData: events,
+    // refetchInterval: ( query) => {return query}
   });
 
 export default useEventSubDoc;

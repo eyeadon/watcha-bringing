@@ -179,7 +179,7 @@ function App() {
 
                   console.log(resultEvent);
 
-                  setSelectedEvent(resultEvent);
+                  // setSelectedEvent(resultEvent);
 
                   // update event in events state variable
                   const latestEvents = [...(events || [])];

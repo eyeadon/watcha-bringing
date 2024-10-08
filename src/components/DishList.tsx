@@ -27,7 +27,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // get array of full dish objects from selectedEvent by using its publicId
   // returns UseQueryResult containing dishes in data property responseEventSelectionDishes.data
   // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
-  const { data, isLoading, status } = useEventSubDoc(selectedEvent.publicId);
+  const { data, isLoading, status, refetch } = useEventSubDoc(
+    selectedEvent.publicId
+  );
 
   // const getSubDoc = async () => {
   //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
@@ -38,6 +40,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   //   getSubDoc();
   // }, [selectedEvent]);
 
+  console.log(data);
+
   const eventDishes = visibleItemsFilterHelper(
     // dishes,
     data,
@@ -45,6 +49,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     "All Dish Categories"
   );
 
+  refetch();
   console.log("DishList run");
   console.log(eventDishes);
 
