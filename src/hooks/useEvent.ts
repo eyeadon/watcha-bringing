@@ -12,7 +12,7 @@ const useEvent = (id: string) =>
     //   apiClient.get<FetchResponse<Event>>("/Eventes").then((res) => res.data),
     queryFn: () => apiClient.get(id),
 
-    staleTime: ms("24h"),
+    staleTime: 0,
     // Eventes -> mongodb data
     // initialData: Eventes,
   });

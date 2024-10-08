@@ -12,7 +12,7 @@ const useEventSubDoc = (id: string) =>
     //   apiClient.get<FetchResponse<Event>>("/events").then((res) => res.data),
     queryFn: () => apiClient.getSubDoc(id),
 
-    staleTime: ms("24h"),
+    staleTime: 0,
     // events -> mongodb data
     // initialData: events,
   });

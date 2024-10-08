@@ -12,7 +12,7 @@ const useDishes = () =>
     //   apiClient.get<FetchResponse<Dish>>("/dishes").then((res) => res.data),
     queryFn: apiClient.getAll,
 
-    staleTime: ms("24h"),
+    staleTime: 0,
     // dishes -> mongodb data
     // initialData: dishes,
   });

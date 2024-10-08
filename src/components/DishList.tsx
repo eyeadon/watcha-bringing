@@ -18,28 +18,29 @@ const apiClientEventDishes = new APIClient<Dish[]>("/events");
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
 
-  const [dishes, setDishes] = useState<Dish[] | undefined>([]);
+  // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
 
   // const [status, setStatus] = useState<"pending" | "success" | "error">(
   //   "pending"
   // );
 
-  // // get array of full dish objects from selectedEvent by using its publicId
-  // // returns UseQueryResult containing dishes in data property responseEventSelectionDishes.data
-  // // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
-  // const { data, isLoading, status } = useEventSubDoc(selectedEvent.publicId);
+  // get array of full dish objects from selectedEvent by using its publicId
+  // returns UseQueryResult containing dishes in data property responseEventSelectionDishes.data
+  // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
+  const { data, isLoading, status } = useEventSubDoc(selectedEvent.publicId);
 
-  const getSubDoc = async () => {
-    let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
-    setDishes(data);
-  };
+  // const getSubDoc = async () => {
+  //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
+  //   setDishes(data);
+  // };
 
-  useEffect(() => {
-    getSubDoc();
-  }, [selectedEvent]);
+  // useEffect(() => {
+  //   getSubDoc();
+  // }, [selectedEvent]);
 
   const eventDishes = visibleItemsFilterHelper(
-    dishes,
+    // dishes,
+    data,
     selectedDishCategory,
     "All Dish Categories"
   );
