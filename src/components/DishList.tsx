@@ -6,6 +6,7 @@ import {
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import APIClient from "../services/apiClient";
 import { useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface Props {
   selectedEvent: Event;
@@ -23,6 +24,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // const [status, setStatus] = useState<"pending" | "success" | "error">(
   //   "pending"
   // );
+
+  const queryClient = useQueryClient();
+  queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
 
   // get array of full dish objects from selectedEvent by using its publicId
   // returns UseQueryResult containing dishes in data property responseEventSelectionDishes.data
@@ -49,7 +53,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     "All Dish Categories"
   );
 
-  refetch();
+  // refetch();
   console.log("DishList run");
   console.log(eventDishes);
 
