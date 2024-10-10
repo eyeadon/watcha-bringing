@@ -112,11 +112,11 @@ function App() {
     reset: putEventReset,
     status: putEventStatus,
   } = useMutation({
-    mutationFn: (event: EventDocumentType) => {
-      if (event._id === undefined)
+    mutationFn: (event: Event) => {
+      if (selectedEvent._id === undefined)
         throw new Error("selectedEvent._id is undefined");
 
-      return apiClientEvent.put(event._id.toString(), event);
+      return apiClientEvent.put(selectedEvent._id.toString(), event);
     },
     // called before mutation is executed
     //        (input -> data to be sent to back end)
