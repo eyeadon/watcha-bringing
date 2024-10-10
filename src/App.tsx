@@ -24,6 +24,7 @@ import EventForm from "./components/EventForm";
 import mongoose from "mongoose";
 import SelectedEvent from "./components/SelectedEvent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useDishes from "./hooks/useDishes";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -59,21 +60,23 @@ function App() {
 
   const queryClient = useQueryClient();
 
-  // const {
-  //   data: postDishData,
-  //   error: postDishError,
-  //   isError:postDishIsError,
-  //   isPending:postDishIsPending,
-  //   isSuccess:postDishIsSuccess,
-  //   mutate: postDishMutate,
-  //   reset:postDishReset,
-  //   status:postDishStatus,
-  // } = useMutation({
-  //   mutationFn: (newDish: Dish) => {
-  //     return apiClientDish.post(newDish);
-  //   },
-  // });
+  // post Dish
+  const {
+    data: postDishData,
+    error: postDishError,
+    isError: postDishIsError,
+    isPending: postDishIsPending,
+    isSuccess: postDishIsSuccess,
+    mutate: postDishMutate,
+    reset: postDishReset,
+    status: postDishStatus,
+  } = useMutation({
+    mutationFn: (newDish: Dish) => {
+      return apiClientDish.post(newDish);
+    },
+  });
 
+  // post Event
   const {
     data: postEventData,
     error: postEventError,
@@ -98,23 +101,44 @@ function App() {
     },
   });
 
-  // const {
-  //   data: putEventData,
-  //   error:putEventError,
-  //   isError:putEventIsError,
-  //   isPending:putEventIsPending,
-  //   isSuccess:putEventIsSuccess,
-  //   mutate: putEventMutate,
-  //   reset:putEventReset,
-  //   status:putEventStatus,
-  // } = useMutation({
-  //   mutationFn: (event: EventDocumentType) => {
-  //     if (event._id === undefined)
-  //       throw new Error("selectedEvent._id is undefined");
+  // put Event
+  const {
+    data: putEventData,
+    error: putEventError,
+    isError: putEventIsError,
+    isPending: putEventIsPending,
+    isSuccess: putEventIsSuccess,
+    mutate: putEventMutate,
+    reset: putEventReset,
+    status: putEventStatus,
+  } = useMutation({
+    mutationFn: (event: EventDocumentType) => {
+      if (event._id === undefined)
+        throw new Error("selectedEvent._id is undefined");
 
-  //     return apiClientEvent.put(event._id.toString(), event);
-  //   },
-  // });
+      return apiClientEvent.put(event._id.toString(), event);
+    },
+    // called before mutation is executed
+    //        (input -> data to be sent to back end)
+    onMutate: (newEvent: Event) => {
+      //                              (queryKey, updater, options?)
+      queryClient.setQueryData<Event[]>(["events"], (events) => [
+        newEvent,
+        ...(events || []),
+      ]);
+    },
+  });
+
+  const {
+    data: responseDishesData,
+    error: responseDishesError,
+    isError: responseDishesIsError,
+    isLoading: responseDishesIsLoading,
+    isPending: responseDishesIsPending,
+    isSuccess: responseDishesIsSuccess,
+    refetch: responseDishesRefetch,
+    status: responseDishesStatus,
+  } = useDishes();
 
   const {
     data: responseEventsData,
@@ -191,64 +215,68 @@ function App() {
         </ExpandableSectionButton>
       </div>
 
-      {/* <div className="row"> */}
-      {/* <ExpandableSectionButton buttonLabelText="Add Dish">
+      <div className="row">
+        <ExpandableSectionButton buttonLabelText="Add Dish">
           <div className="mb-5">
             <h2>What Dish?</h2>
             <DishForm
               onSubmit={async (newDish) => {
                 const publicId = nanoid();
-
-                postDishMutate({
-                    ...newDish,
-                    publicId: publicId,
-                  });
-
-                  console.log(postDishData);
-
-                  const resultDishId = postDishData._id?.toString();
-
-                  if (resultDishId === undefined)
-                    throw new Error("resultDishId is undefined");
-                  if (selectedEvent.dishes === undefined)
-                    throw new Error("selectedEvent.dishes is undefined");
-
-                  // add new dish to selected event
-                  selectedEvent.publicId !== "none"
-                    ? selectedEvent.dishes.push(resultDishId)
-                    : new Error("no event selected");
+                const newDishWithPublicId = {
+                  ...newDish,
+                  publicId: publicId,
                 };
 
-                await postDish();
+                postDishMutate(newDishWithPublicId);
 
-                  if (selectedEvent._id === undefined)
-                    throw new Error("selectedEvent._id is undefined");
+                console.log(postDishData);
 
-                  const selectedEventId = selectedEvent._id.toString();
+                if (responseDishesData === undefined)
+                  throw new Error("responseDishesData is undefined");
 
-                  const selectedEventWithoutId = { ...selectedEvent };
-                  delete selectedEventWithoutId._id;
+                const resultDish = responseDishesData.find(
+                  (element: Dish) =>
+                    element.publicId === newDishWithPublicId.publicId
+                );
 
-                  putEventMutate(selectedEventWithoutId);
+                if (resultDish === undefined)
+                  throw new Error("resultDish is undefined");
 
-                  console.log(putEventData);
+                const resultDishId = resultDish._id?.toString();
 
-                  // setSelectedEvent(resultEvent);
+                if (resultDishId === undefined)
+                  throw new Error("resultDishId is undefined");
+                if (selectedEvent.dishes === undefined)
+                  throw new Error("selectedEvent.dishes is undefined");
 
-                  // // update event in events state variable
-                  // const latestEvents = [...(events || [])];
-                  // latestEvents?.forEach((element) => {
-                  //   if (element.publicId === putEventData.publicId)
-                  //     element = putEventData;
-                  // });
+                // add newDish id to selectedEvent
+                selectedEvent.publicId !== "none"
+                  ? selectedEvent.dishes.push(resultDishId)
+                  : new Error("no event selected");
 
-                  // setEvents(latestEvents);
+                const selectedEventWithoutId = { ...selectedEvent };
+                delete selectedEventWithoutId._id;
+
+                putEventMutate(selectedEventWithoutId);
+
+                console.log(putEventData);
+
+                // setSelectedEvent(resultEvent);
+
+                // // update event in events state variable
+                // const latestEvents = [...(events || [])];
+                // latestEvents?.forEach((element) => {
+                //   if (element.publicId === putEventData.publicId)
+                //     element = putEventData;
+                // });
+
+                // setEvents(latestEvents);
               }}
             />
           </div>
-        </ExpandableSectionButton> */}
+        </ExpandableSectionButton>
 
-      {/* <ExpandableSectionButton buttonLabelText="Add Beverage">
+        {/* <ExpandableSectionButton buttonLabelText="Add Beverage">
           <div className="mb-5">
             <h2>What Beverage?</h2>
             <BevForm
@@ -299,6 +327,8 @@ function App() {
         />
       </div> 
  */}
+        {/* end row */}
+      </div>
       {/* end container */}
     </div>
   );
