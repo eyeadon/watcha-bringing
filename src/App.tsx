@@ -240,7 +240,7 @@ function App() {
                 // *********************************************************
 
                 // find newDish newly created _id
-                const { data: resultDish } = useDish(
+                const resultDish = await apiClientTDish.getSubDoc(
                   newDishWithPublicId.publicId
                 );
 
