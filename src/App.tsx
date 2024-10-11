@@ -74,6 +74,13 @@ function App() {
     mutationFn: (newDish: Dish) => {
       return apiClientDish.post(newDish);
     },
+    onSuccess: (newDish: Dish) => {
+      //                              (queryKey, updater, options?)
+      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => [
+        newDish,
+        ...(dishes || []),
+      ]);
+    },
   });
 
   // post Event
@@ -90,9 +97,7 @@ function App() {
     mutationFn: (newEvent: Event) => {
       return apiClientEvent.post(newEvent);
     },
-    // called before mutation is executed
-    //        (input -> data to be sent to back end)
-    onMutate: (newEvent: Event) => {
+    onSuccess: (newEvent: Event) => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Event[]>(["events"], (events) => [
         newEvent,
@@ -118,14 +123,14 @@ function App() {
 
       return apiClientEvent.put(selectedEvent._id.toString(), event);
     },
-    // called before mutation is executed
-    //        (input -> data to be sent to back end)
-    onMutate: (newEvent: Event) => {
+    onMutate: (event: Event) => {
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Event[]>(["events"], (events) => [
-        newEvent,
-        ...(events || []),
-      ]);
+      queryClient.setQueryData<Event[]>(["events"], (events) => {
+        events?.forEach((element) => {
+          if (element.publicId === event.publicId) element = event;
+        });
+        return events;
+      });
     },
   });
 
@@ -230,6 +235,8 @@ function App() {
                 postDishMutate(newDishWithPublicId);
 
                 console.log(postDishData);
+
+                // *********************************************************
 
                 if (responseDishesData === undefined)
                   throw new Error("responseDishesData is undefined");
