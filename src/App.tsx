@@ -25,6 +25,7 @@ import mongoose from "mongoose";
 import SelectedEvent from "./components/SelectedEvent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useDishes from "./hooks/useDishes";
+import useDish from "./hooks/useDish";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -134,16 +135,16 @@ function App() {
     },
   });
 
-  const {
-    data: responseDishesData,
-    error: responseDishesError,
-    isError: responseDishesIsError,
-    isLoading: responseDishesIsLoading,
-    isPending: responseDishesIsPending,
-    isSuccess: responseDishesIsSuccess,
-    refetch: responseDishesRefetch,
-    status: responseDishesStatus,
-  } = useDishes();
+  // const {
+  //   data: responseDishesData,
+  //   error: responseDishesError,
+  //   isError: responseDishesIsError,
+  //   isLoading: responseDishesIsLoading,
+  //   isPending: responseDishesIsPending,
+  //   isSuccess: responseDishesIsSuccess,
+  //   refetch: responseDishesRefetch,
+  //   status: responseDishesStatus,
+  // } = useDishes();
 
   const {
     data: responseEventsData,
@@ -238,12 +239,9 @@ function App() {
 
                 // *********************************************************
 
-                if (responseDishesData === undefined)
-                  throw new Error("responseDishesData is undefined");
-
-                const resultDish = responseDishesData.find(
-                  (element: Dish) =>
-                    element.publicId === newDishWithPublicId.publicId
+                // find newDish newly created _id
+                const { data: resultDish } = useDish(
+                  newDishWithPublicId.publicId
                 );
 
                 if (resultDish === undefined)
