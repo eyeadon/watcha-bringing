@@ -20,7 +20,7 @@ import {
 } from "./interfaces/interfaces";
 import APIClient from "./services/apiClient";
 import EventForm from "./components/EventForm";
-import SelectedEvent from "./components/SelectedEvent";
+import SelectedEventTitle from "./components/SelectedEventTitle";
 import { emptyEvent } from "./constants";
 import usePostDish from "./hooks/usePostDish";
 import usePostEvent from "./hooks/usePostEvent";
@@ -131,7 +131,7 @@ function App() {
           // console.log(selectedEvent);
         }}
       />
-      <SelectedEvent selectedEvent={selectedEvent} />
+      <SelectedEventTitle selectedEvent={selectedEvent} />
 
       <div className="row">
         <ExpandableSectionButton buttonLabelText="Add Event">

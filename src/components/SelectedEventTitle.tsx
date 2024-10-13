@@ -5,7 +5,7 @@ interface Props {
   selectedEvent: Event;
 }
 
-const SelectedEvent = ({ selectedEvent }: Props) => {
+const SelectedEventTitle = ({ selectedEvent }: Props) => {
   return (
     <h3>
       Current Event:&nbsp;
@@ -16,4 +16,4 @@ const SelectedEvent = ({ selectedEvent }: Props) => {
   );
 };
 
-export default SelectedEvent;
+export default SelectedEventTitle;
