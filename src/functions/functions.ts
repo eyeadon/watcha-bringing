@@ -1,6 +1,6 @@
 import { Dish, Bev } from "../interfaces/interfaces";
 
-function visibleItemsFilterHelper(
+export function visibleItemsFilterHelper(
   arr: Dish[] | Bev[] | undefined,
   selCat: string,
   allCats: string
@@ -13,8 +13,6 @@ function visibleItemsFilterHelper(
     : arr;
 }
 
-function capitalizeFirstLetter(string: string) {
+export function capitalizeFirstLetter(string: string) {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : null;
 }
-
-export { visibleItemsFilterHelper, capitalizeFirstLetter };

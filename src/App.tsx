@@ -26,6 +26,19 @@ import SelectedEvent from "./components/SelectedEvent";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useDishes from "./hooks/useDishes";
 import useDish from "./hooks/useDish";
+import { emptyEvent } from "./constants";
+
+interface PostDishContext {
+  previousDishes: Dish[];
+}
+
+interface PostEventContext {
+  previousEvents: Event[];
+}
+
+interface PutEventContext {
+  previousEvents: Event[];
+}
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -42,26 +55,15 @@ function App() {
 
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
-  const [selectedEvent, setSelectedEvent] = useState<EventDocumentType>({
-    publicId: "none",
-    name: "",
-    host: "",
-    address: {
-      street: "",
-      city: "",
-      state: "",
-      zipcode: "",
-    },
-    date: "",
-    startTime: "",
-    endTime: "",
-    dishes: [],
-    bevs: [],
-  });
+  const [selectedEvent, setSelectedEvent] =
+    useState<EventDocumentType>(emptyEvent);
 
   const queryClient = useQueryClient();
 
   // post Dish
+  // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
+  // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
+  // useMutation<data: get from backend, error, variables: data sent to backend, context>
   const {
     data: postDishData,
     error: postDishError,
@@ -69,18 +71,42 @@ function App() {
     isPending: postDishIsPending,
     isSuccess: postDishIsSuccess,
     mutate: postDishMutate,
+    mutateAsync: postDishMutateAsync,
     reset: postDishReset,
     status: postDishStatus,
-  } = useMutation({
+  } = useMutation<DishDocumentType, Error, Dish, PostDishContext>({
     mutationFn: (newDish: Dish) => {
       return apiClientDish.post(newDish);
     },
-    onSuccess: (newDish: Dish) => {
+    onMutate: (newDish: Dish) => {
+      // if undefined, return []
+      const previousDishes = queryClient.getQueryData<Dish[]>(["dishes"]) || [];
+
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => [
         newDish,
         ...(dishes || []),
       ]);
+
+      // can access in onError callback
+      return { previousDishes };
+    },
+    onSuccess: (savedDish, newDish: Dish) => {
+      //                              (queryKey, updater, options?)
+      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
+        // replace newDish instance set by onMutate with proper savedDish
+        dishes?.forEach((element) => {
+          if (element.publicId === newDish.publicId) element = savedDish;
+        });
+        return dishes;
+      });
+    },
+    //       (error, variables, context)
+    // use context in case request fails
+    onError: (error, newDish, context) => {
+      if (!context) return;
+
+      queryClient.setQueryData<Dish[]>(["dishes"], context.previousDishes);
     },
   });
 
@@ -92,18 +118,43 @@ function App() {
     isPending: postEventIsPending,
     isSuccess: postEventIsSuccess,
     mutate: postEventMutate,
+    mutateAsync: postEventMutateAsync,
     reset: postEventReset,
     status: postEventStatus,
-  } = useMutation({
+  } = useMutation<EventDocumentType, Error, Event, PostEventContext>({
     mutationFn: (newEvent: Event) => {
       return apiClientEvent.post(newEvent);
     },
-    onSuccess: (newEvent: Event) => {
+    onMutate: (newEvent: Event) => {
+      // if undefined, return []
+      const previousEvents =
+        queryClient.getQueryData<Event[]>(["events"]) || [];
+
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Event[]>(["events"], (events) => [
         newEvent,
         ...(events || []),
       ]);
+
+      // can access in onError callback
+      return { previousEvents };
+    },
+    onSuccess: (savedEvent, newEvent: Event) => {
+      //                              (queryKey, updater, options?)
+      queryClient.setQueryData<Event[]>(["events"], (events) => {
+        // replace newEvent instance set by onMutate with proper savedEvent
+        events?.forEach((element) => {
+          if (element.publicId === newEvent.publicId) element = savedEvent;
+        });
+        return events;
+      });
+    },
+    //       (error, variables, context)
+    // use context in case request fails
+    onError: (error, newEvent, context) => {
+      if (!context) return;
+
+      queryClient.setQueryData<Event[]>(["events"], context.previousEvents);
     },
   });
 
@@ -115,23 +166,49 @@ function App() {
     isPending: putEventIsPending,
     isSuccess: putEventIsSuccess,
     mutate: putEventMutate,
+    mutateAsync: putEventMutateAsync,
     reset: putEventReset,
     status: putEventStatus,
-  } = useMutation({
-    mutationFn: (event: Event) => {
+  } = useMutation<EventDocumentType, Error, Event, PutEventContext>({
+    mutationFn: (eventToUpdate: Event) => {
       if (selectedEvent._id === undefined)
         throw new Error("selectedEvent._id is undefined");
 
-      return apiClientEvent.put(selectedEvent._id.toString(), event);
+      return apiClientEvent.put(selectedEvent._id.toString(), eventToUpdate);
     },
-    onMutate: (event: Event) => {
+    onMutate: (eventToUpdate: Event) => {
+      // if undefined, return []
+      const previousEvents =
+        queryClient.getQueryData<Event[]>(["events"]) || [];
+
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Event[]>(["events"], (events) => {
         events?.forEach((element) => {
-          if (element.publicId === event.publicId) element = event;
+          if (element.publicId === eventToUpdate.publicId)
+            element = eventToUpdate;
         });
         return events;
       });
+
+      // can access in onError callback
+      return { previousEvents };
+    },
+    onSuccess: (savedEvent, eventToUpdate: Event) => {
+      //                              (queryKey, updater, options?)
+      queryClient.setQueryData<Event[]>(["events"], (events) => {
+        // replace eventToUpdate instance set by onMutate with proper savedEvent
+        events?.forEach((element) => {
+          if (element.publicId === eventToUpdate.publicId) element = savedEvent;
+        });
+        return events;
+      });
+    },
+    //       (error, variables, context)
+    // use context in case request fails
+    onError: (error, newEvent, context) => {
+      if (!context) return;
+
+      queryClient.setQueryData<Event[]>(["events"], context.previousEvents);
     },
   });
 
@@ -233,16 +310,19 @@ function App() {
                   publicId: publicId,
                 };
 
-                postDishMutate(newDishWithPublicId);
+                const resultDishFromMutate = await postDishMutateAsync(
+                  newDishWithPublicId
+                );
 
-                console.log(postDishData);
+                console.log(resultDishFromMutate);
 
-                // *********************************************************
+                // adding dish to event ********************************
 
-                // find newDish newly created _id
+                // get newly created _id for newDish
                 const resultDish = await apiClientTDish.getSubDoc(
                   newDishWithPublicId.publicId
                 );
+                console.log(resultDish);
 
                 if (resultDish === undefined)
                   throw new Error("resultDish is undefined");
@@ -262,9 +342,11 @@ function App() {
                 const selectedEventWithoutId = { ...selectedEvent };
                 delete selectedEventWithoutId._id;
 
-                putEventMutate(selectedEventWithoutId);
+                const resultEventFromMutate = await putEventMutateAsync(
+                  selectedEventWithoutId
+                );
 
-                console.log(putEventData);
+                console.log(resultEventFromMutate);
 
                 // setSelectedEvent(resultEvent);
 
