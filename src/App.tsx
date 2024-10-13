@@ -19,26 +19,12 @@ import {
   EventDocumentType,
 } from "./interfaces/interfaces";
 import APIClient from "./services/apiClient";
-import useEventSubDoc from "./hooks/useEventSubDoc";
 import EventForm from "./components/EventForm";
-import mongoose from "mongoose";
 import SelectedEvent from "./components/SelectedEvent";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import useDishes from "./hooks/useDishes";
-import useDish from "./hooks/useDish";
 import { emptyEvent } from "./constants";
-
-interface PostDishContext {
-  previousDishes: Dish[];
-}
-
-interface PostEventContext {
-  previousEvents: Event[];
-}
-
-interface PutEventContext {
-  previousEvents: Event[];
-}
+import usePostDish from "./hooks/usePostDish";
+import usePostEvent from "./hooks/usePostEvent";
+import usePutEvent from "./hooks/usePutEvent";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -58,12 +44,6 @@ function App() {
   const [selectedEvent, setSelectedEvent] =
     useState<EventDocumentType>(emptyEvent);
 
-  const queryClient = useQueryClient();
-
-  // post Dish
-  // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
-  // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
-  // useMutation<data: get from backend, error, variables: data sent to backend, context>
   const {
     data: postDishData,
     error: postDishError,
@@ -74,41 +54,7 @@ function App() {
     mutateAsync: postDishMutateAsync,
     reset: postDishReset,
     status: postDishStatus,
-  } = useMutation<DishDocumentType, Error, Dish, PostDishContext>({
-    mutationFn: (newDish: Dish) => {
-      return apiClientDish.post(newDish);
-    },
-    onMutate: (newDish: Dish) => {
-      // if undefined, return []
-      const previousDishes = queryClient.getQueryData<Dish[]>(["dishes"]) || [];
-
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => [
-        newDish,
-        ...(dishes || []),
-      ]);
-
-      // can access in onError callback
-      return { previousDishes };
-    },
-    onSuccess: (savedDish, newDish: Dish) => {
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
-        // replace newDish instance set by onMutate with proper savedDish
-        dishes?.forEach((element) => {
-          if (element.publicId === newDish.publicId) element = savedDish;
-        });
-        return dishes;
-      });
-    },
-    //       (error, variables, context)
-    // use context in case request fails
-    onError: (error, newDish, context) => {
-      if (!context) return;
-
-      queryClient.setQueryData<Dish[]>(["dishes"], context.previousDishes);
-    },
-  });
+  } = usePostDish();
 
   // post Event
   const {
@@ -121,42 +67,7 @@ function App() {
     mutateAsync: postEventMutateAsync,
     reset: postEventReset,
     status: postEventStatus,
-  } = useMutation<EventDocumentType, Error, Event, PostEventContext>({
-    mutationFn: (newEvent: Event) => {
-      return apiClientEvent.post(newEvent);
-    },
-    onMutate: (newEvent: Event) => {
-      // if undefined, return []
-      const previousEvents =
-        queryClient.getQueryData<Event[]>(["events"]) || [];
-
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Event[]>(["events"], (events) => [
-        newEvent,
-        ...(events || []),
-      ]);
-
-      // can access in onError callback
-      return { previousEvents };
-    },
-    onSuccess: (savedEvent, newEvent: Event) => {
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Event[]>(["events"], (events) => {
-        // replace newEvent instance set by onMutate with proper savedEvent
-        events?.forEach((element) => {
-          if (element.publicId === newEvent.publicId) element = savedEvent;
-        });
-        return events;
-      });
-    },
-    //       (error, variables, context)
-    // use context in case request fails
-    onError: (error, newEvent, context) => {
-      if (!context) return;
-
-      queryClient.setQueryData<Event[]>(["events"], context.previousEvents);
-    },
-  });
+  } = usePostEvent();
 
   // put Event
   const {
@@ -169,60 +80,9 @@ function App() {
     mutateAsync: putEventMutateAsync,
     reset: putEventReset,
     status: putEventStatus,
-  } = useMutation<EventDocumentType, Error, Event, PutEventContext>({
-    mutationFn: (eventToUpdate: Event) => {
-      if (selectedEvent._id === undefined)
-        throw new Error("selectedEvent._id is undefined");
+  } = usePutEvent(selectedEvent);
 
-      return apiClientEvent.put(selectedEvent._id.toString(), eventToUpdate);
-    },
-    onMutate: (eventToUpdate: Event) => {
-      // if undefined, return []
-      const previousEvents =
-        queryClient.getQueryData<Event[]>(["events"]) || [];
-
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Event[]>(["events"], (events) => {
-        events?.forEach((element) => {
-          if (element.publicId === eventToUpdate.publicId)
-            element = eventToUpdate;
-        });
-        return events;
-      });
-
-      // can access in onError callback
-      return { previousEvents };
-    },
-    onSuccess: (savedEvent, eventToUpdate: Event) => {
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Event[]>(["events"], (events) => {
-        // replace eventToUpdate instance set by onMutate with proper savedEvent
-        events?.forEach((element) => {
-          if (element.publicId === eventToUpdate.publicId) element = savedEvent;
-        });
-        return events;
-      });
-    },
-    //       (error, variables, context)
-    // use context in case request fails
-    onError: (error, newEvent, context) => {
-      if (!context) return;
-
-      queryClient.setQueryData<Event[]>(["events"], context.previousEvents);
-    },
-  });
-
-  // const {
-  //   data: responseDishesData,
-  //   error: responseDishesError,
-  //   isError: responseDishesIsError,
-  //   isLoading: responseDishesIsLoading,
-  //   isPending: responseDishesIsPending,
-  //   isSuccess: responseDishesIsSuccess,
-  //   refetch: responseDishesRefetch,
-  //   status: responseDishesStatus,
-  // } = useDishes();
-
+  // get all events
   const {
     data: responseEventsData,
     error: responseEventsError,
@@ -287,6 +147,8 @@ function App() {
                 const resultEventFromMutate = await postEventMutateAsync(
                   newEventWithPublicId
                 );
+
+                console.log(resultEventFromMutate);
 
                 setSelectedEvent(resultEventFromMutate);
 
