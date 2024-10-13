@@ -277,16 +277,18 @@ function App() {
         <ExpandableSectionButton buttonLabelText="Add Event">
           <div className="mb-5">
             <EventForm
-              onSubmit={(newEvent) => {
+              onSubmit={async (newEvent) => {
                 const publicId = nanoid();
                 const newEventWithPublicId = {
                   ...newEvent,
                   publicId: publicId,
                 };
 
-                postEventMutate(newEventWithPublicId);
+                const resultEventFromMutate = await postEventMutateAsync(
+                  newEventWithPublicId
+                );
 
-                // setSelectedEvent(data);
+                setSelectedEvent(resultEventFromMutate);
 
                 // // add new event to events state variable
                 // setEvents([...(events || []), { ...newEventWithPublicId }]);
@@ -363,7 +365,7 @@ function App() {
           </div>
         </ExpandableSectionButton>
 
-        {/* <ExpandableSectionButton buttonLabelText="Add Beverage">
+        <ExpandableSectionButton buttonLabelText="Add Beverage">
           <div className="mb-5">
             <h2>What Beverage?</h2>
             <BevForm
@@ -375,13 +377,14 @@ function App() {
                   publicId: publicId,
                 });
 
-                setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
+                // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
 
                 // console.log(result);
               }}
             />
           </div>
         </ExpandableSectionButton>
+        {/* end row */}
       </div>
 
       <div className="mb-3">
@@ -408,14 +411,12 @@ function App() {
         />
       </div>
       <div className="mb-3">
-        <BevList
+        {/* <BevList
           bevs={visibleBevs}
           // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        />
-      </div> 
- */}
-        {/* end row */}
+        /> */}
       </div>
+
       {/* end container */}
     </div>
   );

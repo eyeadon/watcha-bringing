@@ -43,7 +43,7 @@ router.get("/subdoc/:publicId", async (req, res) => {
     .populate({ path: "Dish", strictPopulate: false })
     .exec();
 
-  console.log("useEventSubDoc run");
+  // console.log("useEventSubDoc run");
 
   res.send(dishesArray);
 });

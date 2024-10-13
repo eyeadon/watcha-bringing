@@ -14,7 +14,7 @@ interface Props {
   // onDelete: (id: number) => void;
 }
 
-const apiClientEventDishes = new APIClient<Dish[]>("/events");
+// const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
@@ -44,7 +44,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   //   getSubDoc();
   // }, [selectedEvent]);
 
-  console.log(data);
+  // console.log(data);
 
   const eventDishes = visibleItemsFilterHelper(
     // dishes,
@@ -54,8 +54,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   );
 
   // refetch();
-  console.log("DishList run");
-  console.log(eventDishes);
+  // console.log("DishList run");
+  // console.log(eventDishes);
 
   return (
     <table className="table table-bordered" key="dishTable">
