@@ -53,6 +53,13 @@ class APIClient<T> {
       .then((res) => res.data);
   };
 
+  // get single object by publicId
+  getSingleByPublicId = (id: number | string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/public/" + id)
+      .then((res) => res.data);
+  };
+
   // get sub doc
   getSubDoc = (id: number | string) => {
     return axiosInstance

@@ -5,12 +5,12 @@ import ms from "ms";
 
 const apiClient = new APIClient<DishDocumentType>("/dishes");
 
-const useDish = (id: string) =>
+const useDish = (publicId: string) =>
   useQuery({
-    queryKey: ["dish", id],
+    queryKey: ["dish", publicId],
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Dish>>("/dishes").then((res) => res.data),
-    queryFn: () => apiClient.getSubDoc(id),
+    queryFn: () => apiClient.getSingleByPublicId(publicId),
 
     staleTime: 0,
   });

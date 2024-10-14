@@ -18,7 +18,7 @@ router.get("/:id", async (req, res) => {
   res.send(dish);
 });
 
-router.get("/subdoc/:publicId", async (req, res) => {
+router.get("/public/:publicId", async (req, res) => {
   if (req.params.publicId === "none") {
     res.send([]);
     return;
@@ -29,7 +29,7 @@ router.get("/subdoc/:publicId", async (req, res) => {
   const dish = await Dish.findOne({ publicId: req.params.publicId });
 
   if (!dish)
-    return res.status(404).send("The event with the given ID was not found.");
+    return res.status(404).send("The dish with the given ID was not found.");
 
   res.send(dish);
 });

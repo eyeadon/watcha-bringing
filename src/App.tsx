@@ -183,7 +183,7 @@ function App() {
                 // adding dish to event ********************************
 
                 // get newly created _id for newDish
-                const resultDish = await apiClientTDish.getSubDoc(
+                const resultDish = await apiClientTDish.getSingleByPublicId(
                   newDishWithPublicId.publicId
                 );
                 console.log(resultDish);
