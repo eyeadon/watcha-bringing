@@ -18,6 +18,25 @@ router.get("/:id", async (req, res) => {
   res.send(bev);
 });
 
+// get single by publicId
+router.get("/public/:publicId", async (req, res) => {
+  if (req.params.publicId === "none") {
+    res.send([]);
+    return;
+  }
+
+  // console.log(req.params.publicId);
+
+  const bev = await Bev.findOne({ publicId: req.params.publicId });
+
+  if (!bev)
+    return res
+      .status(404)
+      .send("The beverage with the given ID was not found.");
+
+  res.send(bev);
+});
+
 router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);

@@ -18,6 +18,7 @@ router.get("/:id", async (req, res) => {
   res.send(dish);
 });
 
+// get single by publicId
 router.get("/public/:publicId", async (req, res) => {
   if (req.params.publicId === "none") {
     res.send([]);

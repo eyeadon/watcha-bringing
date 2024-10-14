@@ -273,10 +273,10 @@ function App() {
         />
       </div>
       <div className="mb-3">
-        {/* <BevList
-          bevs={visibleBevs}
-          // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        /> */}
+        <BevList
+          selectedEvent={selectedEvent}
+          selectedBevCategory={selectedBevCategory}
+        />
       </div>
 
       {/* end container */}
