@@ -20,9 +20,12 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
 
   // get array of full bev objects from selectedEvent by using its publicId
   // returns UseQueryResult
-  const { data, isLoading, status, refetch } = useEventSubDoc(
-    selectedEvent.publicId
+  const { data, isLoading, status, refetch, error } = useEventSubDoc(
+    selectedEvent.publicId,
+    "bev"
   );
+
+  if (error) return error.message;
 
   const eventBevs = visibleItemsFilterHelper(
     data,

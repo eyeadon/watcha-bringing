@@ -41,6 +41,7 @@ function App() {
 
   const [selectedDishCategory, setSelectedDishCategory] = useState("");
   const [selectedBevCategory, setSelectedBevCategory] = useState("");
+  // emptyEvent.publicId = "none"
   const [selectedEvent, setSelectedEvent] =
     useState<EventDocumentType>(emptyEvent);
 

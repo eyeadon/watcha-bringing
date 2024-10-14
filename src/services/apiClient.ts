@@ -61,9 +61,11 @@ class APIClient<T> {
   };
 
   // get sub doc
-  getSubDoc = (id: number | string) => {
+  getSubDoc = (id: number | string, item: string) => {
     return axiosInstance
-      .get<T>(this.endpoint + "/subdoc/" + id)
+      .get<T>(this.endpoint + "/subdoc/event", {
+        params: { publicId: id, item: item },
+      })
       .then((res) => res.data);
   };
 

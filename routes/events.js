@@ -1,6 +1,7 @@
 import express from "express";
 import { Event, validateEvent as validate } from "../models/event.js";
 import { Dish } from "../models/dish.js";
+import { Bev } from "../models/bev.js";
 const router = express.Router();
 
 // get all
@@ -20,32 +21,52 @@ router.get("/:id", async (req, res) => {
 });
 
 // get event with dishes/bevs as full objects
-router.get("/subdoc/:publicId", async (req, res) => {
-  if (req.params.publicId === "none") {
+router.get("/subdoc/event", async (req, res) => {
+  console.log(req.query.publicId);
+
+  if (req.query.publicId === "none") {
     res.send([]);
     return;
   }
 
-  // console.log(req.params.publicId);
-
-  const selectedEvent = await Event.findOne({ publicId: req.params.publicId });
+  const selectedEvent = await Event.findOne({
+    publicId: req.query.publicId,
+  }).exec();
 
   if (!selectedEvent)
     return res.status(404).send("The event with the given ID was not found.");
 
-  // console.log(selectedEvent);
+  console.log(selectedEvent);
 
-  const dishesArray = await Dish.find({
-    _id: {
-      $in: selectedEvent.dishes,
-    },
-  })
-    .populate({ path: "Dish", strictPopulate: false })
-    .exec();
+  const findItems = async (item) => {
+    if (item === "dish") {
+      return await Dish.find({
+        _id: {
+          $in: selectedEvent.dishes,
+        },
+      })
+        .populate({ path: "Dish", strictPopulate: false })
+        .exec();
+    } else if (item === "bev") {
+      return await Bev.find({
+        _id: {
+          $in: selectedEvent.bevs,
+        },
+      })
+        .populate({ path: "Bev", strictPopulate: false })
+        .exec();
+    }
+    return [];
+  };
 
+  const resultArray = await findItems(req.query.item);
+
+  if (!resultArray) return res.status(404).send("Event items were not found.");
+
+  console.log(resultArray);
   // console.log("useEventSubDoc run");
 
-  res.send(dishesArray);
+  res.send(resultArray);
 });
 
 router.post("/", async (req, res) => {

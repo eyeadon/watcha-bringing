@@ -31,9 +31,12 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // get array of full dish objects from selectedEvent by using its publicId
   // returns UseQueryResult containing dishes in data property responseEventSelectionDishes.data
   // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
-  const { data, isLoading, status, refetch } = useEventSubDoc(
-    selectedEvent.publicId
+  const { data, isLoading, status, refetch, error } = useEventSubDoc(
+    selectedEvent.publicId,
+    "dish"
   );
+
+  if (error) return error.message;
 
   // const getSubDoc = async () => {
   //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
@@ -44,7 +47,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   //   getSubDoc();
   // }, [selectedEvent]);
 
-  // console.log(data);
+  console.log(data);
 
   const eventDishes = visibleItemsFilterHelper(
     // dishes,
@@ -55,7 +58,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   // refetch();
   // console.log("DishList run");
-  // console.log(eventDishes);
+  console.log(eventDishes);
 
   return (
     <table className="table table-bordered" key="dishTable">
