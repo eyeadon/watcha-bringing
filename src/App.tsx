@@ -25,12 +25,15 @@ import { emptyEvent } from "./constants";
 import usePostDish from "./hooks/usePostDish";
 import usePostEvent from "./hooks/usePostEvent";
 import usePutEvent from "./hooks/usePutEvent";
+import { addNewItemAndSyncWithEvent } from "./functions/functions";
+import usePostBev from "./hooks/usePostBev";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
   const apiClientBev = new APIClient<Bev>("/bevs");
   const apiClientEvent = new APIClient<Event>("/events");
   const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
+  const apiClientTBev = new APIClient<BevDocumentType>("/bevs");
   const apiClientTEvent = new APIClient<EventDocumentType>("/events");
   const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
@@ -56,6 +59,18 @@ function App() {
     reset: postDishReset,
     status: postDishStatus,
   } = usePostDish();
+
+  const {
+    data: postBevData,
+    error: postBevError,
+    isError: postBevIsError,
+    isPending: postBevIsPending,
+    isSuccess: postBevIsSuccess,
+    mutate: postBevMutate,
+    mutateAsync: postBevMutateAsync,
+    reset: postBevReset,
+    status: postBevStatus,
+  } = usePostBev();
 
   // post Event
   const {
@@ -170,59 +185,18 @@ function App() {
             <DishForm
               onSubmit={async (newDish) => {
                 const publicId = nanoid();
-                const newDishWithPublicId = {
+                const newItemWithPublicId = {
                   ...newDish,
                   publicId: publicId,
                 };
 
-                const resultDishFromMutate = await postDishMutateAsync(
-                  newDishWithPublicId
+                addNewItemAndSyncWithEvent(
+                  newItemWithPublicId,
+                  postDishMutateAsync,
+                  apiClientTDish,
+                  selectedEvent,
+                  putEventMutateAsync
                 );
-
-                console.log(resultDishFromMutate);
-
-                // adding dish to event ********************************
-
-                // get newly created _id for newDish
-                const resultDish = await apiClientTDish.getSingleByPublicId(
-                  newDishWithPublicId.publicId
-                );
-                console.log(resultDish);
-
-                if (resultDish === undefined)
-                  throw new Error("resultDish is undefined");
-
-                const resultDishId = resultDish._id?.toString();
-
-                if (resultDishId === undefined)
-                  throw new Error("resultDishId is undefined");
-                if (selectedEvent.dishes === undefined)
-                  throw new Error("selectedEvent.dishes is undefined");
-
-                // add newDish id to selectedEvent
-                selectedEvent.publicId !== "none"
-                  ? selectedEvent.dishes.push(resultDishId)
-                  : new Error("no event selected");
-
-                const selectedEventWithoutId = { ...selectedEvent };
-                delete selectedEventWithoutId._id;
-
-                const resultEventFromMutate = await putEventMutateAsync(
-                  selectedEventWithoutId
-                );
-
-                console.log(resultEventFromMutate);
-
-                // setSelectedEvent(resultEvent);
-
-                // // update event in events state variable
-                // const latestEvents = [...(events || [])];
-                // latestEvents?.forEach((element) => {
-                //   if (element.publicId === putEventData.publicId)
-                //     element = putEventData;
-                // });
-
-                // setEvents(latestEvents);
               }}
             />
           </div>
@@ -234,15 +208,18 @@ function App() {
             <BevForm
               onSubmit={(newBev) => {
                 const publicId = nanoid();
-
-                let result = apiClientBev.post({
+                const newItemWithPublicId = {
                   ...newBev,
                   publicId: publicId,
-                });
+                };
 
-                // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
-
-                // console.log(result);
+                addNewItemAndSyncWithEvent(
+                  newItemWithPublicId,
+                  postBevMutateAsync,
+                  apiClientTBev,
+                  selectedEvent,
+                  putEventMutateAsync
+                );
               }}
             />
           </div>
