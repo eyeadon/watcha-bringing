@@ -47,7 +47,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   //   getSubDoc();
   // }, [selectedEvent]);
 
-  // console.log(data);
+  console.log(data);
 
   const eventDishes = visibleItemsFilterHelper(
     // dishes,
@@ -58,7 +58,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   // refetch();
   // console.log("DishList run");
-  // console.log(eventDishes);
+  console.log(eventDishes);
 
   return (
     <table className="table table-bordered" key="dishTable">

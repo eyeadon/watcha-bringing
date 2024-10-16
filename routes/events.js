@@ -36,7 +36,7 @@ router.get("/subdoc/event", async (req, res) => {
   if (!selectedEvent)
     return res.status(404).send("The event with the given ID was not found.");
 
-  // console.log(selectedEvent);
+  console.log(selectedEvent);
 
   const findItems = async (item) => {
     if (item === "dish") {
@@ -63,7 +63,7 @@ router.get("/subdoc/event", async (req, res) => {
 
   if (!resultArray) return res.status(404).send("Event items were not found.");
 
-  // console.log(resultArray);
+  console.log(resultArray);
   // console.log("useEventSubDoc run");
 
   res.send(resultArray);
