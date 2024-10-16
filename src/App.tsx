@@ -140,9 +140,8 @@ function App() {
 
                 console.log(resultEventFromMutate);
 
+                responseEventsRefetch();
                 setSelectedEvent(resultEventFromMutate);
-
-                postEventIsSuccess ? console.log(postEventData) : null;
               }}
             />
           </div>
