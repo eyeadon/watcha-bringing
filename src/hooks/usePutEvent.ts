@@ -18,7 +18,7 @@ const usePutEvent = (selectedEvent: EventDocumentType) => {
       return apiClientEvent.put(selectedEvent._id.toString(), eventToUpdate);
     },
     onMutate: (eventToUpdate: Event) => {
-      queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
+      // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
 
       // if undefined, return []
       const previousEvents =
