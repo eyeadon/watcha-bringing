@@ -23,6 +23,7 @@ import EventForm from "./components/EventForm";
 import SelectedEventTitle from "./components/SelectedEventTitle";
 import { emptyEvent } from "./constants";
 import usePostDish from "./hooks/usePostDish";
+import usePostBev from "./hooks/usePostBev";
 import usePostEvent from "./hooks/usePostEvent";
 import usePutEvent from "./hooks/usePutEvent";
 
@@ -31,6 +32,7 @@ function App() {
   const apiClientBev = new APIClient<Bev>("/bevs");
   const apiClientEvent = new APIClient<Event>("/events");
   const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
+  const apiClientTBev = new APIClient<BevDocumentType>("/bevs");
   const apiClientTEvent = new APIClient<EventDocumentType>("/events");
   const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
@@ -56,6 +58,18 @@ function App() {
     reset: postDishReset,
     status: postDishStatus,
   } = usePostDish();
+
+  const {
+    data: postBevData,
+    error: postBevError,
+    isError: postBevIsError,
+    isPending: postBevIsPending,
+    isSuccess: postBevIsSuccess,
+    mutate: postBevMutate,
+    mutateAsync: postBevMutateAsync,
+    reset: postBevReset,
+    status: postBevStatus,
+  } = usePostBev();
 
   // post Event
   const {
@@ -95,31 +109,6 @@ function App() {
     status: responseEventsStatus,
   } = useEvents();
 
-  // // initial load of data for lists being displayed
-  // useLayoutEffect(() => {
-  //   setEvents(responseEvents.data);
-  //   console.log(responseEvents);
-  // }, [responseEvents.data]);
-
-  // // returns UseQueryResult containing dishes
-  // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
-
-  // const getEventDishes = async () => {
-  //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
-  //   setDishes(data);
-  // };
-
-  // useEffect(() => {
-  //   getEventDishes();
-  // }, [selectedEvent]);
-
-  // // if data is undefined, value will be []
-  // const visibleBevs = visibleItemsFilterHelper(
-  //   bevs,
-  //   selectedBevCategory,
-  //   "All Beverage Categories"
-  // );
-
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
@@ -153,9 +142,6 @@ function App() {
 
                 setSelectedEvent(resultEventFromMutate);
 
-                // // add new event to events state variable
-                // setEvents([...(events || []), { ...newEventWithPublicId }]);
-
                 postEventIsSuccess ? console.log(postEventData) : null;
               }}
             />
@@ -183,16 +169,10 @@ function App() {
 
                 // adding dish to event ********************************
 
-                // get newly created _id for newDish
-                const resultDish = await apiClientTDish.getSingleByPublicId(
-                  newDishWithPublicId.publicId
-                );
-                console.log(resultDish);
-
-                if (resultDish === undefined)
+                if (resultDishFromMutate === undefined)
                   throw new Error("resultDish is undefined");
 
-                const resultDishId = resultDish._id?.toString();
+                const resultDishId = resultDishFromMutate._id?.toString();
 
                 if (resultDishId === undefined)
                   throw new Error("resultDishId is undefined");
@@ -212,17 +192,6 @@ function App() {
                 );
 
                 console.log(resultEventFromMutate);
-
-                // setSelectedEvent(resultEvent);
-
-                // // update event in events state variable
-                // const latestEvents = [...(events || [])];
-                // latestEvents?.forEach((element) => {
-                //   if (element.publicId === putEventData.publicId)
-                //     element = putEventData;
-                // });
-
-                // setEvents(latestEvents);
               }}
             />
           </div>
@@ -232,17 +201,44 @@ function App() {
           <div className="mb-5">
             <h2>What Beverage?</h2>
             <BevForm
-              onSubmit={(newBev) => {
+              onSubmit={async (newBev) => {
                 const publicId = nanoid();
-
-                let result = apiClientBev.post({
+                const newBevWithPublicId = {
                   ...newBev,
                   publicId: publicId,
-                });
+                };
 
-                // setBevs([...(bevs || []), { ...newBev, publicId: publicId }]);
+                const resultBevFromMutate = await postBevMutateAsync(
+                  newBevWithPublicId
+                );
 
-                // console.log(result);
+                console.log(resultBevFromMutate);
+
+                // adding Bev to event ********************************
+
+                if (resultBevFromMutate === undefined)
+                  throw new Error("resultBev is undefined");
+
+                const resultBevId = resultBevFromMutate._id?.toString();
+
+                if (resultBevId === undefined)
+                  throw new Error("resultBevId is undefined");
+                if (selectedEvent.bevs === undefined)
+                  throw new Error("selectedEvent.bevs is undefined");
+
+                // add newBev id to selectedEvent
+                selectedEvent.publicId !== "none"
+                  ? selectedEvent.bevs.push(resultBevId)
+                  : new Error("no event selected");
+
+                const selectedEventWithoutId = { ...selectedEvent };
+                delete selectedEventWithoutId._id;
+
+                const resultEventFromMutate = await putEventMutateAsync(
+                  selectedEventWithoutId
+                );
+
+                console.log(resultEventFromMutate);
               }}
             />
           </div>
