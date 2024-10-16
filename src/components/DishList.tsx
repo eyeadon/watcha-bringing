@@ -14,38 +14,20 @@ interface Props {
   // onDelete: (id: number) => void;
 }
 
-// const apiClientEventDishes = new APIClient<Dish[]>("/events");
-
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
-
-  // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
-
-  // const [status, setStatus] = useState<"pending" | "success" | "error">(
-  //   "pending"
-  // );
 
   const queryClient = useQueryClient();
   queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
 
   // get array of full dish objects from selectedEvent by using its publicId
-  // returns UseQueryResult containing dishes in data property responseEventSelectionDishes.data
-  // const responseEventSelectionDishes = useEventSubDoc(selectedEvent.publicId);
+  // returns UseQueryResult
   const { data, isLoading, status, refetch, error } = useEventSubDoc(
     selectedEvent.publicId,
     "dish"
   );
 
   if (error) return error.message;
-
-  // const getSubDoc = async () => {
-  //   let data = await apiClientEventDishes.getSubDoc(selectedEvent.publicId);
-  //   setDishes(data);
-  // };
-
-  // useEffect(() => {
-  //   getSubDoc();
-  // }, [selectedEvent]);
 
   // console.log(data);
 
