@@ -51,9 +51,8 @@ router.post("/", async (req, res) => {
     // returns Promise, not stored here
     await dish.save();
   } catch (exception) {
-    for (field in exception.errors) {
-      console.log(exception.errors[field].message);
-    }
+    // for (field in exception.errors) {
+    console.log(exception);
   }
 
   res.send(dish);

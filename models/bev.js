@@ -14,8 +14,8 @@ const bevSchema = new mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
-      minlength: 2,
+      required: false,
+      minlength: 0,
       maxlength: 50,
       lowercase: true,
       trim: true,
@@ -37,7 +37,7 @@ function validateBev(bev) {
   const schema = Joi.object({
     publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
     category: Joi.string().min(2).max(50).required(),
-    name: Joi.string().min(2).max(50).required(),
+    name: Joi.string().min(0).max(50),
     amount: Joi.number().min(1).max(255).required(),
   });
 

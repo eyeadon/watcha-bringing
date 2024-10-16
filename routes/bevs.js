@@ -52,9 +52,8 @@ router.post("/", async (req, res) => {
     // returns Promise, not stored here
     await bev.save();
   } catch (exception) {
-    for (field in exception.errors) {
-      console.log(exception.errors[field].message);
-    }
+    // for (field in exception.errors) {
+    console.log(exception);
   }
 
   res.send(bev);

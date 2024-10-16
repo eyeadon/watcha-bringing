@@ -19,7 +19,7 @@ export interface DishDocumentType extends Dish {
 export interface Bev {
   publicId: string;
   category: string;
-  name: string;
+  name?: string;
   amount: number;
 }
 

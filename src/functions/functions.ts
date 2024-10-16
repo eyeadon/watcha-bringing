@@ -13,6 +13,6 @@ export function visibleItemsFilterHelper(
     : arr;
 }
 
-export function capitalizeFirstLetter(string: string) {
-  return string ? string.charAt(0).toUpperCase() + string.slice(1) : null;
+export function capitalizeFirstLetter(string: string | undefined) {
+  return string ? string.charAt(0).toUpperCase() + string.slice(1) : "";
 }

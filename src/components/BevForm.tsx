@@ -8,7 +8,11 @@ const bevSchema = z.object({
   category: z.enum(bevCategories, {
     errorMap: () => ({ message: "Category is required" }),
   }),
-  name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
+  name: z
+    .string()
+    .min(0, { message: "Enter at least 2 characters" })
+    .max(50)
+    .optional(),
   amount: z.number({ invalid_type_error: "Amount is required" }).min(1).max(99),
 });
 
@@ -25,7 +29,12 @@ const BevForm = ({ onSubmit }: Props) => {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<BevFormData>({ resolver: zodResolver(bevSchema) });
+  } = useForm<BevFormData>({
+    resolver: zodResolver(bevSchema),
+    defaultValues: {
+      name: "",
+    },
+  });
 
   return (
     <form
