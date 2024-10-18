@@ -102,7 +102,7 @@ function validateEvent(event) {
         .max(5)
         .pattern(/^[0-9]{5}$/, "zipcode"),
     }),
-    date: Joi.date(),
+    date: Joi.string(),
     startTime: Joi.string(),
     endTime: Joi.string(),
     dishes: Joi.array().items(Joi.string()),

@@ -7,12 +7,14 @@ interface Props {
 
 const SelectedEventTitle = ({ selectedEvent }: Props) => {
   return (
-    <h3>
-      Current Event:&nbsp;
-      <span id="selectedEventTitle">
-        {capitalizeFirstLetter(selectedEvent.name)}
-      </span>
-    </h3>
+    <div className="mb-3">
+      <h3>
+        Current Event:&nbsp;
+        <span id="selectedEventTitle">
+          {capitalizeFirstLetter(selectedEvent.name)}
+        </span>
+      </h3>
+    </div>
   );
 };
 

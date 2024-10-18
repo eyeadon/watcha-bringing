@@ -22,7 +22,7 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
       <div className="col-sm mb-3">
         <button
           type="button"
-          className="btn btn-primary"
+          className="btn btn-primary mb-3"
           onClick={() => setExpanded(!isExpanded)}
         >
           {renderIcon}

@@ -123,124 +123,118 @@ function App() {
       />
       <SelectedEventTitle selectedEvent={selectedEvent} />
 
-      <div className="row">
+      <div className="row mb-1">
         <ExpandableSectionButton buttonLabelText="Add Event">
-          <div className="mb-5">
-            <EventForm
-              onSubmit={async (newEvent) => {
-                const publicId = nanoid();
-                const newEventWithPublicId = {
-                  ...newEvent,
-                  publicId: publicId,
-                };
+          <EventForm
+            onSubmit={async (newEvent) => {
+              const publicId = nanoid();
+              const newEventWithPublicId = {
+                ...newEvent,
+                publicId: publicId,
+              };
 
-                const resultEventFromMutate = await postEventMutateAsync(
-                  newEventWithPublicId
-                );
+              const resultEventFromMutate = await postEventMutateAsync(
+                newEventWithPublicId
+              );
 
-                console.log(resultEventFromMutate);
+              console.log(resultEventFromMutate);
 
-                responseEventsRefetch();
-                setSelectedEvent(resultEventFromMutate);
-              }}
-            />
-          </div>
+              responseEventsRefetch();
+              setSelectedEvent(resultEventFromMutate);
+            }}
+          />
         </ExpandableSectionButton>
       </div>
 
-      <div className="row">
+      <div className="row mb-1">
         <ExpandableSectionButton buttonLabelText="Add Dish">
-          <div className="mb-5">
-            <h2>What Dish?</h2>
-            <DishForm
-              onSubmit={async (newDish) => {
-                const publicId = nanoid();
-                const newDishWithPublicId = {
-                  ...newDish,
-                  publicId: publicId,
-                };
+          <h2>What Dish?</h2>
+          <DishForm
+            onSubmit={async (newDish) => {
+              const publicId = nanoid();
+              const newDishWithPublicId = {
+                ...newDish,
+                publicId: publicId,
+              };
 
-                const resultDishFromMutate = await postDishMutateAsync(
-                  newDishWithPublicId
-                );
+              const resultDishFromMutate = await postDishMutateAsync(
+                newDishWithPublicId
+              );
 
-                console.log(resultDishFromMutate);
+              console.log(resultDishFromMutate);
 
-                // adding dish to event ********************************
+              // adding dish to event ********************************
 
-                if (resultDishFromMutate === undefined)
-                  throw new Error("resultDish is undefined");
+              if (resultDishFromMutate === undefined)
+                throw new Error("resultDish is undefined");
 
-                const resultDishId = resultDishFromMutate._id?.toString();
+              const resultDishId = resultDishFromMutate._id?.toString();
 
-                if (resultDishId === undefined)
-                  throw new Error("resultDishId is undefined");
-                if (selectedEvent.dishes === undefined)
-                  throw new Error("selectedEvent.dishes is undefined");
+              if (resultDishId === undefined)
+                throw new Error("resultDishId is undefined");
+              if (selectedEvent.dishes === undefined)
+                throw new Error("selectedEvent.dishes is undefined");
 
-                // add newDish id to selectedEvent
-                selectedEvent.publicId !== "none"
-                  ? selectedEvent.dishes.push(resultDishId)
-                  : new Error("no event selected");
+              // add newDish id to selectedEvent
+              selectedEvent.publicId !== "none"
+                ? selectedEvent.dishes.push(resultDishId)
+                : new Error("no event selected");
 
-                const selectedEventWithoutId = { ...selectedEvent };
-                delete selectedEventWithoutId._id;
+              const selectedEventWithoutId = { ...selectedEvent };
+              delete selectedEventWithoutId._id;
 
-                const resultEventFromMutate = await putEventMutateAsync(
-                  selectedEventWithoutId
-                );
+              const resultEventFromMutate = await putEventMutateAsync(
+                selectedEventWithoutId
+              );
 
-                console.log(resultEventFromMutate);
-              }}
-            />
-          </div>
+              console.log(resultEventFromMutate);
+            }}
+          />
         </ExpandableSectionButton>
 
         <ExpandableSectionButton buttonLabelText="Add Beverage">
-          <div className="mb-5">
-            <h2>What Beverage?</h2>
-            <BevForm
-              onSubmit={async (newBev) => {
-                const publicId = nanoid();
-                const newBevWithPublicId = {
-                  ...newBev,
-                  publicId: publicId,
-                };
+          <h2>What Beverage?</h2>
+          <BevForm
+            onSubmit={async (newBev) => {
+              const publicId = nanoid();
+              const newBevWithPublicId = {
+                ...newBev,
+                publicId: publicId,
+              };
 
-                const resultBevFromMutate = await postBevMutateAsync(
-                  newBevWithPublicId
-                );
+              const resultBevFromMutate = await postBevMutateAsync(
+                newBevWithPublicId
+              );
 
-                console.log(resultBevFromMutate);
+              console.log(resultBevFromMutate);
 
-                // adding Bev to event ********************************
+              // adding Bev to event ********************************
 
-                if (resultBevFromMutate === undefined)
-                  throw new Error("resultBev is undefined");
+              if (resultBevFromMutate === undefined)
+                throw new Error("resultBev is undefined");
 
-                const resultBevId = resultBevFromMutate._id?.toString();
+              const resultBevId = resultBevFromMutate._id?.toString();
 
-                if (resultBevId === undefined)
-                  throw new Error("resultBevId is undefined");
-                if (selectedEvent.bevs === undefined)
-                  throw new Error("selectedEvent.bevs is undefined");
+              if (resultBevId === undefined)
+                throw new Error("resultBevId is undefined");
+              if (selectedEvent.bevs === undefined)
+                throw new Error("selectedEvent.bevs is undefined");
 
-                // add newBev id to selectedEvent
-                selectedEvent.publicId !== "none"
-                  ? selectedEvent.bevs.push(resultBevId)
-                  : new Error("no event selected");
+              // add newBev id to selectedEvent
+              selectedEvent.publicId !== "none"
+                ? selectedEvent.bevs.push(resultBevId)
+                : new Error("no event selected");
 
-                const selectedEventWithoutId = { ...selectedEvent };
-                delete selectedEventWithoutId._id;
+              const selectedEventWithoutId = { ...selectedEvent };
+              delete selectedEventWithoutId._id;
 
-                const resultEventFromMutate = await putEventMutateAsync(
-                  selectedEventWithoutId
-                );
+              const resultEventFromMutate = await putEventMutateAsync(
+                selectedEventWithoutId
+              );
 
-                console.log(resultEventFromMutate);
-              }}
-            />
-          </div>
+              console.log(resultEventFromMutate);
+            }}
+          />
         </ExpandableSectionButton>
         {/* end row */}
       </div>
