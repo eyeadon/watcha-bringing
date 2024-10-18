@@ -16,8 +16,8 @@ const eventSchema = z.object({
     zipcode: z.string().min(5).max(5),
   }),
   date: z.string().date(),
-  startTime: z.string().time(),
-  endTime: z.string().time(),
+  startTime: z.string().min(5).max(5),
+  endTime: z.string().min(5).max(5),
 });
 
 export type EventFormData = z.infer<typeof eventSchema>;
