@@ -20,7 +20,7 @@ const eventSchema = z.object({
   date: z.string().date(),
   // startTime: z.instanceof(dayjs as unknown as typeof Dayjs),
   startTime: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
-  endTime: z.string(),
+  endTime: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
 });
 
 export type EventFormData = z.infer<typeof eventSchema>;
@@ -41,6 +41,7 @@ const BevForm = ({ onSubmit }: Props) => {
     resolver: zodResolver(eventSchema),
     defaultValues: {
       startTime: null as unknown as Dayjs,
+      endTime: null as unknown as Dayjs,
     },
   });
 
@@ -113,12 +114,8 @@ const BevForm = ({ onSubmit }: Props) => {
                       <TimePicker
                         label="hh:mm aa"
                         name={name}
-                        // defaultValue={dayjs()}
                         value={value}
                         inputRef={ref}
-                        // onChange={(time) => {
-                        //   onChange(time);
-                        // }}
                         onChange={onChange}
                         minutesStep={15}
                         timeSteps={{ minutes: 15 }}
@@ -136,13 +133,25 @@ const BevForm = ({ onSubmit }: Props) => {
               <label htmlFor="endTime" className="form-label">
                 End Time
               </label>
-              <input
-                {...register("endTime")}
-                id="endTime"
-                type="time"
-                step="900"
-                className="form-control"
-              />
+              <div className="mb-3">
+                <Controller
+                  control={control}
+                  name="endTime"
+                  render={({ field: { name, onChange, value, ref } }) => {
+                    return (
+                      <TimePicker
+                        label="hh:mm aa"
+                        name={name}
+                        value={value}
+                        inputRef={ref}
+                        onChange={onChange}
+                        minutesStep={15}
+                        timeSteps={{ minutes: 15 }}
+                      />
+                    );
+                  }}
+                />
+              </div>
               {errors.endTime && (
                 <p className="text-danger">{errors.endTime.message}</p>
               )}

@@ -135,6 +135,7 @@ function App() {
                 ...newEvent,
                 publicId: publicId,
                 startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
+                endTime: dayJsObjectToHourAndMinute(newEvent.endTime),
               };
 
               console.log(newEventWithPublicId);
