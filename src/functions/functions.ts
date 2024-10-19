@@ -1,3 +1,4 @@
+import { Dayjs } from "dayjs";
 import { Dish, Bev } from "../interfaces/interfaces";
 
 export function visibleItemsFilterHelper(
@@ -15,4 +16,11 @@ export function visibleItemsFilterHelper(
 
 export function capitalizeFirstLetter(string: string | undefined) {
   return string ? string.charAt(0).toUpperCase() + string.slice(1) : "";
+}
+
+export function dayJsObjectToHourAndMinute(obj: Dayjs) {
+  const hour = obj.get("hour");
+  const minute = obj.get("minute");
+
+  return hour + ":" + (minute ? minute : "00");
 }

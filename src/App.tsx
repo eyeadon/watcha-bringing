@@ -26,6 +26,8 @@ import usePostDish from "./hooks/usePostDish";
 import usePostBev from "./hooks/usePostBev";
 import usePostEvent from "./hooks/usePostEvent";
 import usePutEvent from "./hooks/usePutEvent";
+import dayjs from "dayjs";
+import { dayJsObjectToHourAndMinute } from "./functions/functions";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -128,10 +130,14 @@ function App() {
           <EventForm
             onSubmit={async (newEvent) => {
               const publicId = nanoid();
+
               const newEventWithPublicId = {
                 ...newEvent,
                 publicId: publicId,
+                startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
               };
+
+              console.log(newEventWithPublicId);
 
               const resultEventFromMutate = await postEventMutateAsync(
                 newEventWithPublicId
