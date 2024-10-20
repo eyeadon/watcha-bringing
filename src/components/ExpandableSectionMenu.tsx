@@ -8,7 +8,7 @@ interface Props {
 }
 
 const ExpandableSectionMenu = ({ children, selectedEvent }: Props) => {
-  // const [isExpanded, setExpanded] = useState(false); // false -> + icon
+  // const [isExpanded, setIsExpanded] = useState(false); // false -> + icon
 
   const showDiv = selectedEvent ? children : null;
 

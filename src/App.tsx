@@ -1,5 +1,11 @@
 import { nanoid } from "nanoid";
-import { useEffect, useLayoutEffect, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useState,
+  createContext,
+  Context,
+} from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
 import BevForm from "./components/BevForm";
@@ -28,6 +34,8 @@ import usePostEvent from "./hooks/usePostEvent";
 import usePutEvent from "./hooks/usePutEvent";
 import dayjs from "dayjs";
 import { dayJsObjectToHourAndMinute } from "./functions/functions";
+import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
+import { EventFormIsExpandedContext } from "./contexts/contexts";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -37,6 +45,12 @@ function App() {
   const apiClientTBev = new APIClient<BevDocumentType>("/bevs");
   const apiClientTEvent = new APIClient<EventDocumentType>("/events");
   const apiClientEventDishes = new APIClient<Dish[]>("/events");
+
+  const [EventFormisExpanded, setEventFormIsExpanded] = useState(false); // false -> + icon
+
+  function setIsExpanded(isExpanded: boolean) {
+    setEventFormIsExpanded(isExpanded);
+  }
 
   // const [dishes, setDishes] = useState<Dish[] | undefined>([]);
   // const [bevs, setBevs] = useState<Bev[] | undefined>([]);
@@ -126,31 +140,35 @@ function App() {
       <SelectedEventTitle selectedEvent={selectedEvent} />
 
       <div className="row mb-1">
-        <ExpandableSectionButton buttonLabelText="Add Event">
-          <EventForm
-            onSubmit={async (newEvent) => {
-              const publicId = nanoid();
+        <EventFormIsExpandedContext.Provider
+          value={{ EventFormisExpanded, setIsExpanded }}
+        >
+          <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
+            <EventForm
+              onSubmit={async (newEvent) => {
+                const publicId = nanoid();
 
-              const newEventWithPublicId = {
-                ...newEvent,
-                publicId: publicId,
-                startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
-                endTime: dayJsObjectToHourAndMinute(newEvent.endTime),
-              };
+                const newEventWithPublicId = {
+                  ...newEvent,
+                  publicId: publicId,
+                  startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
+                  endTime: dayJsObjectToHourAndMinute(newEvent.endTime),
+                };
 
-              console.log(newEventWithPublicId);
+                console.log(newEventWithPublicId);
 
-              const resultEventFromMutate = await postEventMutateAsync(
-                newEventWithPublicId
-              );
+                const resultEventFromMutate = await postEventMutateAsync(
+                  newEventWithPublicId
+                );
 
-              console.log(resultEventFromMutate);
+                console.log(resultEventFromMutate);
 
-              responseEventsRefetch();
-              setSelectedEvent(resultEventFromMutate);
-            }}
-          />
-        </ExpandableSectionButton>
+                responseEventsRefetch();
+                setSelectedEvent(resultEventFromMutate);
+              }}
+            />
+          </ExpandableSectionButtonNewEvent>
+        </EventFormIsExpandedContext.Provider>
       </div>
 
       <div className="row mb-1">

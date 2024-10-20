@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
+import { useContext } from "react";
+import { EventFormIsExpandedContext } from "../contexts/contexts";
 
 const eventSchema = z.object({
   name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
@@ -45,6 +47,8 @@ const BevForm = ({ onSubmit }: Props) => {
     },
   });
 
+  const cont = useContext(EventFormIsExpandedContext);
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <form
@@ -52,6 +56,7 @@ const BevForm = ({ onSubmit }: Props) => {
         onSubmit={handleSubmit((data) => {
           onSubmit(data);
           reset();
+          cont.setIsExpanded(!cont.EventFormisExpanded);
         })}
       >
         <div className="row">
