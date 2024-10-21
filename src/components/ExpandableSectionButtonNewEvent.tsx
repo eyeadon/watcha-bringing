@@ -19,7 +19,7 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
   );
 
   return (
-    <div className="col-sm mb-3">
+    <>
       <button
         type="button"
         className="btn btn-primary mb-3"
@@ -28,7 +28,7 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
         {renderIcon}
       </button>
       {showDiv}
-    </div>
+    </>
   );
 };
 

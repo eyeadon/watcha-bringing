@@ -143,155 +143,164 @@ function App() {
         <EventFormIsExpandedContext.Provider
           value={{ EventFormisExpanded, setIsExpanded }}
         >
-          <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
-            <EventForm
-              onSubmit={async (newEvent) => {
-                const publicId = nanoid();
+          <div className="col-sm-6 mb-3">
+            <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
+              <EventForm
+                onSubmit={async (newEvent) => {
+                  const publicId = nanoid();
 
-                const newEventWithPublicId = {
-                  ...newEvent,
-                  publicId: publicId,
-                  startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
-                  endTime: dayJsObjectToHourAndMinute(newEvent.endTime),
-                };
+                  const newEventWithPublicId = {
+                    ...newEvent,
+                    publicId: publicId,
+                    startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
+                    endTime: dayJsObjectToHourAndMinute(newEvent.endTime),
+                  };
 
-                console.log(newEventWithPublicId);
+                  console.log(newEventWithPublicId);
 
-                const resultEventFromMutate = await postEventMutateAsync(
-                  newEventWithPublicId
-                );
+                  const resultEventFromMutate = await postEventMutateAsync(
+                    newEventWithPublicId
+                  );
 
-                console.log(resultEventFromMutate);
+                  console.log(resultEventFromMutate);
 
-                responseEventsRefetch();
-                setSelectedEvent(resultEventFromMutate);
-              }}
-            />
-          </ExpandableSectionButtonNewEvent>
+                  responseEventsRefetch();
+                  setSelectedEvent(resultEventFromMutate);
+                }}
+              />
+            </ExpandableSectionButtonNewEvent>
+          </div>
         </EventFormIsExpandedContext.Provider>
       </div>
 
       <div className="row mb-1">
-        <ExpandableSectionButton buttonLabelText="Add Dish">
-          <h2>What Dish?</h2>
-          <DishForm
-            onSubmit={async (newDish) => {
-              const publicId = nanoid();
-              const newDishWithPublicId = {
-                ...newDish,
-                publicId: publicId,
-              };
+        <div className="col-sm mb-3">
+          <ExpandableSectionButton buttonLabelText="Add Dish">
+            <h2>What Dish?</h2>
+            <DishForm
+              onSubmit={async (newDish) => {
+                const publicId = nanoid();
+                const newDishWithPublicId = {
+                  ...newDish,
+                  publicId: publicId,
+                };
 
-              const resultDishFromMutate = await postDishMutateAsync(
-                newDishWithPublicId
-              );
+                const resultDishFromMutate = await postDishMutateAsync(
+                  newDishWithPublicId
+                );
 
-              console.log(resultDishFromMutate);
+                console.log(resultDishFromMutate);
 
-              // adding dish to event ********************************
+                // adding dish to event ********************************
 
-              if (resultDishFromMutate === undefined)
-                throw new Error("resultDish is undefined");
+                if (resultDishFromMutate === undefined)
+                  throw new Error("resultDish is undefined");
 
-              const resultDishId = resultDishFromMutate._id?.toString();
+                const resultDishId = resultDishFromMutate._id?.toString();
 
-              if (resultDishId === undefined)
-                throw new Error("resultDishId is undefined");
-              if (selectedEvent.dishes === undefined)
-                throw new Error("selectedEvent.dishes is undefined");
+                if (resultDishId === undefined)
+                  throw new Error("resultDishId is undefined");
+                if (selectedEvent.dishes === undefined)
+                  throw new Error("selectedEvent.dishes is undefined");
 
-              // add newDish id to selectedEvent
-              selectedEvent.publicId !== "none"
-                ? selectedEvent.dishes.push(resultDishId)
-                : new Error("no event selected");
+                // add newDish id to selectedEvent
+                selectedEvent.publicId !== "none"
+                  ? selectedEvent.dishes.push(resultDishId)
+                  : new Error("no event selected");
 
-              const selectedEventWithoutId = { ...selectedEvent };
-              delete selectedEventWithoutId._id;
+                const selectedEventWithoutId = { ...selectedEvent };
+                delete selectedEventWithoutId._id;
 
-              const resultEventFromMutate = await putEventMutateAsync(
-                selectedEventWithoutId
-              );
+                const resultEventFromMutate = await putEventMutateAsync(
+                  selectedEventWithoutId
+                );
 
-              console.log(resultEventFromMutate);
-            }}
-          />
-        </ExpandableSectionButton>
+                console.log(resultEventFromMutate);
+              }}
+            />
+          </ExpandableSectionButton>
+        </div>
 
-        <ExpandableSectionButton buttonLabelText="Add Beverage">
-          <h2>What Beverage?</h2>
-          <BevForm
-            onSubmit={async (newBev) => {
-              const publicId = nanoid();
-              const newBevWithPublicId = {
-                ...newBev,
-                publicId: publicId,
-              };
+        <div className="col-sm mb-3">
+          <ExpandableSectionButton buttonLabelText="Add Beverage">
+            <h2>What Beverage?</h2>
+            <BevForm
+              onSubmit={async (newBev) => {
+                const publicId = nanoid();
+                const newBevWithPublicId = {
+                  ...newBev,
+                  publicId: publicId,
+                };
 
-              const resultBevFromMutate = await postBevMutateAsync(
-                newBevWithPublicId
-              );
+                const resultBevFromMutate = await postBevMutateAsync(
+                  newBevWithPublicId
+                );
 
-              console.log(resultBevFromMutate);
+                console.log(resultBevFromMutate);
 
-              // adding Bev to event ********************************
+                // adding Bev to event ********************************
 
-              if (resultBevFromMutate === undefined)
-                throw new Error("resultBev is undefined");
+                if (resultBevFromMutate === undefined)
+                  throw new Error("resultBev is undefined");
 
-              const resultBevId = resultBevFromMutate._id?.toString();
+                const resultBevId = resultBevFromMutate._id?.toString();
 
-              if (resultBevId === undefined)
-                throw new Error("resultBevId is undefined");
-              if (selectedEvent.bevs === undefined)
-                throw new Error("selectedEvent.bevs is undefined");
+                if (resultBevId === undefined)
+                  throw new Error("resultBevId is undefined");
+                if (selectedEvent.bevs === undefined)
+                  throw new Error("selectedEvent.bevs is undefined");
 
-              // add newBev id to selectedEvent
-              selectedEvent.publicId !== "none"
-                ? selectedEvent.bevs.push(resultBevId)
-                : new Error("no event selected");
+                // add newBev id to selectedEvent
+                selectedEvent.publicId !== "none"
+                  ? selectedEvent.bevs.push(resultBevId)
+                  : new Error("no event selected");
 
-              const selectedEventWithoutId = { ...selectedEvent };
-              delete selectedEventWithoutId._id;
+                const selectedEventWithoutId = { ...selectedEvent };
+                delete selectedEventWithoutId._id;
 
-              const resultEventFromMutate = await putEventMutateAsync(
-                selectedEventWithoutId
-              );
+                const resultEventFromMutate = await putEventMutateAsync(
+                  selectedEventWithoutId
+                );
 
-              console.log(resultEventFromMutate);
-            }}
-          />
-        </ExpandableSectionButton>
+                console.log(resultEventFromMutate);
+              }}
+            />
+          </ExpandableSectionButton>
+        </div>
         {/* end row */}
       </div>
 
-      <div className="mb-3">
-        <h2>Who's Bringing What?</h2>
-        <h3>Dishes</h3>
-        <DishFilter
-          onSelectCategory={(category) => {
-            setSelectedDishCategory(category);
-          }}
-        />
-      </div>
-      <div className="mb-3">
-        <DishList
-          selectedEvent={selectedEvent}
-          selectedDishCategory={selectedDishCategory}
-          // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
-        />
-      </div>
+      <div className="row mb-1">
+        <div className="mb-3">
+          <h2>Who's Bringing What?</h2>
+          <h3>Dishes</h3>
+          <DishFilter
+            onSelectCategory={(category) => {
+              setSelectedDishCategory(category);
+            }}
+          />
+        </div>
+        <div className="mb-3">
+          <DishList
+            selectedEvent={selectedEvent}
+            selectedDishCategory={selectedDishCategory}
+            // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
+          />
+        </div>
 
-      <div className="mb-3">
-        <h3>Beverages</h3>
-        <BevFilter
-          onSelectCategory={(category) => setSelectedBevCategory(category)}
-        />
-      </div>
-      <div className="mb-3">
-        <BevList
-          selectedEvent={selectedEvent}
-          selectedBevCategory={selectedBevCategory}
-        />
+        <div className="mb-3">
+          <h3>Beverages</h3>
+          <BevFilter
+            onSelectCategory={(category) => setSelectedBevCategory(category)}
+          />
+        </div>
+        <div className="mb-3">
+          <BevList
+            selectedEvent={selectedEvent}
+            selectedBevCategory={selectedBevCategory}
+          />
+        </div>
+        {/* end row */}
       </div>
 
       {/* end container */}
