@@ -1,6 +1,7 @@
 import { ReactNode, useContext, useState } from "react";
 import { PlusLg, DashLg } from "react-bootstrap-icons";
 import { EventFormIsExpandedContext } from "../contexts/contexts";
+import Collapse from "react-bootstrap/Collapse";
 
 interface Props {
   children: ReactNode;
@@ -27,7 +28,9 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
       >
         {renderIcon}
       </button>
-      {showDiv}
+      <Collapse in={cont.EventFormisExpanded}>
+        <div>{showDiv}</div>
+      </Collapse>
     </>
   );
 };
