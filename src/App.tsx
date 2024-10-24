@@ -126,7 +126,7 @@ function App() {
   } = useEvents();
 
   return (
-    <div className="container">
+    <div className="container" style={{ scrollbarGutter: "stable both-edges" }}>
       <h1>Watcha Bringing?</h1>
       <h2>Events</h2>
       <EventMenu
