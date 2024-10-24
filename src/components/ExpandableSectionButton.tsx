@@ -1,5 +1,6 @@
 import { ReactNode, useState } from "react";
 import { PlusLg, DashLg } from "react-bootstrap-icons";
+import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 
 interface Props {
@@ -20,13 +21,19 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
 
   return (
     <>
-      <button
+      {/* <button
         type="button"
         className="btn btn-primary mb-3"
         onClick={() => setIsExpanded(!isExpanded)}
+      > */}
+      <Button
+        className="mb-3"
+        variant="primary"
+        type="button"
+        onClick={() => setIsExpanded(!isExpanded)}
       >
         {renderIcon}
-      </button>
+      </Button>
       <Collapse in={isExpanded}>
         <div>{showDiv}</div>
       </Collapse>
