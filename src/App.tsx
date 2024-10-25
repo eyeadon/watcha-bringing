@@ -138,8 +138,6 @@ function App() {
           // console.log(selectedEvent);
         }}
       />
-      <SelectedEventTitle selectedEvent={selectedEvent} />
-      <SelectedEventDataDisplay selectedEvent={selectedEvent} />
 
       <div className="row mb-1">
         <EventFormIsExpandedContext.Provider
@@ -174,6 +172,9 @@ function App() {
           </div>
         </EventFormIsExpandedContext.Provider>
       </div>
+
+      <SelectedEventTitle selectedEvent={selectedEvent} />
+      <SelectedEventDataDisplay selectedEvent={selectedEvent} />
 
       <div className="row mb-1">
         <div className="col-sm mb-3">
