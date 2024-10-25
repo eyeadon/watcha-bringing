@@ -8,7 +8,7 @@ interface Props {
 const SelectedEventTitle = ({ selectedEvent }: Props) => {
   return (
     <div className="d-flex p-2 mb-3">
-      <div className="p-2">
+      <div className="p-4">
         <h4>Host:&nbsp;{capitalizeFirstLetter(selectedEvent.host)}</h4>
         <h4>Date:&nbsp;{capitalizeFirstLetter(selectedEvent.date)}</h4>
         <h4>
@@ -21,7 +21,7 @@ const SelectedEventTitle = ({ selectedEvent }: Props) => {
             : "?"}
         </h4>
       </div>
-      <div className="p-2">
+      <div className="p-4">
         <h4>Address:&nbsp;</h4>
         <p>{capitalizeFirstLetter(selectedEvent.address.street)}</p>
         <p>
