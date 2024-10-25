@@ -1,3 +1,7 @@
+html {
+  scrollbar-gutter: stable both-edges;
+}
+
 #selectedEventTitle {
   color: #0000b3;
 }
