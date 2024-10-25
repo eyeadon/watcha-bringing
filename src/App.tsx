@@ -36,6 +36,7 @@ import dayjs from "dayjs";
 import { dayJsObjectToHourAndMinute } from "./functions/functions";
 import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
 import { EventFormIsExpandedContext } from "./contexts/contexts";
+import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -138,6 +139,7 @@ function App() {
         }}
       />
       <SelectedEventTitle selectedEvent={selectedEvent} />
+      <SelectedEventDataDisplay selectedEvent={selectedEvent} />
 
       <div className="row mb-1">
         <EventFormIsExpandedContext.Provider
