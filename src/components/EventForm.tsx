@@ -1,6 +1,8 @@
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useContext } from "react";
+import { EventFormIsExpandedContext } from "../contexts/contexts";
 import {
   DatePicker,
   LocalizationProvider,
@@ -8,8 +10,11 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
-import { useContext } from "react";
-import { EventFormIsExpandedContext } from "../contexts/contexts";
+// import utc from "dayjs/plugin/utc";
+// import timezone from "dayjs/plugin/timezone";
+// dayjs.extend(utc);
+// dayjs.extend(timezone);
+// dayjs.tz.setDefault("America/New_York");
 
 const eventSchema = z.object({
   name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
@@ -106,6 +111,7 @@ const BevForm = ({ onSubmit }: Props) => {
                     value={value}
                     inputRef={ref}
                     onChange={onChange}
+                    disablePast={true}
                     slotProps={{
                       actionBar: {
                         actions: ["clear", "today", "cancel", "accept"],
