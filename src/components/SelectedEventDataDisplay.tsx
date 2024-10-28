@@ -12,27 +12,31 @@ const SelectedEventTitle = ({ selectedEvent }: Props) => {
   return (
     <>
       {selectedEvent.publicId !== "none" && (
-        <div className="d-flex p-2 mb-3">
-          <div className="p-4">
-            <h4>Host:&nbsp;{capitalizeFirstLetter(selectedEvent.host)}</h4>
-            <h4>
-              Date:&nbsp;{dayjs(selectedEvent.startDateTime).format("LL")}
-            </h4>
-            <h4>
-              Start Time:&nbsp;{dayjs(selectedEvent.startDateTime).format("LT")}
-            </h4>
-            <h4>
-              End Time:&nbsp;
+        <div className="d-flex mb-3">
+          <div className="me-4">
+            <p>
+              <strong>Date:</strong>&nbsp;
+              {dayjs(selectedEvent.startDateTime).format("LL")}
+            </p>
+            <p>
+              <strong>Start Time:</strong>&nbsp;
+              {dayjs(selectedEvent.startDateTime).format("LT")}
+            </p>
+            <p>
+              <strong>End Time:</strong>&nbsp;
               {selectedEvent.endDateTime
                 ? dayjs(selectedEvent.endDateTime).format("LT")
                 : "?"}
-            </h4>
+            </p>
           </div>
 
-          <div className="p-4">
-            <h4>Address:&nbsp;</h4>
-            <p>{capitalizeFirstLetter(selectedEvent.address.street)}</p>
+          <div className="">
             <p>
+              <strong>Address:</strong>
+            </p>
+            <p>
+              {capitalizeFirstLetter(selectedEvent.address.street)}
+              <br />
               {capitalizeFirstLetter(selectedEvent.address.city) +
                 ", " +
                 " " +
