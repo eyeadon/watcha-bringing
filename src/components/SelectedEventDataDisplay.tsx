@@ -16,14 +16,16 @@ const SelectedEventTitle = ({ selectedEvent }: Props) => {
         <div className="d-flex p-2 mb-3">
           <div className="p-4">
             <h4>Host:&nbsp;{capitalizeFirstLetter(selectedEvent.host)}</h4>
-            <h4>Date:&nbsp;{dayjs(selectedEvent.date).format("LL")}</h4>
             <h4>
-              Start Time:&nbsp;{capitalizeFirstLetter(selectedEvent.startTime)}
+              Date:&nbsp;{dayjs(selectedEvent.startDateTime).format("LL")}
+            </h4>
+            <h4>
+              Start Time:&nbsp;{dayjs(selectedEvent.startDateTime).format("LT")}
             </h4>
             <h4>
               End Time:&nbsp;
-              {selectedEvent.endTime
-                ? capitalizeFirstLetter(selectedEvent.endTime)
+              {selectedEvent.endDateTime
+                ? dayjs(selectedEvent.endDateTime).format("LT")
                 : "?"}
             </h4>
           </div>

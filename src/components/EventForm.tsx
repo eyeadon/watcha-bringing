@@ -1,7 +1,11 @@
 import { z } from "zod";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
+import {
+  DatePicker,
+  LocalizationProvider,
+  TimePicker,
+} from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
 import { useContext } from "react";
@@ -19,10 +23,10 @@ const eventSchema = z.object({
     state: z.string().min(2).max(2),
     zipcode: z.string().min(5).max(5),
   }),
-  date: z.string().date(),
-  // startTime: z.instanceof(dayjs as unknown as typeof Dayjs),
-  startTime: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
-  endTime: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
+  date: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
+  // startDateTime: z.instanceof(dayjs as unknown as typeof Dayjs),
+  startDateTime: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
+  endDateTime: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
 });
 
 export type EventFormData = z.infer<typeof eventSchema>;
@@ -42,8 +46,9 @@ const BevForm = ({ onSubmit }: Props) => {
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
-      startTime: null as unknown as Dayjs,
-      endTime: null as unknown as Dayjs,
+      date: null as unknown as Dayjs,
+      startDateTime: null as unknown as Dayjs,
+      endDateTime: null as unknown as Dayjs,
     },
   });
 
@@ -89,23 +94,39 @@ const BevForm = ({ onSubmit }: Props) => {
           <label htmlFor="date" className="form-label">
             Date
           </label>
-          <input
-            {...register("date")}
-            id="date"
-            type="date"
-            className="form-control"
-          />
+          <div className="mb-3">
+            <Controller
+              control={control}
+              name="date"
+              render={({ field: { name, onChange, value, ref } }) => {
+                return (
+                  <DatePicker
+                    label="MM/DD/YYYY"
+                    name={name}
+                    value={value}
+                    inputRef={ref}
+                    onChange={onChange}
+                    slotProps={{
+                      actionBar: {
+                        actions: ["clear", "today", "cancel", "accept"],
+                      },
+                    }}
+                  />
+                );
+              }}
+            />
+          </div>
           {errors.date && <p className="text-danger">{errors.date.message}</p>}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="startTime" className="form-label">
+          <label htmlFor="startDateTime" className="form-label">
             Start Time
           </label>
           <div className="mb-3">
             <Controller
               control={control}
-              name="startTime"
+              name="startDateTime"
               render={({ field: { name, onChange, value, ref } }) => {
                 return (
                   <TimePicker
@@ -121,19 +142,19 @@ const BevForm = ({ onSubmit }: Props) => {
               }}
             />
           </div>
-          {errors.startTime && (
-            <p className="text-danger">{errors.startTime.message}</p>
+          {errors.startDateTime && (
+            <p className="text-danger">{errors.startDateTime.message}</p>
           )}
         </div>
 
         <div className="mb-3">
-          <label htmlFor="endTime" className="form-label">
+          <label htmlFor="endDateTime" className="form-label">
             End Time
           </label>
           <div className="mb-3">
             <Controller
               control={control}
-              name="endTime"
+              name="endDateTime"
               render={({ field: { name, onChange, value, ref } }) => {
                 return (
                   <TimePicker
@@ -149,8 +170,8 @@ const BevForm = ({ onSubmit }: Props) => {
               }}
             />
           </div>
-          {errors.endTime && (
-            <p className="text-danger">{errors.endTime.message}</p>
+          {errors.endDateTime && (
+            <p className="text-danger">{errors.endDateTime.message}</p>
           )}
         </div>
 

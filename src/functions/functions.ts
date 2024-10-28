@@ -24,3 +24,10 @@ export function dayJsObjectToHourAndMinute(obj: Dayjs) {
 
   return hour + ":" + (minute ? minute : "00");
 }
+
+export function setDateDayJs(newDateObj: Dayjs, oldDateObj: Dayjs) {
+  return oldDateObj
+    .set("month", newDateObj.month())
+    .set("day", newDateObj.day())
+    .set("year", newDateObj.year());
+}

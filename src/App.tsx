@@ -23,6 +23,7 @@ import {
   DishDocumentType,
   BevDocumentType,
   EventDocumentType,
+  FormEvent,
 } from "./interfaces/interfaces";
 import APIClient from "./services/apiClient";
 import EventForm from "./components/EventForm";
@@ -33,7 +34,10 @@ import usePostBev from "./hooks/usePostBev";
 import usePostEvent from "./hooks/usePostEvent";
 import usePutEvent from "./hooks/usePutEvent";
 import dayjs from "dayjs";
-import { dayJsObjectToHourAndMinute } from "./functions/functions";
+import {
+  dayJsObjectToHourAndMinute,
+  setDateDayJs,
+} from "./functions/functions";
 import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
 import { EventFormIsExpandedContext } from "./contexts/contexts";
 import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
@@ -146,15 +150,26 @@ function App() {
           <div className="col-sm-6 mb-3">
             <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
               <EventForm
-                onSubmit={async (newEvent) => {
+                onSubmit={async (newEvent: FormEvent) => {
                   const publicId = nanoid();
+
+                  if (newEvent.date === undefined)
+                    throw new Error("date is undefined");
 
                   const newEventWithPublicId = {
                     ...newEvent,
                     publicId: publicId,
-                    startTime: dayJsObjectToHourAndMinute(newEvent.startTime),
-                    endTime: dayJsObjectToHourAndMinute(newEvent.endTime),
+                    startDateTime: setDateDayJs(
+                      newEvent.date,
+                      newEvent.startDateTime
+                    ).toDate(),
+                    endDateTime: setDateDayJs(
+                      newEvent.date,
+                      newEvent.endDateTime
+                    ).toDate(),
                   };
+
+                  delete newEventWithPublicId.date;
 
                   console.log(newEventWithPublicId);
 

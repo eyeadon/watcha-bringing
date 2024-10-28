@@ -8,9 +8,8 @@ export const emptyEvent = {
     state: "",
     zipcode: "",
   },
-  date: "",
-  startTime: "",
-  endTime: "",
+  startDateTime: new Date(),
+  endDateTime: new Date(),
   dishes: [],
   bevs: [],
 };

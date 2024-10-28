@@ -1,5 +1,7 @@
-import Joi from "joi";
 import mongoose from "mongoose";
+import coreJoi from "joi";
+import joiDate from "@joi/date";
+const Joi = coreJoi.extend(joiDate);
 
 const addressSchema = new mongoose.Schema(
   {
@@ -67,16 +69,12 @@ const Event = mongoose.model(
         type: addressSchema,
         required: false,
       },
-      date: {
-        type: String,
+      startDateTime: {
+        type: Date,
         required: true,
       },
-      startTime: {
-        type: String,
-        required: true,
-      },
-      endTime: {
-        type: String,
+      endDateTime: {
+        type: Date,
         required: false,
       },
       // array of ObjectIds
@@ -102,9 +100,8 @@ function validateEvent(event) {
         .max(5)
         .pattern(/^[0-9]{5}$/, "zipcode"),
     }),
-    date: Joi.string(),
-    startTime: Joi.string(),
-    endTime: Joi.string(),
+    startDateTime: Joi.date().iso(),
+    endDateTime: Joi.date().iso(),
     dishes: Joi.array().items(Joi.string()),
     bevs: Joi.array().items(Joi.string()),
   });
