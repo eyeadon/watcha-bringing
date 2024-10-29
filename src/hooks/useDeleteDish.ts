@@ -19,33 +19,30 @@ const useDeleteDish = () => {
     },
     onMutate: (id) => {
       // if undefined, return []
-      const previousDishes = queryClient.getQueryData<Dish[]>(["dishes"]) || [];
+      const previousDishes =
+        queryClient.getQueryData<DishDocumentType[]>(["dishes"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
+      queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => {
         if (dishes === undefined) return [];
-        return dishes.filter((e) => e._id !== id);
+        return dishes.filter((e) => e._id?.toString() !== id);
       });
 
       // can access in onError callback
       return { previousDishes };
     },
-    onSuccess: (savedDish, newDish: Dish) => {
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
-        // replace newDish instance set by onMutate with proper savedDish
-        dishes?.forEach((element) => {
-          if (element.publicId === newDish.publicId) element = savedDish;
-        });
-        return dishes;
-      });
-    },
+    // // (data, variables, context)
+    // onSuccess: (savedDish, id) => {
+    // },
     //       (error, variables, context)
     // use context in case request fails
-    onError: (error, newDish, context) => {
+    onError: (error, id, context) => {
       if (!context) return;
 
-      queryClient.setQueryData<Dish[]>(["dishes"], context.previousDishes);
+      queryClient.setQueryData<DishDocumentType[]>(
+        ["dishes"],
+        context.previousDishes
+      );
     },
   });
 };
