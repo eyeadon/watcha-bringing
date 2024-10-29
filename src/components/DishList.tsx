@@ -35,8 +35,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     // dishes,
     data,
     selectedDishCategory,
-    "All Dish Categories",
-    true
+    "All Dish Categories"
   );
 
   // refetch();

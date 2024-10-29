@@ -10,22 +10,19 @@ import {
 export function visibleItemsFilterHelper(
   arr: DishDocumentType[] | undefined,
   selCat: string,
-  allCats: string,
-  itemTypeDish: true
+  allCats: string
 ): DishDocumentType[];
 
 export function visibleItemsFilterHelper(
   arr: BevDocumentType[] | undefined,
   selCat: string,
-  allCats: string,
-  itemTypeDish?: false
+  allCats: string
 ): BevDocumentType[];
 
 export function visibleItemsFilterHelper(
   arr: DishDocumentType[] | BevDocumentType[] | undefined,
   selCat: string,
-  allCats: string,
-  itemTypeDish?: boolean
+  allCats: string
 ): DishDocumentType[] | BevDocumentType[] {
   if (arr === undefined) return [];
   if (selCat === allCats) return arr;
