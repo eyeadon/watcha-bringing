@@ -3,12 +3,12 @@ import { Dish, DishDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
 
 interface DeleteDishContext {
-  previousDishes: Dish[];
+  previousDishes: DishDocumentType[];
 }
 
 const useDeleteDish = () => {
   const queryClient = useQueryClient();
-  const apiClientDish = new APIClient<Dish>("/dishes");
+  const apiClientDish = new APIClient<DishDocumentType>("/dishes");
 
   // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
   // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
@@ -22,9 +22,10 @@ const useDeleteDish = () => {
       const previousDishes = queryClient.getQueryData<Dish[]>(["dishes"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) =>
-        dishes.filter((e) => e._id !== id)
-      );
+      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
+        if (dishes === undefined) return [];
+        return dishes.filter((e) => e._id !== id);
+      });
 
       // can access in onError callback
       return { previousDishes };

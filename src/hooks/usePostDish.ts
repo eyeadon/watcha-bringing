@@ -20,10 +20,11 @@ const usePostDish = () => {
     },
     onMutate: (newDish: Dish) => {
       // if undefined, return []
-      const previousDishes = queryClient.getQueryData<Dish[]>(["dishes"]) || [];
+      const previousDishes =
+        queryClient.getQueryData<DishDocumentType[]>(["dishes"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => [
+      queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => [
         newDish,
         ...(dishes || []),
       ]);
@@ -33,7 +34,7 @@ const usePostDish = () => {
     },
     onSuccess: (savedDish, newDish: Dish) => {
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
+      queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => {
         // replace newDish instance set by onMutate with proper savedDish
         dishes?.forEach((element) => {
           if (element.publicId === newDish.publicId) element = savedDish;
@@ -46,7 +47,10 @@ const usePostDish = () => {
     onError: (error, newDish, context) => {
       if (!context) return;
 
-      queryClient.setQueryData<Dish[]>(["dishes"], context.previousDishes);
+      queryClient.setQueryData<DishDocumentType[]>(
+        ["dishes"],
+        context.previousDishes
+      );
     },
   });
 };

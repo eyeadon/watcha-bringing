@@ -1,16 +1,40 @@
 import { Dayjs } from "dayjs";
-import { Dish, Bev } from "../interfaces/interfaces";
+import {
+  Dish,
+  Bev,
+  BevDocumentType,
+  DishDocumentType,
+} from "../interfaces/interfaces";
+
+// function overloads
+export function visibleItemsFilterHelper(
+  arr: DishDocumentType[] | undefined,
+  selCat: string,
+  allCats: string,
+  itemTypeDish: true
+): DishDocumentType[];
 
 export function visibleItemsFilterHelper(
-  arr: Dish[] | Bev[] | undefined,
+  arr: BevDocumentType[] | undefined,
   selCat: string,
-  allCats: string
-) {
+  allCats: string,
+  itemTypeDish?: false
+): BevDocumentType[];
+
+export function visibleItemsFilterHelper(
+  arr: DishDocumentType[] | BevDocumentType[] | undefined,
+  selCat: string,
+  allCats: string,
+  itemTypeDish?: boolean
+): DishDocumentType[] | BevDocumentType[] {
   if (arr === undefined) return [];
   if (selCat === allCats) return arr;
 
   return selCat
-    ? arr.filter((element: Dish | Bev) => element.category === selCat)
+    ? arr.filter(
+        (element: DishDocumentType | BevDocumentType) =>
+          element.category === selCat
+      )
     : arr;
 }
 
@@ -21,7 +45,6 @@ export function capitalizeFirstLetter(string: string | undefined) {
 export function dayJsObjectToHourAndMinute(obj: Dayjs) {
   const hour = obj.get("hour");
   const minute = obj.get("minute");
-
   return hour + ":" + (minute ? minute : "00");
 }
 

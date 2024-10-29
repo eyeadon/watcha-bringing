@@ -1,4 +1,4 @@
-import { Dish, Event } from "../interfaces/interfaces";
+import { Dish, DishDocumentType, Event } from "../interfaces/interfaces";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
@@ -35,7 +35,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     // dishes,
     data,
     selectedDishCategory,
-    "All Dish Categories"
+    "All Dish Categories",
+    true
   );
 
   // refetch();
@@ -54,7 +55,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       </thead>
       <tbody key="dishTableBody">
         {/* {status === "success" && */}
-        {eventDishes.map((dish: Dish) => (
+        {eventDishes.map((dish: DishDocumentType) => (
           <tr key={dish.publicId}>
             <td>{capitalizeFirstLetter(dish.category)}</td>
             <td>{capitalizeFirstLetter(dish.name)}</td>

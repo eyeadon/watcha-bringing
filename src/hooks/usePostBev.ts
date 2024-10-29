@@ -20,10 +20,11 @@ const usePostBev = () => {
     },
     onMutate: (newBev: Bev) => {
       // if undefined, return []
-      const previousBevs = queryClient.getQueryData<Bev[]>(["bevs"]) || [];
+      const previousBevs =
+        queryClient.getQueryData<BevDocumentType[]>(["bevs"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Bev[]>(["bevs"], (bevs) => [
+      queryClient.setQueryData<BevDocumentType[]>(["bevs"], (bevs) => [
         newBev,
         ...(bevs || []),
       ]);
@@ -33,7 +34,7 @@ const usePostBev = () => {
     },
     onSuccess: (savedBev, newBev: Bev) => {
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Bev[]>(["bevs"], (bevs) => {
+      queryClient.setQueryData<BevDocumentType[]>(["bevs"], (bevs) => {
         // replace newBev instance set by onMutate with proper savedBev
         bevs?.forEach((element) => {
           if (element.publicId === newBev.publicId) element = savedBev;
@@ -46,7 +47,10 @@ const usePostBev = () => {
     onError: (error, newBev, context) => {
       if (!context) return;
 
-      queryClient.setQueryData<Bev[]>(["bevs"], context.previousBevs);
+      queryClient.setQueryData<BevDocumentType[]>(
+        ["bevs"],
+        context.previousBevs
+      );
     },
   });
 };
