@@ -6,7 +6,7 @@ import {
   DishDocumentType,
 } from "../interfaces/interfaces";
 
-// function overloads
+// function overload signatures
 export function visibleItemsFilterHelper(
   arr: DishDocumentType[] | undefined,
   selCat: string,
