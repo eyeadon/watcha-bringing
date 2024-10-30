@@ -31,9 +31,10 @@ const useDeleteDish = () => {
       // can access in onError callback
       return { previousDishes };
     },
-    // // (data, variables, context)
-    // onSuccess: (savedDish, id) => {
-    // },
+    // (data, variables, context)
+    onSuccess: (mutationResult, id) => {
+      return mutationResult;
+    },
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, id, context) => {
