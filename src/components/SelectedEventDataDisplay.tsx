@@ -13,7 +13,7 @@ const SelectedEventTitle = ({ selectedEvent }: Props) => {
     <>
       {selectedEvent.publicId !== "none" && (
         <div className="d-flex mb-3">
-          <div className="me-4">
+          <div className="me-5">
             <p>
               <strong>Date:</strong>&nbsp;
               {dayjs(selectedEvent.startDateTime).format("LL")}
