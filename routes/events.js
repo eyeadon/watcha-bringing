@@ -21,7 +21,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // get event with dishes/bevs as full objects
-router.get("/subdoc/event", async (req, res) => {
+router.get("/subdoc/items", async (req, res) => {
   // console.log(req.query.publicId);
 
   if (req.query.publicId === "none") {
@@ -135,6 +135,19 @@ router.delete("/:id", async (req, res) => {
     return res.status(404).send("The Event with the given ID was not found.");
 
   res.send(event);
+});
+
+// delete dish or bev item from event
+router.delete("/subdoc/updateitem", async (req, res) => {
+  const selectedEvent = await Event.updateOne(
+    { _id: req.query.id },
+    { $pullAll: { dishes: [req.query.itemId] } }
+  );
+
+  if (!selectedEvent)
+    return res.status(404).send("The event with the given ID was not found.");
+
+  res.send(selectedEvent);
 });
 
 export default router;

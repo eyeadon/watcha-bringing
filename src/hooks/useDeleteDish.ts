@@ -1,5 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dish, DishDocumentType } from "../interfaces/interfaces";
+import {
+  Dish,
+  DishDocumentType,
+  EventDocumentType,
+} from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
 
 interface DeleteDishContext {
@@ -9,15 +13,22 @@ interface DeleteDishContext {
 const useDeleteDish = () => {
   const queryClient = useQueryClient();
   const apiClientDish = new APIClient<DishDocumentType>("/dishes");
+  const apiClientEvent = new APIClient<EventDocumentType>("/events");
 
   // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
   // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
   // useMutation<data: get from backend, error, variables: data sent to backend, context>
-  return useMutation<DishDocumentType, Error, string, DeleteDishContext>({
-    mutationFn: (id) => {
-      return apiClientDish.delete(id);
+  return useMutation<
+    DishDocumentType,
+    Error,
+    { eventId: string; dishId: string },
+    DeleteDishContext
+  >({
+    mutationFn: (obj) => {
+      apiClientEvent.deleteItem(obj.eventId, obj.dishId);
+      return apiClientDish.delete(obj.dishId);
     },
-    onMutate: (id) => {
+    onMutate: (obj) => {
       // if undefined, return []
       const previousDishes =
         queryClient.getQueryData<DishDocumentType[]>(["dishes"]) || [];
@@ -25,19 +36,19 @@ const useDeleteDish = () => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => {
         if (dishes === undefined) return [];
-        return dishes.filter((e) => e._id?.toString() !== id);
+        return dishes.filter((e) => e._id?.toString() !== obj.dishId);
       });
 
       // can access in onError callback
       return { previousDishes };
     },
     // (data, variables, context)
-    onSuccess: (mutationResult, id) => {
+    onSuccess: (mutationResult, obj) => {
       return mutationResult;
     },
     //       (error, variables, context)
     // use context in case request fails
-    onError: (error, id, context) => {
+    onError: (error, obj, context) => {
       if (!context) return;
 
       queryClient.setQueryData<DishDocumentType[]>(

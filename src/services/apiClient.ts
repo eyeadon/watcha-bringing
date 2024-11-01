@@ -63,7 +63,7 @@ class APIClient<T> {
   // get sub doc
   getSubDoc = (id: number | string, item: string) => {
     return axiosInstance
-      .get<T>(this.endpoint + "/subdoc/event", {
+      .get<T>(this.endpoint + "/subdoc/items", {
         params: { publicId: id, item: item },
       })
       .then((res) => res.data);
@@ -92,6 +92,14 @@ class APIClient<T> {
   delete = (id: number | string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/" + id)
+      .then((res) => res.data);
+  };
+
+  deleteItem = (id: number | string, itemId: string) => {
+    return axiosInstance
+      .delete<T>(this.endpoint + "/subdoc/updateitem", {
+        params: { id: id, itemId: itemId },
+      })
       .then((res) => res.data);
   };
 }
