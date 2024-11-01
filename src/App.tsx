@@ -41,6 +41,7 @@ import {
 import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
 import { EventFormIsExpandedContext } from "./contexts/contexts";
 import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
+import useDeleteDish from "./hooks/useDeleteDish";
 
 function App() {
   const apiClientDish = new APIClient<Dish>("/dishes");
@@ -302,7 +303,6 @@ function App() {
           <DishList
             selectedEvent={selectedEvent}
             selectedDishCategory={selectedDishCategory}
-            // onDelete={(id) => setDish(dishes.filter((e) => e.id !== id))}
           />
         </div>
 

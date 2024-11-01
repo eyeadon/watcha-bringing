@@ -1,4 +1,9 @@
-import { Dish, DishDocumentType, Event } from "../interfaces/interfaces";
+import {
+  Dish,
+  DishDocumentType,
+  Event,
+  EventDocumentType,
+} from "../interfaces/interfaces";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
@@ -7,15 +12,27 @@ import useEventSubDoc from "../hooks/useEventSubDoc";
 import APIClient from "../services/apiClient";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import useDeleteDish from "../hooks/useDeleteDish";
 
 interface Props {
-  selectedEvent: Event;
+  selectedEvent: EventDocumentType;
   selectedDishCategory: string;
-  // onDelete: (id: number) => void;
 }
 
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
+
+  const {
+    data: deleteDishData,
+    error: deleteDishError,
+    isError: deleteDishIsError,
+    isPending: deleteDishIsPending,
+    isSuccess: deleteDishIsSuccess,
+    mutate: deleteDishMutate,
+    mutateAsync: deleteDishMutateAsync,
+    reset: deleteDishReset,
+    status: deleteDishStatus,
+  } = useDeleteDish();
 
   const queryClient = useQueryClient();
   queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
@@ -64,6 +81,24 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 // last item has no comma after it
                 return index === arr.length - 1 ? diet : `${diet}, `;
               })}
+            </td>
+            <td>
+              <button
+                className="btn btn-outline-danger"
+                onClick={async () => {
+                  if (selectedEvent._id === undefined)
+                    throw new Error("selectedEvent._id is undefined");
+                  if (dish._id === undefined)
+                    throw new Error("dish._id is undefined");
+
+                  await deleteDishMutateAsync({
+                    eventId: selectedEvent._id.toString(),
+                    dishId: dish._id.toString(),
+                  });
+                }}
+              >
+                Delete
+              </button>
             </td>
           </tr>
         ))}
