@@ -40,6 +40,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
           <th>Category</th>
           <th>Name</th>
           <th>Amount</th>
+          <th></th>
         </tr>
       </thead>
       <tbody key="bevTableBody">
@@ -48,6 +49,9 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             <td>{capitalizeFirstLetter(bev.category)}</td>
             <td>{capitalizeFirstLetter(bev.name)}</td>
             <td>{bev.amount}</td>
+            <td>
+              <button className="btn btn-outline-danger">Delete</button>
+            </td>
           </tr>
         ))}
       </tbody>

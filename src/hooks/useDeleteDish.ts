@@ -24,9 +24,14 @@ const useDeleteDish = () => {
     { eventId: string; dishId: string },
     DeleteDishContext
   >({
-    mutationFn: (obj) => {
-      apiClientEvent.deleteItem(obj.eventId, obj.dishId);
-      return apiClientDish.delete(obj.dishId);
+    mutationFn: async (obj) => {
+      const deletedItemFromEvent = await apiClientEvent.deleteItem(
+        obj.eventId,
+        obj.dishId
+      );
+      console.log(deletedItemFromEvent);
+
+      return await apiClientDish.delete(obj.dishId);
     },
     onMutate: (obj) => {
       // if undefined, return []

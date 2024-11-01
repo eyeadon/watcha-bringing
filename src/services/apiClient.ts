@@ -97,7 +97,7 @@ class APIClient<T> {
 
   deleteItem = (id: number | string, itemId: string) => {
     return axiosInstance
-      .delete<T>(this.endpoint + "/subdoc/updateitem", {
+      .delete<T>(this.endpoint + "/subdoc/deleteitem", {
         params: { id: id, itemId: itemId },
       })
       .then((res) => res.data);

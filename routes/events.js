@@ -138,16 +138,18 @@ router.delete("/:id", async (req, res) => {
 });
 
 // delete dish or bev item from event
-router.delete("/subdoc/updateitem", async (req, res) => {
-  const selectedEvent = await Event.updateOne(
+router.delete("/subdoc/deleteitem", async (req, res) => {
+  const deleteResult = await Event.updateOne(
     { _id: req.query.id },
     { $pullAll: { dishes: [req.query.itemId] } }
   );
 
-  if (!selectedEvent)
-    return res.status(404).send("The event with the given ID was not found.");
+  if (!deleteResult)
+    return res
+      .status(404)
+      .send("Event was not updated. Event id or item id was not found.");
 
-  res.send(selectedEvent);
+  res.send(deleteResult);
 });
 
 export default router;

@@ -67,6 +67,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <th>Name</th>
           <th>Amount</th>
           <th>Dietary</th>
+          <th></th>
         </tr>
       </thead>
       <tbody key="dishTableBody">
@@ -91,10 +92,11 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                   if (dish._id === undefined)
                     throw new Error("dish._id is undefined");
 
-                  await deleteDishMutateAsync({
+                  const result = await deleteDishMutateAsync({
                     eventId: selectedEvent._id.toString(),
                     dishId: dish._id.toString(),
                   });
+                  console.log(result);
                 }}
               >
                 Delete
