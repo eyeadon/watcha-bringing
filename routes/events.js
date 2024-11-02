@@ -38,8 +38,8 @@ router.get("/subdoc/items", async (req, res) => {
 
   // console.log(selectedEvent);
 
-  const findItems = async (item) => {
-    if (item === "dish") {
+  const findItems = async (itemKind) => {
+    if (itemKind === "dish") {
       return await Dish.find({
         _id: {
           $in: selectedEvent.dishes,
@@ -47,7 +47,7 @@ router.get("/subdoc/items", async (req, res) => {
       })
         .populate({ path: "Dish", strictPopulate: false })
         .exec();
-    } else if (item === "bev") {
+    } else if (itemKind === "bev") {
       return await Bev.find({
         _id: {
           $in: selectedEvent.bevs,
@@ -59,7 +59,7 @@ router.get("/subdoc/items", async (req, res) => {
     return [];
   };
 
-  const resultArray = await findItems(req.query.item);
+  const resultArray = await findItems(req.query.itemKind);
 
   if (!resultArray) return res.status(404).send("Event items were not found.");
 
@@ -139,10 +139,22 @@ router.delete("/:id", async (req, res) => {
 
 // delete dish or bev item from event
 router.delete("/subdoc/deleteitem", async (req, res) => {
-  const deleteResult = await Event.updateOne(
-    { _id: req.query.id },
-    { $pullAll: { dishes: [req.query.itemId] } }
-  );
+  const deleteItem = async (itemKind) => {
+    if (itemKind === "dish") {
+      return await Event.updateOne(
+        { _id: req.query.id },
+        { $pullAll: { dishes: [req.query.itemId] } }
+      );
+    } else if (itemKind === "bev") {
+      return await Event.updateOne(
+        { _id: req.query.id },
+        { $pullAll: { bevs: [req.query.itemId] } }
+      );
+    }
+    return [];
+  };
+
+  const deleteResult = await deleteItem(req.query.itemKind);
 
   if (!deleteResult)
     return res

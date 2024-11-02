@@ -94,7 +94,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
                   const result = await deleteDishMutateAsync({
                     eventId: selectedEvent._id.toString(),
-                    dishId: dish._id.toString(),
+                    itemId: dish._id.toString(),
+                    itemKind: "dish",
                   });
                   console.log(result);
                 }}

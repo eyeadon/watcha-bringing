@@ -5,12 +5,12 @@ import ms from "ms";
 
 const apiClient = new APIClient<DishDocumentType[]>("/events");
 
-const useEventSubDoc = (id: string, item: string) =>
+const useEventSubDoc = (id: string, itemKind: string) =>
   useQuery({
-    queryKey: ["selectedEvent", id, item],
+    queryKey: ["selectedEvent", id, itemKind],
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Event>>("/events").then((res) => res.data),
-    queryFn: () => apiClient.getSubDoc(id, item),
+    queryFn: () => apiClient.getSubDoc(id, itemKind),
 
     staleTime: 0,
     // refetchInterval: ( query) => {return query}

@@ -1,19 +1,32 @@
-import { Bev, Event } from "../interfaces/interfaces";
+import { BevDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
 } from "../functions/functions";
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import { useQueryClient } from "@tanstack/react-query";
+import useDeleteBev from "../hooks/useDeleteBev";
 
 interface Props {
-  selectedEvent: Event;
+  selectedEvent: EventDocumentType;
   selectedBevCategory: string;
   // onDelete: (id: number) => void;
 }
 
 const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   if (selectedEvent.bevs === undefined) return null;
+
+  const {
+    data: deleteBevData,
+    error: deleteBevError,
+    isError: deleteBevIsError,
+    isPending: deleteBevIsPending,
+    isSuccess: deleteBevIsSuccess,
+    mutate: deleteBevMutate,
+    mutateAsync: deleteBevMutateAsync,
+    reset: deleteBevReset,
+    status: deleteBevStatus,
+  } = useDeleteBev();
 
   const queryClient = useQueryClient();
   queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
@@ -49,8 +62,26 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             <td>{capitalizeFirstLetter(bev.category)}</td>
             <td>{capitalizeFirstLetter(bev.name)}</td>
             <td>{bev.amount}</td>
+            <td>&nbsp;</td>
             <td>
-              <button className="btn btn-outline-danger">Delete</button>
+              <button
+                className="btn btn-outline-danger"
+                onClick={async () => {
+                  if (selectedEvent._id === undefined)
+                    throw new Error("selectedEvent._id is undefined");
+                  if (bev._id === undefined)
+                    throw new Error("bev._id is undefined");
+
+                  const result = await deleteBevMutateAsync({
+                    eventId: selectedEvent._id.toString(),
+                    itemId: bev._id.toString(),
+                    itemKind: "bev",
+                  });
+                  console.log(result);
+                }}
+              >
+                Delete
+              </button>
             </td>
           </tr>
         ))}

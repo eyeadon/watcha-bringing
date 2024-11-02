@@ -1,28 +1,24 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Dish,
-  DishDocumentType,
-  EventDocumentType,
-} from "../interfaces/interfaces";
+import { BevDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
 
-interface DeleteDishContext {
-  previousDishes: DishDocumentType[];
+interface DeleteBevContext {
+  previousBevs: BevDocumentType[];
 }
 
-const useDeleteDish = () => {
+const useDeleteBev = () => {
   const queryClient = useQueryClient();
-  const apiClientDish = new APIClient<DishDocumentType>("/dishes");
+  const apiClientBev = new APIClient<BevDocumentType>("/bevs");
   const apiClientEvent = new APIClient<EventDocumentType>("/events");
 
   // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
   // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
   // useMutation<data: get from backend, error, variables: data sent to backend, context>
   return useMutation<
-    DishDocumentType,
+    BevDocumentType,
     Error,
     { eventId: string; itemId: string; itemKind: string },
-    DeleteDishContext
+    DeleteBevContext
   >({
     mutationFn: async (obj) => {
       const deletedItemFromEvent = await apiClientEvent.deleteItem(
@@ -32,21 +28,21 @@ const useDeleteDish = () => {
       );
       console.log(deletedItemFromEvent);
 
-      return await apiClientDish.delete(obj.itemId);
+      return await apiClientBev.delete(obj.itemId);
     },
     onMutate: (obj) => {
       // if undefined, return []
-      const previousDishes =
-        queryClient.getQueryData<DishDocumentType[]>(["dishes"]) || [];
+      const previousBevs =
+        queryClient.getQueryData<BevDocumentType[]>(["bevs"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => {
-        if (dishes === undefined) return [];
-        return dishes.filter((e) => e._id?.toString() !== obj.itemId);
+      queryClient.setQueryData<BevDocumentType[]>(["bevs"], (bevs) => {
+        if (bevs === undefined) return [];
+        return bevs.filter((e) => e._id?.toString() !== obj.itemId);
       });
 
       // can access in onError callback
-      return { previousDishes };
+      return { previousBevs };
     },
     // (data, variables, context)
     onSuccess: (mutationResult, obj) => {
@@ -57,12 +53,12 @@ const useDeleteDish = () => {
     onError: (error, obj, context) => {
       if (!context) return;
 
-      queryClient.setQueryData<DishDocumentType[]>(
-        ["dishes"],
-        context.previousDishes
+      queryClient.setQueryData<BevDocumentType[]>(
+        ["bevs"],
+        context.previousBevs
       );
     },
   });
 };
 
-export default useDeleteDish;
+export default useDeleteBev;

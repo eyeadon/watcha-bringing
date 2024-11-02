@@ -61,10 +61,10 @@ class APIClient<T> {
   };
 
   // get sub doc
-  getSubDoc = (id: number | string, item: string) => {
+  getSubDoc = (id: number | string, itemKind: string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/subdoc/items", {
-        params: { publicId: id, item: item },
+        params: { publicId: id, itemKind: itemKind },
       })
       .then((res) => res.data);
   };
@@ -95,10 +95,10 @@ class APIClient<T> {
       .then((res) => res.data);
   };
 
-  deleteItem = (id: number | string, itemId: string) => {
+  deleteItem = (id: number | string, itemId: string, itemKind: string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/subdoc/deleteitem", {
-        params: { id: id, itemId: itemId },
+        params: { id: id, itemId: itemId, itemKind: itemKind },
       })
       .then((res) => res.data);
   };
