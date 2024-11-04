@@ -38,6 +38,7 @@ const useDeleteBev = () => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<BevDocumentType[]>(["bevs"], (bevs) => {
         if (bevs === undefined) return [];
+
         return bevs.filter((e) => e._id?.toString() !== obj.itemId);
       });
 

@@ -78,7 +78,6 @@ class APIClient<T> {
     );
   };
 
-  //TODO test
   put = (id: number | string, data: T) => {
     return (
       axiosInstance
@@ -88,7 +87,6 @@ class APIClient<T> {
     );
   };
 
-  //TODO test
   delete = (id: number | string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/" + id)

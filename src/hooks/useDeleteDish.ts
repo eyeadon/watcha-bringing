@@ -42,6 +42,7 @@ const useDeleteDish = () => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => {
         if (dishes === undefined) return [];
+
         return dishes.filter((e) => e._id?.toString() !== obj.itemId);
       });
 
