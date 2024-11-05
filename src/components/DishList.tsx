@@ -35,7 +35,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   } = useDeleteDish();
 
   const queryClient = useQueryClient();
-  queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
+  // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
 
   // get array of full dish objects from selectedEvent by using its publicId
   // returns UseQueryResult

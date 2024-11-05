@@ -29,7 +29,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   } = useDeleteBev();
 
   const queryClient = useQueryClient();
-  queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
+  // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
 
   // get array of full bev objects from selectedEvent by using its publicId
   // returns UseQueryResult

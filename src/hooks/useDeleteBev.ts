@@ -59,6 +59,11 @@ const useDeleteBev = () => {
         context.previousBevs
       );
     },
+    // (data, error, variables, context)
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["bevs"] });
+      queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
+    },
   });
 };
 

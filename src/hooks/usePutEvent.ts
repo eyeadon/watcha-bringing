@@ -53,6 +53,11 @@ const usePutEvent = (selectedEvent: EventDocumentType) => {
 
       queryClient.setQueryData<Event[]>(["events"], context.previousEvents);
     },
+    // (data, error, variables, context)
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
+    },
   });
 };
 

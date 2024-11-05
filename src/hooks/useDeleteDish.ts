@@ -63,6 +63,11 @@ const useDeleteDish = () => {
         context.previousDishes
       );
     },
+    // (data, error, variables, context)
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["dishes"] });
+      queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
+    },
   });
 };
 

@@ -18,7 +18,9 @@ const useDeleteEvent = () => {
     mutationFn: async (id) => {
       return await apiClientEvent.delete(id);
     },
-    onMutate: (id) => {
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: ["events"] });
+
       // if undefined, return []
       const previousEvents =
         queryClient.getQueryData<EventDocumentType[]>(["events"]) || [];
@@ -29,6 +31,8 @@ const useDeleteEvent = () => {
 
         return events.filter((e) => e._id?.toString() !== id);
       });
+
+      await queryClient.cancelQueries({ queryKey: ["selectedEvent"] });
 
       queryClient.resetQueries({ queryKey: ["selectedEvent"], exact: true });
 
@@ -53,6 +57,11 @@ const useDeleteEvent = () => {
         ["events"],
         context.previousEvents
       );
+    },
+    // (data, error, variables, context)
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
     },
   });
 };
