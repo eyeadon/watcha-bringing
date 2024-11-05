@@ -6,6 +6,6 @@ html {
   color: #0000b3;
 }
 
-.hoverPlusMinus svg:hover {
-  color: white;
+.hoverPlusMinus button:hover {
+  fill: white;
 }

@@ -1,9 +1,11 @@
 import { EventDocumentType } from "../interfaces/interfaces";
-import { ReactNode, useState } from "react";
+import { ReactNode, useContext, useState } from "react";
 import { DashLg, PlusLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import useDeleteEvent from "../hooks/useDeleteEvent";
+import { SelectedEventContext } from "../contexts/contexts";
+import { emptyEvent } from "../constants/constants";
 
 interface Props {
   children: ReactNode;
@@ -12,6 +14,8 @@ interface Props {
 
 const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
   if (selectedEvent === undefined) return null;
+
+  const cont = useContext(SelectedEventContext);
 
   const {
     data: deleteEventData,
@@ -35,15 +39,6 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
     [
       <PlusLg key="pluslg" color="#0d6efd" className="hoverPlusMinus me-1" />,
       "Edit Event",
-    ]
-  );
-
-  const deleteEventButton = isExpanded ? (
-    <DashLg key="dashlg" color="#dc3545" className="hoverPlusMinus" />
-  ) : (
-    [
-      <PlusLg key="pluslg" color="#dc3545" className="hoverPlusMinus me-1" />,
-      "Delete Event",
     ]
   );
 
@@ -73,9 +68,11 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
                 selectedEvent._id.toString()
               );
               console.log(result);
+
+              result && cont.setSelectedEvent(emptyEvent);
             }}
           >
-            {deleteEventButton}
+            Delete Event
           </Button>
         </div>
       </div>

@@ -1,4 +1,6 @@
-export const emptyEvent = {
+import { EventDocumentType } from "../interfaces/interfaces";
+
+export const emptyEvent: EventDocumentType = {
   publicId: "none",
   name: "",
   host: "",
