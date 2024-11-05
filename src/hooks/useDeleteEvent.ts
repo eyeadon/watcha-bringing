@@ -30,7 +30,7 @@ const useDeleteEvent = () => {
         return events.filter((e) => e._id?.toString() !== id);
       });
 
-      queryClient.resetQueries({ queryKey: ["selectedEvent"] });
+      queryClient.resetQueries({ queryKey: ["selectedEvent"], exact: true });
 
       // can access in onError callback
       return { previousEvents };
