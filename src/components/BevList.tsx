@@ -46,6 +46,8 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
     "All Beverage Categories"
   );
 
+  // refetch();
+
   return (
     <table className="table table-bordered" key="bevTable">
       <thead>
