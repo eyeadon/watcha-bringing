@@ -40,7 +40,7 @@ interface Props {
   onSubmit: (data: EventFormData) => void;
 }
 
-const BevForm = ({ onSubmit }: Props) => {
+const EventForm = ({ onSubmit }: Props) => {
   // returns object
   const {
     register,
@@ -66,7 +66,7 @@ const BevForm = ({ onSubmit }: Props) => {
         onSubmit={handleSubmit((data) => {
           onSubmit(data);
           reset();
-          cont.setIsExpanded(!cont.EventFormisExpanded);
+          cont.setEventFormIsExpanded(!cont.eventFormisExpanded);
         })}
       >
         <div className="mb-3">
@@ -252,4 +252,4 @@ const BevForm = ({ onSubmit }: Props) => {
   );
 };
 
-export default BevForm;
+export default EventForm;

@@ -1,11 +1,5 @@
 import { nanoid } from "nanoid";
-import {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  createContext,
-  Context,
-} from "react";
+import { useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
 import BevForm from "./components/BevForm";
@@ -44,16 +38,15 @@ import {
   SelectedEventContext,
 } from "./contexts/contexts";
 import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
-import useDeleteDish from "./hooks/useDeleteDish";
 
 function App() {
-  const apiClientDish = new APIClient<Dish>("/dishes");
-  const apiClientBev = new APIClient<Bev>("/bevs");
-  const apiClientEvent = new APIClient<Event>("/events");
-  const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
-  const apiClientTBev = new APIClient<BevDocumentType>("/bevs");
-  const apiClientTEvent = new APIClient<EventDocumentType>("/events");
-  const apiClientEventDishes = new APIClient<Dish[]>("/events");
+  // const apiClientDish = new APIClient<Dish>("/dishes");
+  // const apiClientBev = new APIClient<Bev>("/bevs");
+  // const apiClientEvent = new APIClient<Event>("/events");
+  // const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
+  // const apiClientTBev = new APIClient<BevDocumentType>("/bevs");
+  // const apiClientTEvent = new APIClient<EventDocumentType>("/events");
+  // const apiClientEventDishes = new APIClient<Dish[]>("/events");
 
   const [eventFormisExpanded, setEventFormIsExpanded] = useState(false);
 

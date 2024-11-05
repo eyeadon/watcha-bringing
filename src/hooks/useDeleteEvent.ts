@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { EventDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
+import { emptyEvent } from "../constants/constants";
 
 interface DeleteEventContext {
   previousEvents: EventDocumentType[];
@@ -34,6 +35,11 @@ const useDeleteEvent = () => {
     },
     // (data, variables, context)
     onSuccess: (mutationResult, id) => {
+      queryClient.setQueryData<EventDocumentType>(
+        ["selectedEvent"],
+        emptyEvent
+      );
+
       return mutationResult;
     },
     //       (error, variables, context)
