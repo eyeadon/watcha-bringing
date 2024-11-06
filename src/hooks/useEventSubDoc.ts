@@ -11,9 +11,9 @@ const useEventSubDoc = (eventPublicId: string, itemKind: string) =>
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Event>>("/events").then((res) => res.data),
     queryFn: () => apiClient.getSubDoc(eventPublicId, itemKind),
-
     staleTime: 0,
     // refetchInterval: ( query) => {return query}
+    // enabled: false,
   });
 
 export default useEventSubDoc;

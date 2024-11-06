@@ -20,31 +20,37 @@ const useDeleteEvent = () => {
       return await apiClientEvent.delete(id);
     },
     onMutate: async (id) => {
-      await queryClient.cancelQueries({ queryKey: ["events"] });
-
-      // if undefined, return []
-      const previousEvents =
-        queryClient.getQueryData<EventDocumentType[]>(["events"]) || [];
-
-      //                              (queryKey, updater, options?)
-      queryClient.setQueryData<EventDocumentType[]>(["events"], (events) => {
-        if (events === undefined) return [];
-
-        return events.filter((e) => e._id?.toString() !== id);
-      });
-
       await queryClient.cancelQueries({ queryKey: ["selectedEvent"] });
 
       const previousSelectedEvent =
         queryClient.getQueryData<EventDocumentType>(["selectedEvent"]) ||
         emptyEvent;
 
-      // queryClient.removeQueries({ queryKey: ["selectedEvent"] });
+      queryClient.removeQueries({ queryKey: ["selectedEvent"] });
 
       queryClient.setQueryData<EventDocumentType>(
         ["selectedEvent"],
         emptyEvent
       );
+
+      await queryClient.cancelQueries({ queryKey: ["events"] });
+
+      // if undefined, return []
+      const previousEvents =
+        queryClient.getQueryData<EventDocumentType[]>(["events"]) || [];
+
+      // DishList rerendering at this point? calling useEventSubDoc.ts?
+      // trying to get
+      //                              (queryKey, updater, options?)
+      const eventsSetQueryDataResult = queryClient.setQueryData<
+        EventDocumentType[]
+      >(["events"], (oldEvents) => {
+        if (oldEvents === undefined) return [];
+
+        return oldEvents.filter((e) => e._id?.toString() !== id);
+      });
+
+      console.log(eventsSetQueryDataResult);
 
       // can access in onError callback
       return { previousEvents, previousSelectedEvent };
