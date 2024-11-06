@@ -1,0 +1,47 @@
+[
+  {
+    "publicId": "4jdh6jf8ejfu6768gjeu1",
+    "name": "event1",
+    "host": "host1",
+    "address": {
+      "street": "123 Main St",
+      "city": "MyTown",
+      "state": "MA",
+      "zipcode": "01027"
+    },
+    "startDateTime": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
+    "endDateTime": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
+    "dishes": [],
+    "bevs": []
+  },
+  {
+    "publicId": "4jdh6jf8ejfu6768gjeu2",
+    "name": "event2",
+    "host": "host2",
+    "address": {
+      "street": "123 Main St",
+      "city": "MyTown",
+      "state": "MA",
+      "zipcode": "01027"
+    },
+    "startDateTime": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
+    "endDateTime": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
+    "dishes": [],
+    "bevs": []
+  },
+  {
+    "publicId": "4jdh6jf8ejfu6768gjeu3",
+    "name": "event3",
+    "host": "host3",
+    "address": {
+      "street": "123 Main St",
+      "city": "MyTown",
+      "state": "MA",
+      "zipcode": "01027"
+    },
+    "startDateTime": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
+    "endDateTime": "Thu Sep 19 2024 17:25:18 GMT-0400 (Eastern Daylight Time)",
+    "dishes": [],
+    "bevs": []
+  }
+]

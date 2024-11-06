@@ -5,6 +5,7 @@ import { emptyEvent } from "../constants/constants";
 
 interface DeleteEventContext {
   previousEvents: EventDocumentType[];
+  previousSelectedEvent: EventDocumentType;
 }
 
 const useDeleteEvent = () => {
@@ -34,18 +35,22 @@ const useDeleteEvent = () => {
 
       await queryClient.cancelQueries({ queryKey: ["selectedEvent"] });
 
-      queryClient.resetQueries({ queryKey: ["selectedEvent"], exact: true });
+      const previousSelectedEvent =
+        queryClient.getQueryData<EventDocumentType>(["selectedEvent"]) ||
+        emptyEvent;
 
-      // can access in onError callback
-      return { previousEvents };
-    },
-    // (data, variables, context)
-    onSuccess: (mutationResult, id) => {
+      // queryClient.removeQueries({ queryKey: ["selectedEvent"] });
+
       queryClient.setQueryData<EventDocumentType>(
         ["selectedEvent"],
         emptyEvent
       );
 
+      // can access in onError callback
+      return { previousEvents, previousSelectedEvent };
+    },
+    // (data, variables, context)
+    onSuccess: (mutationResult, id) => {
       return mutationResult;
     },
     //       (error, variables, context)
@@ -56,6 +61,10 @@ const useDeleteEvent = () => {
       queryClient.setQueryData<EventDocumentType[]>(
         ["events"],
         context.previousEvents
+      );
+      queryClient.setQueryData<EventDocumentType>(
+        ["selectedEvent"],
+        context.previousSelectedEvent
       );
     },
     // (data, error, variables, context)
