@@ -44,7 +44,13 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     "dish"
   );
 
-  if (error) return error.message;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
   // console.log(data);
 

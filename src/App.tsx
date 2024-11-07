@@ -110,18 +110,6 @@ function App() {
     status: putEventStatus,
   } = usePutEvent(selectedEvent);
 
-  // get all events
-  const {
-    data: responseEventsData,
-    error: responseEventsError,
-    isError: responseEventsIsError,
-    isLoading: responseEventsIsLoading,
-    isPending: responseEventsIsPending,
-    isSuccess: responseEventsIsSuccess,
-    refetch: responseEventsRefetch,
-    status: responseEventsStatus,
-  } = useEvents();
-
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
@@ -130,7 +118,6 @@ function App() {
         value={{ selectedEvent, setSelectedEvent }}
       >
         <EventMenu
-          events={responseEventsData}
           onSelectEvent={(ev) => {
             setSelectedEvent(ev);
             // console.log(ev);
@@ -174,7 +161,6 @@ function App() {
 
                     console.log(resultEventFromMutate);
 
-                    responseEventsRefetch();
                     setSelectedEvent(resultEventFromMutate);
                   }}
                 />

@@ -38,7 +38,13 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
     "bev"
   );
 
-  if (error) return error.message;
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return <p>Error: {error.message}</p>;
+  }
 
   const eventBevs = visibleItemsFilterHelper(
     data,
