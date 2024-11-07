@@ -37,7 +37,8 @@ const DishForm = ({ onSubmit }: Props) => {
 
   return (
     <form
-      // handleSubmit from react hook form
+      // handleSubmit from react hook form, this function will receive the form data if form validation is successful
+      // data is ready to send to the server
       onSubmit={handleSubmit((data) => {
         onSubmit(data);
         reset();
