@@ -24,14 +24,6 @@ import usePutEvent from "./hooks/usePutEvent";
 import { EventDocumentType } from "./interfaces/interfaces";
 
 function App() {
-  // const apiClientDish = new APIClient<Dish>("/dishes");
-  // const apiClientBev = new APIClient<Bev>("/bevs");
-  // const apiClientEvent = new APIClient<Event>("/events");
-  // const apiClientTDish = new APIClient<DishDocumentType>("/dishes");
-  // const apiClientTBev = new APIClient<BevDocumentType>("/bevs");
-  // const apiClientTEvent = new APIClient<EventDocumentType>("/events");
-  // const apiClientEventDishes = new APIClient<Dish[]>("/events");
-
   const [eventFormisExpanded, setEventFormIsExpanded] = useState(false);
 
   // function setIsExpanded(isExpanded: boolean) {
@@ -43,18 +35,6 @@ function App() {
   // emptyEvent.publicId = "none"
   const [selectedEvent, setSelectedEvent] =
     useState<EventDocumentType>(emptyEvent);
-
-  const {
-    data: postDishData,
-    error: postDishError,
-    isError: postDishIsError,
-    isPending: postDishIsPending,
-    isSuccess: postDishIsSuccess,
-    mutate: postDishMutate,
-    mutateAsync: postDishMutateAsync,
-    reset: postDishReset,
-    status: postDishStatus,
-  } = usePostDish();
 
   const {
     data: postBevData,
@@ -100,7 +80,7 @@ function App() {
           <EventFormIsExpandedContext.Provider
             value={{ eventFormisExpanded, setEventFormIsExpanded }}
           >
-            <div className="col-sm-6 mb-3">
+            <div className="col-sm-12 mb-3">
               <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
                 <EventForm
                   onSubmit={(newEventResult: EventDocumentType) => {
@@ -121,47 +101,7 @@ function App() {
               <div className="col-sm mb-3">
                 <ExpandableSectionButton buttonLabelText="Add Dish">
                   <h2>What Dish?</h2>
-                  <DishForm
-                    onSubmit={async (newDish) => {
-                      const publicId = nanoid();
-                      const newDishWithPublicId = {
-                        ...newDish,
-                        publicId: publicId,
-                      };
-
-                      const resultDishFromMutate = await postDishMutateAsync(
-                        newDishWithPublicId
-                      );
-
-                      console.log(resultDishFromMutate);
-
-                      // adding dish to event ********************************
-
-                      if (resultDishFromMutate === undefined)
-                        throw new Error("resultDish is undefined");
-
-                      const resultDishId = resultDishFromMutate._id?.toString();
-
-                      if (resultDishId === undefined)
-                        throw new Error("resultDishId is undefined");
-                      if (selectedEvent.dishes === undefined)
-                        throw new Error("selectedEvent.dishes is undefined");
-
-                      // add newDish id to selectedEvent
-                      selectedEvent.publicId !== "none"
-                        ? selectedEvent.dishes.push(resultDishId)
-                        : new Error("no event selected");
-
-                      const selectedEventWithoutId = { ...selectedEvent };
-                      delete selectedEventWithoutId._id;
-
-                      const resultEventFromMutate = await putEventMutateAsync(
-                        selectedEventWithoutId
-                      );
-
-                      console.log(resultEventFromMutate);
-                    }}
-                  />
+                  <DishForm selectedEvent={selectedEvent} />
                 </ExpandableSectionButton>
               </div>
 

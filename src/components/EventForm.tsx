@@ -123,6 +123,7 @@ const EventForm = ({ onSubmit }: Props) => {
       >
         <div className="row mb-1">
           <div className="col-sm mb-3">
+            <h3 className="mb-3">Event Details</h3>
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
                 Event Name
@@ -164,7 +165,7 @@ const EventForm = ({ onSubmit }: Props) => {
                   render={({ field: { name, onChange, value, ref } }) => {
                     return (
                       <DatePicker
-                        label="MM/DD/YYYY"
+                        // label="MM/DD/YYYY"
                         name={name}
                         value={value}
                         inputRef={ref}
@@ -196,7 +197,7 @@ const EventForm = ({ onSubmit }: Props) => {
                   render={({ field: { name, onChange, value, ref } }) => {
                     return (
                       <DatePicker
-                        label="MM/DD/YYYY"
+                        // label="MM/DD/YYYY"
                         name={name}
                         value={value}
                         inputRef={ref}
@@ -228,7 +229,7 @@ const EventForm = ({ onSubmit }: Props) => {
                   render={({ field: { name, onChange, value, ref } }) => {
                     return (
                       <TimePicker
-                        label="hh:mm aa"
+                        // label="hh:mm aa"
                         name={name}
                         value={value}
                         inputRef={ref}
@@ -256,7 +257,7 @@ const EventForm = ({ onSubmit }: Props) => {
                   render={({ field: { name, onChange, value, ref } }) => {
                     return (
                       <TimePicker
-                        label="hh:mm aa"
+                        // label="hh:mm aa"
                         name={name}
                         value={value}
                         inputRef={ref}
@@ -275,7 +276,7 @@ const EventForm = ({ onSubmit }: Props) => {
           </div>
 
           <div className="col-sm mb-3">
-            <h3>Address</h3>
+            <h3 className="mb-3">Address</h3>
 
             <div className="mb-3">
               <label htmlFor="street" className="form-label">

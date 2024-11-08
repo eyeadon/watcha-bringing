@@ -4,6 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import dishCategories from "../categories/dishCategories";
 import dietaryConsiderations from "../categories/dietaryConsiderations";
 import { capitalizeFirstLetter } from "../functions/functions";
+import { nanoid } from "nanoid";
+import { EventDocumentType } from "../interfaces/interfaces";
+import usePostDish from "../hooks/usePostDish";
+import usePutEvent from "../hooks/usePutEvent";
 
 const dishSchema = z.object({
   category: z.enum(dishCategories, {
@@ -17,10 +21,11 @@ const dishSchema = z.object({
 export type DishFormData = z.infer<typeof dishSchema>;
 
 interface Props {
-  onSubmit: (data: DishFormData) => void;
+  selectedEvent: EventDocumentType;
+  // onSubmit: (data: DishFormData) => void;
 }
 
-const DishForm = ({ onSubmit }: Props) => {
+const DishForm = ({ selectedEvent }: Props) => {
   // returns object
   const {
     register,
@@ -35,12 +40,74 @@ const DishForm = ({ onSubmit }: Props) => {
     },
   });
 
+  const {
+    data: postDishData,
+    error: postDishError,
+    isError: postDishIsError,
+    isPending: postDishIsPending,
+    isSuccess: postDishIsSuccess,
+    mutate: postDishMutate,
+    mutateAsync: postDishMutateAsync,
+    reset: postDishReset,
+    status: postDishStatus,
+  } = usePostDish();
+
+  // put Event
+  const {
+    data: putEventData,
+    error: putEventError,
+    isError: putEventIsError,
+    isPending: putEventIsPending,
+    isSuccess: putEventIsSuccess,
+    mutate: putEventMutate,
+    mutateAsync: putEventMutateAsync,
+    reset: putEventReset,
+    status: putEventStatus,
+  } = usePutEvent(selectedEvent);
+
   return (
     <form
       // handleSubmit from react hook form, this function will receive the form data if form validation is successful
       // data is ready to send to the server
-      onSubmit={handleSubmit((data) => {
-        onSubmit(data);
+      onSubmit={handleSubmit(async (newDishFormData) => {
+        const publicId = nanoid();
+
+        const newDishWithPublicId = {
+          ...newDishFormData,
+          publicId: publicId,
+        };
+
+        const resultDishFromMutate = await postDishMutateAsync(
+          newDishWithPublicId
+        );
+
+        console.log(resultDishFromMutate);
+
+        // adding dish to event
+
+        if (resultDishFromMutate === undefined)
+          throw new Error("resultDish is undefined");
+
+        const resultDishId = resultDishFromMutate._id?.toString();
+
+        if (resultDishId === undefined)
+          throw new Error("resultDishId is undefined");
+        if (selectedEvent.dishes === undefined)
+          throw new Error("selectedEvent.dishes is undefined");
+
+        // add newDish id to selectedEvent
+        selectedEvent.publicId !== "none"
+          ? selectedEvent.dishes.push(resultDishId)
+          : new Error("no event selected");
+
+        const selectedEventWithoutId = { ...selectedEvent };
+        delete selectedEventWithoutId._id;
+
+        const resultEventFromMutate = await putEventMutateAsync(
+          selectedEventWithoutId
+        );
+
+        console.log(resultEventFromMutate);
         reset();
       })}
     >
