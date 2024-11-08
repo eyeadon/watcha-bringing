@@ -10,11 +10,11 @@ interface Props {
 }
 
 const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
-  const cont = useContext(EventFormIsExpandedContext);
+  const context = useContext(EventFormIsExpandedContext);
 
-  const showDiv = cont.eventFormisExpanded ? children : null;
+  const showDiv = context.eventFormisExpanded ? children : null;
 
-  const renderIcon = cont.eventFormisExpanded ? (
+  const renderIcon = context.eventFormisExpanded ? (
     <DashLg key="dashlg" color="white" />
   ) : (
     [<PlusLg key="pluslg" color="white" className="me-1" />, buttonLabelText]
@@ -31,11 +31,13 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
         className="mb-3"
         variant="primary"
         type="button"
-        onClick={() => cont.setEventFormIsExpanded(!cont.eventFormisExpanded)}
+        onClick={() =>
+          context.setEventFormIsExpanded(!context.eventFormisExpanded)
+        }
       >
         {renderIcon}
       </Button>
-      <Collapse in={cont.eventFormisExpanded}>
+      <Collapse in={context.eventFormisExpanded}>
         <div>{showDiv}</div>
       </Collapse>
     </>

@@ -57,7 +57,7 @@ const EventForm = ({ onSubmit }: Props) => {
     },
   });
 
-  const cont = useContext(EventFormIsExpandedContext);
+  const context = useContext(EventFormIsExpandedContext);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -66,7 +66,7 @@ const EventForm = ({ onSubmit }: Props) => {
         onSubmit={handleSubmit((data) => {
           onSubmit(data);
           reset();
-          cont.setEventFormIsExpanded(!cont.eventFormisExpanded);
+          context.setEventFormIsExpanded(!context.eventFormisExpanded);
         })}
       >
         <div className="mb-3">

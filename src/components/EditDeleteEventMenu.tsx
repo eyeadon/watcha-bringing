@@ -15,7 +15,7 @@ interface Props {
 const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
   if (selectedEvent === undefined) return null;
 
-  const cont = useContext(SelectedEventContext);
+  const context = useContext(SelectedEventContext);
 
   const {
     data: deleteEventData,
@@ -69,7 +69,7 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
               );
               console.log(result);
 
-              result && cont.setSelectedEvent(emptyEvent);
+              result && context.setSelectedEvent(emptyEvent);
             }}
           >
             Delete Event
