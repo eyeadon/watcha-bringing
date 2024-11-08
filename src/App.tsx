@@ -36,31 +36,6 @@ function App() {
   const [selectedEvent, setSelectedEvent] =
     useState<EventDocumentType>(emptyEvent);
 
-  const {
-    data: postBevData,
-    error: postBevError,
-    isError: postBevIsError,
-    isPending: postBevIsPending,
-    isSuccess: postBevIsSuccess,
-    mutate: postBevMutate,
-    mutateAsync: postBevMutateAsync,
-    reset: postBevReset,
-    status: postBevStatus,
-  } = usePostBev();
-
-  // put Event
-  const {
-    data: putEventData,
-    error: putEventError,
-    isError: putEventIsError,
-    isPending: putEventIsPending,
-    isSuccess: putEventIsSuccess,
-    mutate: putEventMutate,
-    mutateAsync: putEventMutateAsync,
-    reset: putEventReset,
-    status: putEventStatus,
-  } = usePutEvent(selectedEvent);
-
   return (
     <div className="container">
       <h1>Watcha Bringing?</h1>
@@ -108,47 +83,7 @@ function App() {
               <div className="col-sm mb-3">
                 <ExpandableSectionButton buttonLabelText="Add Beverage">
                   <h2>What Beverage?</h2>
-                  <BevForm
-                    onSubmit={async (newBev) => {
-                      const publicId = nanoid();
-                      const newBevWithPublicId = {
-                        ...newBev,
-                        publicId: publicId,
-                      };
-
-                      const resultBevFromMutate = await postBevMutateAsync(
-                        newBevWithPublicId
-                      );
-
-                      console.log(resultBevFromMutate);
-
-                      // adding Bev to event ********************************
-
-                      if (resultBevFromMutate === undefined)
-                        throw new Error("resultBev is undefined");
-
-                      const resultBevId = resultBevFromMutate._id?.toString();
-
-                      if (resultBevId === undefined)
-                        throw new Error("resultBevId is undefined");
-                      if (selectedEvent.bevs === undefined)
-                        throw new Error("selectedEvent.bevs is undefined");
-
-                      // add newBev id to selectedEvent
-                      selectedEvent.publicId !== "none"
-                        ? selectedEvent.bevs.push(resultBevId)
-                        : new Error("no event selected");
-
-                      const selectedEventWithoutId = { ...selectedEvent };
-                      delete selectedEventWithoutId._id;
-
-                      const resultEventFromMutate = await putEventMutateAsync(
-                        selectedEventWithoutId
-                      );
-
-                      console.log(resultEventFromMutate);
-                    }}
-                  />
+                  <BevForm selectedEvent={selectedEvent} />
                 </ExpandableSectionButton>
               </div>
               {/* end row */}

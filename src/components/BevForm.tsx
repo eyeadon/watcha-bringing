@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import bevCategories from "../categories/bevCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
+import usePostBev from "../hooks/usePostBev";
+import usePutEvent from "../hooks/usePutEvent";
+import { EventDocumentType } from "../interfaces/interfaces";
+import { nanoid } from "nanoid";
 
 const bevSchema = z.object({
   category: z.enum(bevCategories, {
@@ -19,10 +23,11 @@ const bevSchema = z.object({
 export type BevFormData = z.infer<typeof bevSchema>;
 
 interface Props {
-  onSubmit: (data: BevFormData) => void;
+  selectedEvent: EventDocumentType;
+  // onSubmit: (data: BevFormData) => void;
 }
 
-const BevForm = ({ onSubmit }: Props) => {
+const BevForm = ({ selectedEvent }: Props) => {
   // returns object
   const {
     register,
@@ -36,11 +41,74 @@ const BevForm = ({ onSubmit }: Props) => {
     },
   });
 
+  const {
+    data: postBevData,
+    error: postBevError,
+    isError: postBevIsError,
+    isPending: postBevIsPending,
+    isSuccess: postBevIsSuccess,
+    mutate: postBevMutate,
+    mutateAsync: postBevMutateAsync,
+    reset: postBevReset,
+    status: postBevStatus,
+  } = usePostBev();
+
+  // put Event
+  const {
+    data: putEventData,
+    error: putEventError,
+    isError: putEventIsError,
+    isPending: putEventIsPending,
+    isSuccess: putEventIsSuccess,
+    mutate: putEventMutate,
+    mutateAsync: putEventMutateAsync,
+    reset: putEventReset,
+    status: putEventStatus,
+  } = usePutEvent(selectedEvent);
+
   return (
     <form
       // handleSubmit from react hook form
-      onSubmit={handleSubmit((data) => {
-        onSubmit(data);
+      onSubmit={handleSubmit(async (newBevFormData) => {
+        const publicId = nanoid();
+
+        const newBevWithPublicId = {
+          ...newBevFormData,
+          publicId: publicId,
+        };
+
+        const resultBevFromMutate = await postBevMutateAsync(
+          newBevWithPublicId
+        );
+
+        console.log(resultBevFromMutate);
+
+        // adding Bev to event
+
+        if (resultBevFromMutate === undefined)
+          throw new Error("resultBev is undefined");
+
+        const resultBevId = resultBevFromMutate._id?.toString();
+
+        if (resultBevId === undefined)
+          throw new Error("resultBevId is undefined");
+        if (selectedEvent.bevs === undefined)
+          throw new Error("selectedEvent.bevs is undefined");
+
+        // add newBev id to selectedEvent
+        selectedEvent.publicId !== "none"
+          ? selectedEvent.bevs.push(resultBevId)
+          : new Error("no event selected");
+
+        const selectedEventWithoutId = { ...selectedEvent };
+        delete selectedEventWithoutId._id;
+
+        const resultEventFromMutate = await putEventMutateAsync(
+          selectedEventWithoutId
+        );
+
+        console.log(resultEventFromMutate);
+
         reset();
       })}
     >
