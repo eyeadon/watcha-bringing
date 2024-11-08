@@ -1,4 +1,3 @@
-import { nanoid } from "nanoid";
 import { useState } from "react";
 import "./App.css";
 import BevFilter from "./components/BevFilter";
@@ -18,9 +17,6 @@ import {
   EventFormIsExpandedContext,
   SelectedEventContext,
 } from "./contexts/contexts";
-import usePostBev from "./hooks/usePostBev";
-import usePostDish from "./hooks/usePostDish";
-import usePutEvent from "./hooks/usePutEvent";
 import { EventDocumentType } from "./interfaces/interfaces";
 
 function App() {
