@@ -7,37 +7,21 @@ import BevList from "./components/BevList";
 import DishFilter from "./components/DishFilter";
 import DishForm from "./components/DishForm";
 import DishList from "./components/DishList";
+import EventForm from "./components/EventForm";
 import EventMenu from "./components/EventMenu";
 import ExpandableSectionButton from "./components/ExpandableSectionButton";
-import useEvents from "./hooks/useEvents";
-import {
-  Bev,
-  Dish,
-  Event,
-  DishDocumentType,
-  BevDocumentType,
-  EventDocumentType,
-  FormEvent,
-} from "./interfaces/interfaces";
-import APIClient from "./services/apiClient";
-import EventForm from "./components/EventForm";
+import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
+import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
 import SelectedEventTitle from "./components/SelectedEventTitle";
 import { emptyEvent } from "./constants/constants";
-import usePostDish from "./hooks/usePostDish";
-import usePostBev from "./hooks/usePostBev";
-import usePostEvent from "./hooks/usePostEvent";
-import usePutEvent from "./hooks/usePutEvent";
-import dayjs from "dayjs";
-import {
-  dayJsObjectToHourAndMinute,
-  setDateDayJs,
-} from "./functions/functions";
-import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
 import {
   EventFormIsExpandedContext,
   SelectedEventContext,
 } from "./contexts/contexts";
-import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
+import usePostBev from "./hooks/usePostBev";
+import usePostDish from "./hooks/usePostDish";
+import usePutEvent from "./hooks/usePutEvent";
+import { EventDocumentType } from "./interfaces/interfaces";
 
 function App() {
   // const apiClientDish = new APIClient<Dish>("/dishes");
@@ -84,19 +68,6 @@ function App() {
     status: postBevStatus,
   } = usePostBev();
 
-  // post Event
-  const {
-    data: postEventData,
-    error: postEventError,
-    isError: postEventIsError,
-    isPending: postEventIsPending,
-    isSuccess: postEventIsSuccess,
-    mutate: postEventMutate,
-    mutateAsync: postEventMutateAsync,
-    reset: postEventReset,
-    status: postEventStatus,
-  } = usePostEvent();
-
   // put Event
   const {
     data: putEventData,
@@ -132,36 +103,8 @@ function App() {
             <div className="col-sm-6 mb-3">
               <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
                 <EventForm
-                  onSubmit={async (newEvent: FormEvent) => {
-                    const publicId = nanoid();
-
-                    if (newEvent.date === undefined)
-                      throw new Error("date is undefined");
-
-                    const newEventWithPublicId = {
-                      ...newEvent,
-                      publicId: publicId,
-                      startDateTime: setDateDayJs(
-                        newEvent.date,
-                        newEvent.startDateTime
-                      ).toDate(),
-                      endDateTime: setDateDayJs(
-                        newEvent.date,
-                        newEvent.endDateTime
-                      ).toDate(),
-                    };
-
-                    delete newEventWithPublicId.date;
-
-                    console.log(newEventWithPublicId);
-
-                    const resultEventFromMutate = await postEventMutateAsync(
-                      newEventWithPublicId
-                    );
-
-                    console.log(resultEventFromMutate);
-
-                    setSelectedEvent(resultEventFromMutate);
+                  onSubmit={(newEventResult: EventDocumentType) => {
+                    setSelectedEvent(newEventResult);
                   }}
                 />
               </ExpandableSectionButtonNewEvent>

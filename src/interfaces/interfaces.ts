@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import { Types } from "mongoose";
 
 // export interface DocumentType {
@@ -48,18 +47,4 @@ export interface Event {
 
 export interface EventDocumentType extends Event {
   _id?: Types.ObjectId;
-}
-
-export interface FormEvent {
-  name: string;
-  host: string;
-  address: {
-    street: string;
-    city: string;
-    state: string;
-    zipcode: string;
-  };
-  date?: dayjs.Dayjs;
-  startDateTime: dayjs.Dayjs;
-  endDateTime: dayjs.Dayjs;
 }

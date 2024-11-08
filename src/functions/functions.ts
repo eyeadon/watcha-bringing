@@ -51,3 +51,17 @@ export function setDateDayJs(newDateObj: Dayjs, oldDateObj: Dayjs) {
     .set("day", newDateObj.day())
     .set("year", newDateObj.year());
 }
+
+// export function setTimeDayJs(time: string, dateObj: Dayjs) {
+//   return dateObj
+//     .set("hour", parseInt(time.slice(0, 1)))
+//     .set("minute", parseInt(time.slice(3, 4)))
+//     .set("second", 0);
+// }
+
+export function setTimeDayJs(newDateObj: Dayjs, timeObj: Dayjs) {
+  return newDateObj
+    .set("hour", timeObj.hour())
+    .set("minute", timeObj.minute())
+    .set("second", 0);
+}
