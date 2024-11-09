@@ -20,6 +20,7 @@ import {
 import { EventDocumentType } from "./interfaces/interfaces";
 import EditDeleteEventMenu from "./components/EditDeleteEventMenu";
 import { Fade } from "@mui/material";
+import EditEventForm from "./components/EditEventForm";
 
 function App() {
   const [eventFormisExpanded, setEventFormIsExpanded] = useState(false);
@@ -78,9 +79,14 @@ function App() {
                   />
                 )}
                 {editEventDisplay && (
-                  <Fade in={editEventDisplay}>
-                    <p>hello</p>
-                  </Fade>
+                  <EditEventForm
+                    selectedEvent={selectedEvent}
+                    editEventDisplay={editEventDisplay}
+                    onSubmit={(newEventResult: EventDocumentType) => {
+                      setSelectedEvent(newEventResult);
+                      setEditEventDisplay(!editEventDisplay);
+                    }}
+                  />
                 )}
                 <EditDeleteEventMenu
                   selectedEvent={selectedEvent}
