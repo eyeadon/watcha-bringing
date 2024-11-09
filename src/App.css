@@ -5,7 +5,3 @@ html {
 #selectedEventTitle {
   color: #0000b3;
 }
-
-.hoverPlusMinus button:hover {
-  fill: white;
-}

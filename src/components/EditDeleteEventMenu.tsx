@@ -15,6 +15,7 @@ interface Props {
 const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
   if (selectedEvent === undefined) return null;
 
+  const [plusMinusColor, setPlusMinusColor] = useState<string>();
   const context = useContext(SelectedEventContext);
 
   const {
@@ -34,10 +35,10 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
   const showDiv = isExpanded ? children : null;
 
   const editEventButton = isExpanded ? (
-    <DashLg key="dashlg" color="#0d6efd" className="hoverPlusMinus" />
+    <DashLg key="dashlg" color={plusMinusColor} className="me-1" />
   ) : (
     [
-      <PlusLg key="pluslg" color="#0d6efd" className="hoverPlusMinus me-1" />,
+      <PlusLg key="pluslg" color={plusMinusColor} className="me-1" />,
       "Edit Event",
     ]
   );
@@ -51,6 +52,8 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
             variant="outline-primary"
             type="button"
             onClick={() => setIsExpanded(!isExpanded)}
+            onMouseEnter={() => setPlusMinusColor("#ffffff")}
+            onMouseLeave={() => setPlusMinusColor("#0d6efd")}
           >
             {editEventButton}
           </Button>
