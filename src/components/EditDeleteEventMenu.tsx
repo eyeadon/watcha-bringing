@@ -15,7 +15,6 @@ interface Props {
 const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
   if (selectedEvent === undefined) return null;
 
-  const [plusMinusColor, setPlusMinusColor] = useState<string>();
   const context = useContext(SelectedEventContext);
 
   const {
@@ -30,6 +29,7 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
     status: deleteEventStatus,
   } = useDeleteEvent();
 
+  const [plusMinusColor, setPlusMinusColor] = useState("#0d6efd");
   const [isExpanded, setIsExpanded] = useState(false);
 
   const showDiv = isExpanded ? children : null;
