@@ -1,9 +1,10 @@
-import { Dayjs } from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import {
   Dish,
   Bev,
   BevDocumentType,
   DishDocumentType,
+  EventDocumentType,
 } from "../interfaces/interfaces";
 
 // function overload signatures
@@ -64,4 +65,20 @@ export function setTimeDayJs(newDateObj: Dayjs, timeObj: Dayjs) {
     .set("hour", timeObj.hour())
     .set("minute", timeObj.minute())
     .set("second", 0);
+}
+
+export function dateStringToDayJs(dateString: string) {
+  const date = new Date(dateString);
+
+  return dayjs(
+    date.getFullYear() +
+      "-" +
+      date.getMonth() +
+      "-" +
+      date.getDate() +
+      " " +
+      date.getHours() +
+      ":" +
+      date.getMinutes()
+  );
 }

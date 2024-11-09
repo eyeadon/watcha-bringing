@@ -20,8 +20,12 @@ const SelectedEventTitle = ({ selectedEvent, editEventDisplay }: Props) => {
           <div className="d-flex mb-3">
             <div className="me-5">
               <p>
-                <strong>Date:</strong>&nbsp;
+                <strong>Start Date:</strong>&nbsp;
                 {dayjs(selectedEvent.startDateTime).format("LL")}
+              </p>
+              <p>
+                <strong>End Date:</strong>&nbsp;
+                {dayjs(selectedEvent.endDateTime).format("LL")}
               </p>
               <p>
                 <strong>Start Time:</strong>&nbsp;

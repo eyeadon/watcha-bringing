@@ -11,7 +11,7 @@ import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { EventFormIsExpandedContext } from "../contexts/contexts";
-import { setTimeDayJs } from "../functions/functions";
+import { setTimeDayJs, dateStringToDayJs } from "../functions/functions";
 import { EventDocumentType } from "../interfaces/interfaces";
 import usePutEvent from "../hooks/usePutEvent";
 import { Fade } from "@mui/material";
@@ -54,10 +54,15 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
     defaultValues: {
-      startDate: null as unknown as Dayjs,
-      endDate: null as unknown as Dayjs,
-      startTime: null as unknown as Dayjs,
-      endTime: null as unknown as Dayjs,
+      startDate: dateStringToDayJs(selectedEvent.startDateTime.toString()),
+      endDate: dateStringToDayJs(selectedEvent.endDateTime.toString()),
+      startTime: dateStringToDayJs(selectedEvent.startDateTime.toString()),
+      endTime: dateStringToDayJs(selectedEvent.endDateTime.toString()),
+
+      // startDate: null as unknown as Dayjs,
+      // endDate: null as unknown as Dayjs,
+      // startTime: null as unknown as Dayjs,
+      // endTime: null as unknown as Dayjs,
     },
   });
 
@@ -124,6 +129,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                   id="name"
                   type="text"
                   className="form-control"
+                  value={selectedEvent.name}
                 />
                 {errors.name && (
                   <p className="text-danger">{errors.name.message}</p>
@@ -139,6 +145,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                   id="host"
                   type="text"
                   className="form-control"
+                  value={selectedEvent.host}
                 />
                 {errors.host && (
                   <p className="text-danger">{errors.host.message}</p>
@@ -278,6 +285,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                   id="street"
                   type="text"
                   className="form-control"
+                  value={selectedEvent.address.street}
                 />
                 {errors.address?.street && (
                   <p className="text-danger">
@@ -295,6 +303,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                   id="city"
                   type="text"
                   className="form-control"
+                  value={selectedEvent.address.city}
                 />
                 {errors.address?.city && (
                   <p className="text-danger">{errors.address?.city.message}</p>
@@ -310,6 +319,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                   id="state"
                   type="text"
                   className="form-control"
+                  value={selectedEvent.address.state}
                 />
                 {errors.address?.state && (
                   <p className="text-danger">{errors.address?.state.message}</p>
@@ -325,6 +335,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                   id="zipcode"
                   type="text"
                   className="form-control"
+                  value={selectedEvent.address.zipcode}
                 />
                 {errors.address?.zipcode && (
                   <p className="text-danger">
