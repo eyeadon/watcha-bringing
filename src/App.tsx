@@ -18,6 +18,8 @@ import {
   SelectedEventContext,
 } from "./contexts/contexts";
 import { EventDocumentType } from "./interfaces/interfaces";
+import EditDeleteEventMenu from "./components/EditDeleteEventMenu";
+import { Fade } from "@mui/material";
 
 function App() {
   const [eventFormisExpanded, setEventFormIsExpanded] = useState(false);
@@ -31,6 +33,7 @@ function App() {
   // emptyEvent.publicId = "none"
   const [selectedEvent, setSelectedEvent] =
     useState<EventDocumentType>(emptyEvent);
+  const [editEventDisplay, setEditEventDisplay] = useState(false);
 
   return (
     <div className="container">
@@ -66,7 +69,25 @@ function App() {
         {selectedEvent.publicId !== "none" && (
           <>
             <SelectedEventTitle selectedEvent={selectedEvent} />
-            <SelectedEventDataDisplay selectedEvent={selectedEvent} />
+            {selectedEvent.publicId !== "none" && (
+              <>
+                {editEventDisplay === false && (
+                  <SelectedEventDataDisplay
+                    selectedEvent={selectedEvent}
+                    editEventDisplay={editEventDisplay}
+                  />
+                )}
+                {editEventDisplay && (
+                  <Fade in={editEventDisplay}>
+                    <p>hello</p>
+                  </Fade>
+                )}
+                <EditDeleteEventMenu
+                  selectedEvent={selectedEvent}
+                  onClick={() => setEditEventDisplay(!editEventDisplay)}
+                />
+              </>
+            )}
 
             <div className="row mb-1">
               <div className="col-sm mb-3">

@@ -14,7 +14,6 @@ const SelectedEventTitle = ({ selectedEvent }: Props) => {
           {capitalizeFirstLetter(selectedEvent.name)}
         </span>
       </h3>
-      <h4>Host:&nbsp;{capitalizeFirstLetter(selectedEvent.host)}</h4>
     </div>
   );
 };

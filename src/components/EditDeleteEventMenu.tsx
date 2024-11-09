@@ -3,16 +3,17 @@ import { ReactNode, useContext, useState } from "react";
 import { DashLg, PlusLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
+import Fade from "react-bootstrap/Fade";
 import useDeleteEvent from "../hooks/useDeleteEvent";
 import { SelectedEventContext } from "../contexts/contexts";
 import { emptyEvent } from "../constants/constants";
 
 interface Props {
-  children: ReactNode;
   selectedEvent: EventDocumentType;
+  onClick: () => void;
 }
 
-const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
+const EditDeleteEventMenu = ({ selectedEvent, onClick }: Props) => {
   if (selectedEvent === undefined) return null;
 
   const context = useContext(SelectedEventContext);
@@ -32,8 +33,6 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
   const [plusMinusColor, setPlusMinusColor] = useState("#0d6efd");
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const showDiv = isExpanded ? children : null;
-
   const editEventButton = isExpanded ? (
     <DashLg key="dashlg" color={plusMinusColor} className="me-1" />
   ) : (
@@ -51,7 +50,7 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
             className="mb-3"
             variant="outline-primary"
             type="button"
-            onClick={() => setIsExpanded(!isExpanded)}
+            onClick={onClick}
             onMouseEnter={() => setPlusMinusColor("#ffffff")}
             onMouseLeave={() => setPlusMinusColor("#0d6efd")}
           >
@@ -79,9 +78,6 @@ const EditDeleteEventMenu = ({ children, selectedEvent }: Props) => {
           </Button>
         </div>
       </div>
-      <Collapse in={isExpanded}>
-        <div>{showDiv}</div>
-      </Collapse>
     </>
   );
 };

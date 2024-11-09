@@ -3,17 +3,21 @@ import { capitalizeFirstLetter } from "../functions/functions";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import EditDeleteEventMenu from "./EditDeleteEventMenu";
+import { Fade } from "@mui/material";
 dayjs.extend(localizedFormat);
 
 interface Props {
   selectedEvent: Event;
+  editEventDisplay: boolean;
 }
 
-const SelectedEventTitle = ({ selectedEvent }: Props) => {
+const SelectedEventTitle = ({ selectedEvent, editEventDisplay }: Props) => {
   return (
     <>
-      {selectedEvent.publicId !== "none" && (
-        <>
+      <Fade in={!editEventDisplay}>
+        <div>
+          <h4>Host:&nbsp;{capitalizeFirstLetter(selectedEvent.host)}</h4>
+
           <div className="d-flex mb-3">
             <div className="me-5">
               <p>
@@ -48,11 +52,8 @@ const SelectedEventTitle = ({ selectedEvent }: Props) => {
               </p>
             </div>
           </div>
-          <EditDeleteEventMenu selectedEvent={selectedEvent}>
-            <p>new form here</p>
-          </EditDeleteEventMenu>
-        </>
-      )}
+        </div>
+      </Fade>
     </>
   );
 };
