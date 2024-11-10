@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Fade } from "@mui/material";
 import {
   DatePicker,
   LocalizationProvider,
@@ -6,15 +7,13 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
-import { nanoid } from "nanoid";
 import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 import { EventFormIsExpandedContext } from "../contexts/contexts";
-import { setTimeDayJs, dateStringToDayJs } from "../functions/functions";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { dateStringToDayJs, setTimeDayJs } from "../functions/functions";
 import usePutEvent from "../hooks/usePutEvent";
-import { Fade } from "@mui/material";
+import { EventDocumentType } from "../interfaces/interfaces";
 
 const eventSchema = z.object({
   name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
@@ -87,10 +86,8 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
         <form
           // handleSubmit from react hook form
           onSubmit={handleSubmit(async (eventFormData) => {
-            const publicId = nanoid();
-
             const eventWithPublicId = {
-              publicId: publicId,
+              publicId: selectedEvent.publicId,
               name: eventFormData.name,
               host: eventFormData.host,
               address: eventFormData.address,
@@ -168,7 +165,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                           value={value}
                           inputRef={ref}
                           onChange={onChange}
-                          disablePast={true}
+                          // disablePast={true}
                           slotProps={{
                             actionBar: {
                               actions: ["clear", "today", "cancel", "accept"],
@@ -200,7 +197,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                           value={value}
                           inputRef={ref}
                           onChange={onChange}
-                          disablePast={true}
+                          // disablePast={true}
                           slotProps={{
                             actionBar: {
                               actions: ["clear", "today", "cancel", "accept"],
