@@ -57,11 +57,6 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
       endDate: dateStringToDayJs(selectedEvent.endDateTime.toString()),
       startTime: dateStringToDayJs(selectedEvent.startDateTime.toString()),
       endTime: dateStringToDayJs(selectedEvent.endDateTime.toString()),
-
-      // startDate: null as unknown as Dayjs,
-      // endDate: null as unknown as Dayjs,
-      // startTime: null as unknown as Dayjs,
-      // endTime: null as unknown as Dayjs,
     },
   });
 
