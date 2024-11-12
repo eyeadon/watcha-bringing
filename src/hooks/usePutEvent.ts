@@ -41,7 +41,7 @@ const usePutEvent = (selectedEvent: EventDocumentType) => {
       queryClient.setQueryData<Event[]>(["events"], (events) => {
         // replace eventToUpdate instance set by onMutate with proper savedEvent
         events?.forEach((element) => {
-          if (element.publicId === eventToUpdate.publicId) element = savedEvent;
+          if (element.publicId === savedEvent.publicId) element = savedEvent;
         });
         return events;
       });

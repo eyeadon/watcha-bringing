@@ -1,53 +1,53 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dish, DishDocumentType } from "../interfaces/interfaces";
+import { Bev, BevDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
 
-interface PutDishContext {
-  previousDishes: DishDocumentType[];
+interface PutBevContext {
+  previousBevs: BevDocumentType[];
 }
 
-const usePutDish = () => {
+const usePutBev = () => {
   const queryClient = useQueryClient();
-  const apiClientDish = new APIClient<Dish>("/dishes");
+  const apiClientBev = new APIClient<Bev>("/bevs");
 
   // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
   // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
   // useMutation<data: get from backend, error, variables: data sent to backend, context>
   return useMutation<
-    DishDocumentType,
+    BevDocumentType,
     Error,
-    { itemId: string; data: Dish },
-    PutDishContext
+    { itemId: string; data: Bev },
+    PutBevContext
   >({
     mutationFn: async (obj) => {
-      return await apiClientDish.put(obj.itemId, obj.data);
+      return await apiClientBev.put(obj.itemId, obj.data);
     },
     onMutate: async (obj) => {
-      await queryClient.cancelQueries({ queryKey: ["dishes"] });
+      await queryClient.cancelQueries({ queryKey: ["bevs"] });
 
-      const previousDishes =
-        queryClient.getQueryData<DishDocumentType[]>(["dishes"]) || [];
+      const previousBevs =
+        queryClient.getQueryData<BevDocumentType[]>(["bevs"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<DishDocumentType[]>(["dishes"], (dishes) => {
-        dishes?.forEach((element) => {
+      queryClient.setQueryData<BevDocumentType[]>(["bevs"], (bevs) => {
+        bevs?.forEach((element) => {
           if (element.publicId === obj.data.publicId) element = obj.data;
         });
-        return dishes;
+        return bevs;
       });
 
       // can access in onError callback
-      return { previousDishes };
+      return { previousBevs };
     },
     // (data, variables, context)
-    onSuccess: (savedDish, obj) => {
+    onSuccess: (savedBev, obj) => {
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
-        // replace obj instance set by onMutate with proper savedDish
-        dishes?.forEach((element) => {
-          if (element.publicId === savedDish.publicId) element = savedDish;
+      queryClient.setQueryData<Bev[]>(["bevs"], (bevs) => {
+        // replace obj instance set by onMutate with proper savedBev
+        bevs?.forEach((element) => {
+          if (element.publicId === savedBev.publicId) element = savedBev;
         });
-        return dishes;
+        return bevs;
       });
     },
     //       (error, variables, context)
@@ -55,17 +55,17 @@ const usePutDish = () => {
     onError: (error, obj, context) => {
       if (!context) return;
 
-      queryClient.setQueryData<DishDocumentType[]>(
-        ["dishes"],
-        context.previousDishes
+      queryClient.setQueryData<BevDocumentType[]>(
+        ["bevs"],
+        context.previousBevs
       );
     },
     // (data, error, variables, context)
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["dishes"] });
+      queryClient.invalidateQueries({ queryKey: ["bevs"] });
       queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
     },
   });
 };
 
-export default usePutDish;
+export default usePutBev;

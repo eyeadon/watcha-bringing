@@ -6,6 +6,7 @@ import {
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import { useQueryClient } from "@tanstack/react-query";
 import useDeleteBev from "../hooks/useDeleteBev";
+import usePutBev from "../hooks/usePutBev";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -15,6 +16,18 @@ interface Props {
 
 const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   if (selectedEvent.bevs === undefined) return null;
+
+  const {
+    data: putBevData,
+    error: putBevError,
+    isError: putBevIsError,
+    isPending: putBevIsPending,
+    isSuccess: putBevIsSuccess,
+    mutate: putBevMutate,
+    mutateAsync: putBevMutateAsync,
+    reset: putBevReset,
+    status: putBevStatus,
+  } = usePutBev();
 
   const {
     data: deleteBevData,
@@ -72,6 +85,25 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             <td>{bev.amount}</td>
             <td>&nbsp;</td>
             <td>
+              <button
+                className="btn btn-outline-primary btn-sm me-2"
+                onClick={async () => {
+                  if (bev._id === undefined)
+                    throw new Error("bev._id is undefined");
+
+                  const bevWithoutId = { ...bev };
+                  delete bevWithoutId._id;
+
+                  const result = await putBevMutateAsync({
+                    itemId: bev._id.toString(),
+                    data: bevWithoutId,
+                  });
+                  console.log(result);
+                }}
+              >
+                Edit
+              </button>
+
               <button
                 className="btn btn-outline-danger"
                 onClick={async () => {
