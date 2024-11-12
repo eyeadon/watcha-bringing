@@ -38,7 +38,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   // get array of full dish objects from selectedEvent by using its publicId
   // returns UseQueryResult
-  const { data, isLoading, status, refetch, error } = useEventSubDoc(
+  const { data, isLoading, isSuccess, status, refetch, error } = useEventSubDoc(
     selectedEvent.publicId,
     "dish"
   );
@@ -64,75 +64,47 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // console.log("DishList run");
   // console.log(eventDishes);
 
-  return (
-    <table className="table table-bordered" key="dishTable">
-      <thead>
-        <tr>
-          <th>Category</th>
-          <th>Name</th>
-          <th>Amount</th>
-          <th>Dietary</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody key="dishTableBody">
-        {/* {status === "success" && */}
-        {eventDishes.map((dish: DishDocumentType) => (
-          <>
-            <tr key={dish.publicId}>
-              <td>{capitalizeFirstLetter(dish.category)}</td>
-              <td>{capitalizeFirstLetter(dish.name)}</td>
-              <td>{dish.amount}</td>
-              <td>
-                {dish.dietary?.map((diet, index, arr) => {
-                  // last item has no comma after it
-                  return index === arr.length - 1 ? diet : `${diet}, `;
-                })}
-              </td>
-              <td>
-                <button
-                  className="btn btn-outline-primary btn-sm me-2 mb-2"
-                  onClick={() => {}}
-                >
-                  Edit
-                </button>
+  return eventDishes.map((dish: DishDocumentType) => (
+    <>
+      <div>{capitalizeFirstLetter(dish.category)}</div>
+      <div>{capitalizeFirstLetter(dish.name)}</div>
+      <div>{dish.amount}</div>
+      <div>
+        {dish.dietary?.map((diet, index, arr) => {
+          // last item has no comma after it
+          return index === arr.length - 1 ? diet : `${diet}, `;
+        })}
+      </div>
+      <div>
+        <button
+          className="btn btn-outline-primary btn-sm me-2 mb-2"
+          onClick={() => {}}
+        >
+          Edit
+        </button>
 
-                <button
-                  className="btn btn-outline-danger btn-sm mb-2"
-                  onClick={async () => {
-                    if (selectedEvent._id === undefined)
-                      throw new Error("selectedEvent._id is undefined");
-                    if (dish._id === undefined)
-                      throw new Error("dish._id is undefined");
+        <button
+          className="btn btn-outline-danger btn-sm mb-2"
+          onClick={async () => {
+            if (selectedEvent._id === undefined)
+              throw new Error("selectedEvent._id is undefined");
+            if (dish._id === undefined)
+              throw new Error("dish._id is undefined");
 
-                    const result = await deleteDishMutateAsync({
-                      eventId: selectedEvent._id.toString(),
-                      itemId: dish._id.toString(),
-                      itemKind: "dish",
-                    });
-                    console.log(result);
-                  }}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-            <Collapse in={isExpanded}>
-              <EditDishForm dish={dish} />
-            </Collapse>
-          </>
-        ))}
-      </tbody>
-      {/* <tfoot>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tfoot> */}
-    </table>
-  );
+            const result = await deleteDishMutateAsync({
+              eventId: selectedEvent._id.toString(),
+              itemId: dish._id.toString(),
+              itemKind: "dish",
+            });
+            console.log(result);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+      <EditDishForm dish={dish} />
+    </>
+  ));
 };
 
 export default DishList;
