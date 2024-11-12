@@ -47,7 +47,7 @@ const EditDeleteEventMenu = ({ selectedEvent, onClick }: Props) => {
       <div className="d-flex mb-3">
         <div className="me-2">
           <Button
-            className="mb-3"
+            className="btn-sm mb-3"
             variant="outline-primary"
             type="button"
             onClick={onClick}
@@ -59,7 +59,7 @@ const EditDeleteEventMenu = ({ selectedEvent, onClick }: Props) => {
         </div>
         <div>
           <Button
-            className="mb-3"
+            className="btn-sm mb-3"
             variant="outline-danger"
             type="button"
             onClick={async () => {

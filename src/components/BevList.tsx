@@ -83,10 +83,9 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             <td>{capitalizeFirstLetter(bev.category)}</td>
             <td>{capitalizeFirstLetter(bev.name)}</td>
             <td>{bev.amount}</td>
-            <td>&nbsp;</td>
             <td>
               <button
-                className="btn btn-outline-primary btn-sm me-2"
+                className="btn btn-outline-primary btn-sm me-2 mb-2"
                 onClick={async () => {
                   if (bev._id === undefined)
                     throw new Error("bev._id is undefined");
@@ -105,7 +104,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
               </button>
 
               <button
-                className="btn btn-outline-danger"
+                className="btn btn-outline-danger btn-sm mb-2"
                 onClick={async () => {
                   if (selectedEvent._id === undefined)
                     throw new Error("selectedEvent._id is undefined");

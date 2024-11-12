@@ -104,7 +104,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
             </td>
             <td>
               <button
-                className="btn btn-outline-primary btn-sm me-2"
+                className="btn btn-outline-primary btn-sm me-2 mb-2"
                 onClick={async () => {
                   if (dish._id === undefined)
                     throw new Error("dish._id is undefined");
@@ -123,7 +123,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
               </button>
 
               <button
-                className="btn btn-outline-danger btn-sm"
+                className="btn btn-outline-danger btn-sm mb-2"
                 onClick={async () => {
                   if (selectedEvent._id === undefined)
                     throw new Error("selectedEvent._id is undefined");
