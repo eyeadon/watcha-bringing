@@ -1,19 +1,14 @@
-import {
-  Dish,
-  DishDocumentType,
-  Event,
-  EventDocumentType,
-} from "../interfaces/interfaces";
+import { useQueryClient } from "@tanstack/react-query";
+import { ReactNode, useState } from "react";
+import Collapse from "react-bootstrap/Collapse";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
 } from "../functions/functions";
-import useEventSubDoc from "../hooks/useEventSubDoc";
-import APIClient from "../services/apiClient";
-import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
 import useDeleteDish from "../hooks/useDeleteDish";
-import usePutDish from "../hooks/usePutDish";
+import useEventSubDoc from "../hooks/useEventSubDoc";
+import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
+import EditDishForm from "./EditDishForm";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -23,17 +18,8 @@ interface Props {
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
 
-  const {
-    data: putDishData,
-    error: putDishError,
-    isError: putDishIsError,
-    isPending: putDishIsPending,
-    isSuccess: putDishIsSuccess,
-    mutate: putDishMutate,
-    mutateAsync: putDishMutateAsync,
-    reset: putDishReset,
-    status: putDishStatus,
-  } = usePutDish();
+  const [isExpanded, setIsExpanded] = useState(false);
+  // const showChild = isExpanded ? children : null;
 
   const {
     data: deleteDishData,
@@ -92,56 +78,49 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       <tbody key="dishTableBody">
         {/* {status === "success" && */}
         {eventDishes.map((dish: DishDocumentType) => (
-          <tr key={dish.publicId}>
-            <td>{capitalizeFirstLetter(dish.category)}</td>
-            <td>{capitalizeFirstLetter(dish.name)}</td>
-            <td>{dish.amount}</td>
-            <td>
-              {dish.dietary?.map((diet, index, arr) => {
-                // last item has no comma after it
-                return index === arr.length - 1 ? diet : `${diet}, `;
-              })}
-            </td>
-            <td>
-              <button
-                className="btn btn-outline-primary btn-sm me-2 mb-2"
-                onClick={async () => {
-                  if (dish._id === undefined)
-                    throw new Error("dish._id is undefined");
+          <>
+            <tr key={dish.publicId}>
+              <td>{capitalizeFirstLetter(dish.category)}</td>
+              <td>{capitalizeFirstLetter(dish.name)}</td>
+              <td>{dish.amount}</td>
+              <td>
+                {dish.dietary?.map((diet, index, arr) => {
+                  // last item has no comma after it
+                  return index === arr.length - 1 ? diet : `${diet}, `;
+                })}
+              </td>
+              <td>
+                <button
+                  className="btn btn-outline-primary btn-sm me-2 mb-2"
+                  onClick={() => {}}
+                >
+                  Edit
+                </button>
 
-                  const dishWithoutId = { ...dish };
-                  delete dishWithoutId._id;
+                <button
+                  className="btn btn-outline-danger btn-sm mb-2"
+                  onClick={async () => {
+                    if (selectedEvent._id === undefined)
+                      throw new Error("selectedEvent._id is undefined");
+                    if (dish._id === undefined)
+                      throw new Error("dish._id is undefined");
 
-                  const result = await putDishMutateAsync({
-                    itemId: dish._id.toString(),
-                    data: dishWithoutId,
-                  });
-                  console.log(result);
-                }}
-              >
-                Edit
-              </button>
-
-              <button
-                className="btn btn-outline-danger btn-sm mb-2"
-                onClick={async () => {
-                  if (selectedEvent._id === undefined)
-                    throw new Error("selectedEvent._id is undefined");
-                  if (dish._id === undefined)
-                    throw new Error("dish._id is undefined");
-
-                  const result = await deleteDishMutateAsync({
-                    eventId: selectedEvent._id.toString(),
-                    itemId: dish._id.toString(),
-                    itemKind: "dish",
-                  });
-                  console.log(result);
-                }}
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
+                    const result = await deleteDishMutateAsync({
+                      eventId: selectedEvent._id.toString(),
+                      itemId: dish._id.toString(),
+                      itemKind: "dish",
+                    });
+                    console.log(result);
+                  }}
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <Collapse in={isExpanded}>
+              <EditDishForm dish={dish} />
+            </Collapse>
+          </>
         ))}
       </tbody>
       {/* <tfoot>

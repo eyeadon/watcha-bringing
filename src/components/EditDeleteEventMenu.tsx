@@ -1,12 +1,10 @@
-import { EventDocumentType } from "../interfaces/interfaces";
-import { ReactNode, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { DashLg, PlusLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
-import Fade from "react-bootstrap/Fade";
-import useDeleteEvent from "../hooks/useDeleteEvent";
-import { SelectedEventContext } from "../contexts/contexts";
 import { emptyEvent } from "../constants/constants";
+import { SelectedEventContext } from "../contexts/contexts";
+import useDeleteEvent from "../hooks/useDeleteEvent";
+import { EventDocumentType } from "../interfaces/interfaces";
 
 interface Props {
   selectedEvent: EventDocumentType;
