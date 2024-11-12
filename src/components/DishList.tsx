@@ -78,7 +78,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       <div>
         <button
           className="btn btn-outline-primary btn-sm me-2 mb-2"
-          onClick={() => {}}
+          onClick={() => {
+            // make EditDishForm appear
+          }}
         >
           Edit
         </button>
