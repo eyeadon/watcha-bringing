@@ -163,7 +163,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                           // disablePast={true}
                           slotProps={{
                             actionBar: {
-                              actions: ["clear", "today", "cancel", "accept"],
+                              actions: ["clear", "today", "accept"],
                             },
                           }}
                         />
@@ -195,7 +195,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
                           // disablePast={true}
                           slotProps={{
                             actionBar: {
-                              actions: ["clear", "today", "cancel", "accept"],
+                              actions: ["clear", "today", "accept"],
                             },
                           }}
                         />

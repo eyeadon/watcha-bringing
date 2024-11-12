@@ -142,12 +142,12 @@ router.delete("/subdoc/deleteitem", async (req, res) => {
   const deleteItem = async (itemKind) => {
     if (itemKind === "dish") {
       return await Event.updateOne(
-        { _id: req.query.id },
+        { _id: req.query.eventId },
         { $pullAll: { dishes: [req.query.itemId] } }
       );
     } else if (itemKind === "bev") {
       return await Event.updateOne(
-        { _id: req.query.id },
+        { _id: req.query.eventId },
         { $pullAll: { bevs: [req.query.itemId] } }
       );
     }

@@ -13,6 +13,7 @@ import APIClient from "../services/apiClient";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import useDeleteDish from "../hooks/useDeleteDish";
+import usePutDish from "../hooks/usePutDish";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -21,6 +22,18 @@ interface Props {
 
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
+
+  const {
+    data: putDishData,
+    error: putDishError,
+    isError: putDishIsError,
+    isPending: putDishIsPending,
+    isSuccess: putDishIsSuccess,
+    mutate: putDishMutate,
+    mutateAsync: putDishMutateAsync,
+    reset: putDishReset,
+    status: putDishStatus,
+  } = usePutDish();
 
   const {
     data: deleteDishData,
@@ -91,7 +104,26 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
             </td>
             <td>
               <button
-                className="btn btn-outline-danger"
+                className="btn btn-outline-primary btn-sm me-2"
+                onClick={async () => {
+                  if (dish._id === undefined)
+                    throw new Error("dish._id is undefined");
+
+                  const dishWithoutId = { ...dish };
+                  delete dishWithoutId._id;
+
+                  const result = await putDishMutateAsync({
+                    itemId: dish._id.toString(),
+                    data: dishWithoutId,
+                  });
+                  console.log(result);
+                }}
+              >
+                Edit
+              </button>
+
+              <button
+                className="btn btn-outline-danger btn-sm"
                 onClick={async () => {
                   if (selectedEvent._id === undefined)
                     throw new Error("selectedEvent._id is undefined");
