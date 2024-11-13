@@ -6,6 +6,7 @@ import { Types } from "mongoose";
 
 export interface Dish {
   publicId: string;
+  userName: string;
   category: string;
   name: string;
   amount: number;
@@ -18,6 +19,7 @@ export interface DishDocumentType extends Dish {
 
 export interface Bev {
   publicId: string;
+  userName: string;
   category: string;
   name?: string;
   amount: number;

@@ -9,6 +9,10 @@ import { EventDocumentType } from "../interfaces/interfaces";
 import { nanoid } from "nanoid";
 
 const bevSchema = z.object({
+  userName: z
+    .string()
+    .min(2, { message: "Enter at least 2 characters" })
+    .max(50),
   category: z.enum(bevCategories, {
     errorMap: () => ({ message: "Category is required" }),
   }),
@@ -112,6 +116,21 @@ const BevForm = ({ selectedEvent }: Props) => {
         reset();
       })}
     >
+      <div className="mb-3">
+        <label htmlFor="userName" className="form-label">
+          Your Name
+        </label>
+        <input
+          {...register("userName")}
+          id="userName"
+          type="text"
+          className="form-control"
+        />
+        {errors.userName && (
+          <p className="text-danger">{errors.userName.message}</p>
+        )}
+      </div>
+
       <div className="mb-3">
         <label htmlFor="category" className="form-label">
           Category

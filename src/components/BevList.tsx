@@ -71,6 +71,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
     <table className="table table-bordered" key="bevTable">
       <thead>
         <tr>
+          <th>Libationer</th>
           <th>Category</th>
           <th>Name</th>
           <th>Amount</th>
@@ -80,6 +81,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
       <tbody key="bevTableBody">
         {eventBevs.map((bev) => (
           <tr key={bev.publicId}>
+            <td>{capitalizeFirstLetter(bev.userName)}</td>
             <td>{capitalizeFirstLetter(bev.category)}</td>
             <td>{capitalizeFirstLetter(bev.name)}</td>
             <td>{bev.amount}</td>

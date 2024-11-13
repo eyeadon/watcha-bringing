@@ -64,49 +64,59 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // console.log("DishList run");
   // console.log(eventDishes);
 
-  return eventDishes.map((dish: DishDocumentType) => (
+  return (
     <>
-      <div>{capitalizeFirstLetter(dish.category)}</div>
-      <div>{capitalizeFirstLetter(dish.name)}</div>
-      <div>{dish.amount}</div>
-      <div>
-        {dish.dietary?.map((diet, index, arr) => {
-          // last item has no comma after it
-          return index === arr.length - 1 ? diet : `${diet}, `;
-        })}
-      </div>
-      <div>
-        <button
-          className="btn btn-outline-primary btn-sm me-2 mb-2"
-          onClick={() => {
-            // make EditDishForm appear
-          }}
-        >
-          Edit
-        </button>
+      <div>Chef</div>
+      <div>Category</div>
+      <div>Name</div>
+      <div>Amount</div>
+      <div>Dietary</div>
+      <div></div>
+      {eventDishes.map((dish: DishDocumentType) => (
+        <>
+          <div>{capitalizeFirstLetter(dish.category)}</div>
+          <div>{capitalizeFirstLetter(dish.name)}</div>
+          <div>{dish.amount}</div>
+          <div>
+            {dish.dietary?.map((diet, index, arr) => {
+              // last item has no comma after it
+              return index === arr.length - 1 ? diet : `${diet}, `;
+            })}
+          </div>
+          <div>
+            <button
+              className="btn btn-outline-primary btn-sm me-2 mb-2"
+              onClick={() => {
+                // make EditDishForm appear
+              }}
+            >
+              Edit
+            </button>
 
-        <button
-          className="btn btn-outline-danger btn-sm mb-2"
-          onClick={async () => {
-            if (selectedEvent._id === undefined)
-              throw new Error("selectedEvent._id is undefined");
-            if (dish._id === undefined)
-              throw new Error("dish._id is undefined");
+            <button
+              className="btn btn-outline-danger btn-sm mb-2"
+              onClick={async () => {
+                if (selectedEvent._id === undefined)
+                  throw new Error("selectedEvent._id is undefined");
+                if (dish._id === undefined)
+                  throw new Error("dish._id is undefined");
 
-            const result = await deleteDishMutateAsync({
-              eventId: selectedEvent._id.toString(),
-              itemId: dish._id.toString(),
-              itemKind: "dish",
-            });
-            console.log(result);
-          }}
-        >
-          Delete
-        </button>
-      </div>
-      <EditDishForm dish={dish} />
+                const result = await deleteDishMutateAsync({
+                  eventId: selectedEvent._id.toString(),
+                  itemId: dish._id.toString(),
+                  itemKind: "dish",
+                });
+                console.log(result);
+              }}
+            >
+              Delete
+            </button>
+          </div>
+          <EditDishForm dish={dish} />
+        </>
+      ))}
     </>
-  ));
+  );
 };
 
 export default DishList;

@@ -43,6 +43,7 @@ router.post("/", async (req, res) => {
 
   const bev = new Bev({
     publicId: req.body.publicId,
+    userName: req.body.userName,
     category: req.body.category,
     name: req.body.name,
     amount: req.body.amount,
@@ -68,6 +69,7 @@ router.put("/:id", async (req, res) => {
     {
       $set: {
         publicId: req.body.publicId,
+        userName: req.body.userName,
         category: req.body.category,
         name: req.body.name,
         amount: req.body.amount,
