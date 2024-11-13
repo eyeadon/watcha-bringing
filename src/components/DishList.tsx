@@ -74,6 +74,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       <div></div>
       {eventDishes.map((dish: DishDocumentType) => (
         <>
+          <div>{capitalizeFirstLetter(dish.userName)}</div>
           <div>{capitalizeFirstLetter(dish.category)}</div>
           <div>{capitalizeFirstLetter(dish.name)}</div>
           <div>{dish.amount}</div>
