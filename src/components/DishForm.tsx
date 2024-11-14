@@ -1,8 +1,8 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import dishCategories from "../categories/dishCategories";
-import dietaryConsiderations from "../categories/dietaryConsiderations";
+import { dishCategories } from "../categories/dishCategories";
+import { dietaryConsiderations } from "../categories/dietaryConsiderations";
 import { capitalizeFirstLetter } from "../functions/functions";
 import { nanoid } from "nanoid";
 import { EventDocumentType } from "../interfaces/interfaces";

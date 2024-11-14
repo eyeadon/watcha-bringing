@@ -1,6 +1,4 @@
 import { Types } from "mongoose";
-import { dishCategoriesEnum } from "../categories/dishCategories";
-import { dietaryConsiderationsEnum } from "../categories/dietaryConsiderations";
 
 // export interface DocumentType {
 //   _id?: Types.ObjectId;
@@ -9,10 +7,10 @@ import { dietaryConsiderationsEnum } from "../categories/dietaryConsiderations";
 export interface Dish {
   publicId: string;
   userName: string;
-  category: dishCategoriesEnum;
+  category: string;
   name: string;
   amount: number;
-  dietary?: dietaryConsiderationsEnum[];
+  dietary?: string[];
 }
 
 export interface DishDocumentType extends Dish {

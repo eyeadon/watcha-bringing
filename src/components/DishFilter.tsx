@@ -1,4 +1,4 @@
-import dishCategories from "../categories/dishCategories";
+import { dishCategories } from "../categories/dishCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {

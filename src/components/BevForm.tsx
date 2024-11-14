@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import bevCategories from "../categories/bevCategories";
+import { bevCategories } from "../categories/bevCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
 import usePostBev from "../hooks/usePostBev";
 import usePutEvent from "../hooks/usePutEvent";

@@ -1,8 +1,14 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { dishCategories } from "../categories/dishCategories";
-import { dietaryConsiderations } from "../categories/dietaryConsiderations";
+import {
+  dishCategories,
+  dishCategoriesEnum,
+} from "../categories/dishCategories";
+import {
+  dietaryConsiderations,
+  dietaryConsiderationsEnum,
+} from "../categories/dietaryConsiderations";
 import { capitalizeFirstLetter } from "../functions/functions";
 import usePutDish from "../hooks/usePutDish";
 import { Dish, DishDocumentType } from "../interfaces/interfaces";
@@ -39,10 +45,10 @@ const EditDishForm = ({ dish }: Props) => {
     resolver: zodResolver(dishSchema),
     defaultValues: {
       userName: dish.userName,
-      category: dish.category,
+      category: dish.category as dishCategoriesEnum,
       name: dish.name,
       amount: dish.amount,
-      dietary: dish.dietary,
+      dietary: dish.dietary as dietaryConsiderationsEnum[],
     },
   });
 

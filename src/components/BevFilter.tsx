@@ -1,4 +1,4 @@
-import bevCategories from "../categories/bevCategories";
+import { bevCategories } from "../categories/bevCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {

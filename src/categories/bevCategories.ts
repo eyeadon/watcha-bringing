@@ -1,4 +1,4 @@
-const beverageCategories = [
+const bevCategories = [
   "soda",
   "seltzer",
   "beer",
@@ -10,7 +10,7 @@ const beverageCategories = [
   "other",
 ] as const;
 
-enum beverageCategoriesEnum {
+enum bevCategoriesEnum {
   soda = "soda",
   seltzer = "seltzer",
   beer = "beer",
@@ -22,4 +22,4 @@ enum beverageCategoriesEnum {
   other = "other",
 }
 
-export { beverageCategories, beverageCategoriesEnum };
+export { bevCategories, bevCategoriesEnum };
