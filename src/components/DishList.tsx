@@ -18,7 +18,9 @@ interface Props {
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
 
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [editItemDisplay, setEditItemDisplay] = useState(false);
+
+  // const [isExpanded, setIsExpanded] = useState(false);
   // const showChild = isExpanded ? children : null;
 
   const {
@@ -110,7 +112,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 className="btn btn-outline-primary btn-sm me-2 mb-2"
                 onClick={() => {
                   // make EditDishForm appear
-                  setIsExpanded(!isExpanded);
+                  setEditItemDisplay(!editItemDisplay);
                 }}
               >
                 Edit
@@ -135,7 +137,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 Delete
               </button>
             </div>
-            {isExpanded && <EditDishForm dish={dish} />}
+            {editItemDisplay && (
+              <EditDishForm dish={dish} editItemDisplay={editItemDisplay} />
+            )}
           </div>
         ))}
       </div>
