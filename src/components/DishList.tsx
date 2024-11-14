@@ -66,56 +66,78 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   return (
     <>
-      <div>Chef</div>
-      <div>Category</div>
-      <div>Name</div>
-      <div>Amount</div>
-      <div>Dietary</div>
-      <div></div>
-      {eventDishes.map((dish: DishDocumentType) => (
-        <>
-          <div>{capitalizeFirstLetter(dish.userName)}</div>
-          <div>{capitalizeFirstLetter(dish.category)}</div>
-          <div>{capitalizeFirstLetter(dish.name)}</div>
-          <div>{dish.amount}</div>
-          <div>
-            {dish.dietary?.map((diet, index, arr) => {
-              // last item has no comma after it
-              return index === arr.length - 1 ? diet : `${diet}, `;
-            })}
+      <div className="container">
+        <div className="row" key="header">
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Chef</strong>
           </div>
-          <div>
-            <button
-              className="btn btn-outline-primary btn-sm me-2 mb-2"
-              onClick={() => {
-                // make EditDishForm appear
-              }}
-            >
-              Edit
-            </button>
-
-            <button
-              className="btn btn-outline-danger btn-sm mb-2"
-              onClick={async () => {
-                if (selectedEvent._id === undefined)
-                  throw new Error("selectedEvent._id is undefined");
-                if (dish._id === undefined)
-                  throw new Error("dish._id is undefined");
-
-                const result = await deleteDishMutateAsync({
-                  eventId: selectedEvent._id.toString(),
-                  itemId: dish._id.toString(),
-                  itemKind: "dish",
-                });
-                console.log(result);
-              }}
-            >
-              Delete
-            </button>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Category</strong>
           </div>
-          <EditDishForm dish={dish} />
-        </>
-      ))}
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Name</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Amount</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Dietary</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">&nbsp;</div>
+        </div>
+        {eventDishes.map((dish: DishDocumentType) => (
+          <div className="row" key={dish.publicId}>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {capitalizeFirstLetter(dish.userName)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {capitalizeFirstLetter(dish.category)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {capitalizeFirstLetter(dish.name)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {dish.amount}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {dish.dietary?.map((diet, index, arr) => {
+                // last item has no comma after it
+                return index === arr.length - 1 ? diet : `${diet}, `;
+              })}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              <button
+                className="btn btn-outline-primary btn-sm me-2 mb-2"
+                onClick={() => {
+                  // make EditDishForm appear
+                }}
+              >
+                Edit
+              </button>
+
+              <button
+                className="btn btn-outline-danger btn-sm mb-2"
+                onClick={async () => {
+                  if (selectedEvent._id === undefined)
+                    throw new Error("selectedEvent._id is undefined");
+                  if (dish._id === undefined)
+                    throw new Error("dish._id is undefined");
+
+                  const result = await deleteDishMutateAsync({
+                    eventId: selectedEvent._id.toString(),
+                    itemId: dish._id.toString(),
+                    itemKind: "dish",
+                  });
+                  console.log(result);
+                }}
+              >
+                Delete
+              </button>
+            </div>
+            {/* <EditDishForm dish={dish} /> */}
+          </div>
+        ))}
+      </div>
     </>
   );
 };
