@@ -29,12 +29,17 @@ const SelectedEventTitle = ({ selectedEvent, editEventDisplay }: Props) => {
                 <br />
                 {dayjs(selectedEvent.endDateTime).format("LL")}
               </p>
+            </div>
+
+            <div className="me-5">
               <p>
-                <strong>Start Time:</strong>&nbsp;
+                <strong>Start Time:</strong>
+                <br />
                 {dayjs(selectedEvent.startDateTime).format("LT")}
               </p>
               <p>
-                <strong>End Time:</strong>&nbsp;
+                <strong>End Time:</strong>
+                <br />
                 {selectedEvent.endDateTime
                   ? dayjs(selectedEvent.endDateTime).format("LT")
                   : "?"}

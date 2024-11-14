@@ -10,4 +10,16 @@ const beverageCategories = [
   "other",
 ] as const;
 
-export default beverageCategories;
+enum beverageCategoriesEnum {
+  soda = "soda",
+  seltzer = "seltzer",
+  beer = "beer",
+  wine = "wine",
+  cocktail = "cocktail",
+  juice = "juice",
+  coffee = "coffee",
+  tea = "tea",
+  other = "other",
+}
+
+export { beverageCategories, beverageCategoriesEnum };

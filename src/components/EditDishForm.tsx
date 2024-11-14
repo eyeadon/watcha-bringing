@@ -1,11 +1,11 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import dishCategories from "../categories/dishCategories";
-import dietaryConsiderations from "../categories/dietaryConsiderations";
+import { dishCategories } from "../categories/dishCategories";
+import { dietaryConsiderations } from "../categories/dietaryConsiderations";
 import { capitalizeFirstLetter } from "../functions/functions";
 import usePutDish from "../hooks/usePutDish";
-import { DishDocumentType } from "../interfaces/interfaces";
+import { Dish, DishDocumentType } from "../interfaces/interfaces";
 
 const dishSchema = z.object({
   userName: z
@@ -20,14 +20,14 @@ const dishSchema = z.object({
   dietary: z.enum(dietaryConsiderations).array().optional(),
 });
 
-export type DishFormData = z.infer<typeof dishSchema>;
+export type EditDishFormData = z.infer<typeof dishSchema>;
 
 interface Props {
   dish: DishDocumentType;
-  // onSubmit: (data: DishFormData) => void;
+  // onSubmit: (data: EditDishFormData) => void;
 }
 
-const DishForm = ({ dish }: Props) => {
+const EditDishForm = ({ dish }: Props) => {
   // returns object
   const {
     register,
@@ -35,10 +35,14 @@ const DishForm = ({ dish }: Props) => {
     handleSubmit,
     reset,
     formState: { errors, isValid },
-  } = useForm<DishFormData>({
+  } = useForm<EditDishFormData>({
     resolver: zodResolver(dishSchema),
     defaultValues: {
-      dietary: [],
+      userName: dish.userName,
+      category: dish.category,
+      name: dish.name,
+      amount: dish.amount,
+      dietary: dish.dietary,
     },
   });
 
@@ -58,11 +62,11 @@ const DishForm = ({ dish }: Props) => {
     <form
       // handleSubmit from react hook form, this function will receive the form data if form validation is successful
       // data is ready to send to the server
-      onSubmit={handleSubmit(async (dishFormData) => {
+      onSubmit={handleSubmit(async (editDishFormData) => {
         if (dish._id === undefined) throw new Error("dish._id is undefined");
 
         const dishWithPublicId = {
-          ...dishFormData,
+          ...editDishFormData,
           publicId: dish.publicId,
         };
 
@@ -191,4 +195,4 @@ const DishForm = ({ dish }: Props) => {
   );
 };
 
-export default DishForm;
+export default EditDishForm;

@@ -8,4 +8,14 @@ const dietaryConsiderations = [
   "other",
 ] as const;
 
-export default dietaryConsiderations;
+enum dietaryConsiderationsEnum {
+  glutenFree = "gluten free",
+  dairyFree = "dairy free",
+  vegetarian = "vegetarian",
+  pescatarian = "pescatarian",
+  vegan = "vegan",
+  spicy = "spicy",
+  other = "other",
+}
+
+export { dietaryConsiderations, dietaryConsiderationsEnum };

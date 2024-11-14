@@ -110,6 +110,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 className="btn btn-outline-primary btn-sm me-2 mb-2"
                 onClick={() => {
                   // make EditDishForm appear
+                  setIsExpanded(!isExpanded);
                 }}
               >
                 Edit
@@ -134,7 +135,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 Delete
               </button>
             </div>
-            <EditDishForm dish={dish} />
+            {isExpanded && <EditDishForm dish={dish} />}
           </div>
         ))}
       </div>
