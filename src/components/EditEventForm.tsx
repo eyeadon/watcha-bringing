@@ -60,8 +60,6 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
     },
   });
 
-  const contextEventFormIsExpanded = useContext(EventFormIsExpandedContext);
-
   // put Event
   const {
     data: putEventData,

@@ -1,21 +1,17 @@
-import { z } from "zod";
-import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useContext } from "react";
-import {
-  EventFormIsExpandedContext,
-  SelectedEventContext,
-} from "../contexts/contexts";
 import {
   DatePicker,
   LocalizationProvider,
   TimePicker,
-  DateTimePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
 import { nanoid } from "nanoid";
-import { setDateDayJs, setTimeDayJs } from "../functions/functions";
+import { useContext } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { z } from "zod";
+import { EventFormIsExpandedContext } from "../contexts/contexts";
+import { setTimeDayJs } from "../functions/functions";
 import usePostEvent from "../hooks/usePostEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
 // import utc from "dayjs/plugin/utc";

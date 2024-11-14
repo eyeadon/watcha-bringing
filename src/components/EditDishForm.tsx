@@ -32,10 +32,10 @@ export type EditDishFormData = z.infer<typeof dishSchema>;
 interface Props {
   dish: DishDocumentType;
   editItemDisplay: boolean;
-  // onSubmit: (data: EditDishFormData) => void;
+  onSubmit: () => void;
 }
 
-const EditDishForm = ({ dish, editItemDisplay }: Props) => {
+const EditDishForm = ({ dish, editItemDisplay, onSubmit }: Props) => {
   // returns object
   const {
     register,
@@ -85,6 +85,8 @@ const EditDishForm = ({ dish, editItemDisplay }: Props) => {
           });
 
           console.log(result);
+
+          onSubmit();
 
           reset();
         })}

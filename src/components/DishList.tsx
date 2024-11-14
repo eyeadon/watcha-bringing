@@ -138,7 +138,11 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
               </button>
             </div>
             {editItemDisplay && (
-              <EditDishForm dish={dish} editItemDisplay={editItemDisplay} />
+              <EditDishForm
+                dish={dish}
+                editItemDisplay={editItemDisplay}
+                onSubmit={() => setEditItemDisplay(false)}
+              />
             )}
           </div>
         ))}
