@@ -76,88 +76,93 @@ const DishForm = ({ dish }: Props) => {
         reset();
       })}
     >
-      <div className="mb-3">
-        <label htmlFor="userName" className="form-label">
-          Your Name
-        </label>
-        <input
-          {...register("userName")}
-          id="userName"
-          type="text"
-          className="form-control"
-        />
-        {errors.userName && (
-          <p className="text-danger">{errors.userName.message}</p>
-        )}
-      </div>
+      <div className="row" key="formRow">
+        <div className="col-sm p-2 border border-primary-subtle">
+          <label htmlFor="userName" className="form-label">
+            Your Name
+          </label>
+          <input
+            {...register("userName")}
+            id="userName"
+            type="text"
+            className="form-control"
+          />
+          {errors.userName && (
+            <p className="text-danger">{errors.userName.message}</p>
+          )}
+        </div>
 
-      <div className="mb-3">
-        <label htmlFor="category" className="form-label">
-          Category
-        </label>
-        {/* // hook form register function, spread result, copy all previous values */}
-        <select {...register("category")} id="category" className="form-select">
-          <option value="Select">Select Dish</option>
-          {dishCategories.map((category) => (
-            <option key={category} value={category}>
-              {capitalizeFirstLetter(category)}
-            </option>
+        <div className="col-sm p-2 border border-primary-subtle">
+          <label htmlFor="category" className="form-label">
+            Category
+          </label>
+          {/* // hook form register function, spread result, copy all previous values */}
+          <select
+            {...register("category")}
+            id="category"
+            className="form-select"
+          >
+            <option value="Select">Select Dish</option>
+            {dishCategories.map((category) => (
+              <option key={category} value={category}>
+                {capitalizeFirstLetter(category)}
+              </option>
+            ))}
+          </select>
+          {errors.category && (
+            <p className="text-danger">{errors.category.message}</p>
+          )}
+        </div>
+
+        <div className="col-sm p-2 border border-primary-subtle">
+          <label htmlFor="name" className="form-label">
+            Dish Name
+          </label>
+          <input
+            {...register("name")}
+            id="name"
+            type="text"
+            className="form-control"
+          />
+          {errors.name && <p className="text-danger">{errors.name.message}</p>}
+        </div>
+
+        <div className="col-sm p-2 border border-primary-subtle">
+          <label htmlFor="amount" className="form-label">
+            Amount
+          </label>
+          <input
+            {...register("amount", { valueAsNumber: true })}
+            id="amount"
+            type="number"
+            className="form-control"
+          />
+          {errors.amount && (
+            <p className="text-danger">{errors.amount.message}</p>
+          )}
+        </div>
+
+        <div className="col-sm p-2 border border-primary-subtle">
+          <label className="form-label">
+            Dietary Considerations Included (optional)
+          </label>
+          {dietaryConsiderations.map((diet, index) => (
+            // had to add key to div
+            <div className="form-check" key={index}>
+              <input
+                {...register("dietary")}
+                id={diet}
+                className="form-check-input"
+                type="checkbox"
+                key={diet}
+                value={diet}
+              />
+              <label className="form-check-label" htmlFor="dietary">
+                {diet}
+              </label>
+            </div>
           ))}
-        </select>
-        {errors.category && (
-          <p className="text-danger">{errors.category.message}</p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label">
-          Dish Name
-        </label>
-        <input
-          {...register("name")}
-          id="name"
-          type="text"
-          className="form-control"
-        />
-        {errors.name && <p className="text-danger">{errors.name.message}</p>}
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="amount" className="form-label">
-          Amount
-        </label>
-        <input
-          {...register("amount", { valueAsNumber: true })}
-          id="amount"
-          type="number"
-          className="form-control"
-        />
-        {errors.amount && (
-          <p className="text-danger">{errors.amount.message}</p>
-        )}
-      </div>
-
-      <div className="mb-3">
-        <label className="form-label">
-          Dietary Considerations Included (optional)
-        </label>
-        {dietaryConsiderations.map((diet, index) => (
-          // had to add key to div
-          <div className="form-check" key={index}>
-            <input
-              {...register("dietary")}
-              id={diet}
-              className="form-check-input"
-              type="checkbox"
-              key={diet}
-              value={diet}
-            />
-            <label className="form-check-label" htmlFor="dietary">
-              {diet}
-            </label>
-          </div>
-        ))}
-        {/* 
+          {/* 
         // bootstrap checkbox format
         <div className="form-check">
           <input
@@ -171,15 +176,17 @@ const DishForm = ({ dish }: Props) => {
           Checked checkbox
           </label>
         </div> */}
-        {errors.dietary && (
-          <p className="text-danger">{errors.dietary.message}</p>
-        )}
-      </div>
+          {errors.dietary && (
+            <p className="text-danger">{errors.dietary.message}</p>
+          )}
+        </div>
 
-      {/* Submit */}
-      <button disabled={!isValid} className="btn btn-primary" type="submit">
-        Submit
-      </button>
+        <div className="col-sm p-2 border border-primary-subtle">
+          <button disabled={!isValid} className="btn btn-primary" type="submit">
+            Submit
+          </button>
+        </div>
+      </div>
     </form>
   );
 };

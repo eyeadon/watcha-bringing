@@ -66,9 +66,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   return (
     <>
-      <div className="container">
+      <div className="container border border-2 border-primary-subtle">
         <div className="row" key="header">
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-sm p-2 border border-primary-subtle bg-primary-subtle">
             <strong>Chef</strong>
           </div>
           <div className="col-sm p-2 border border-primary-subtle">
@@ -134,7 +134,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 Delete
               </button>
             </div>
-            {/* <EditDishForm dish={dish} /> */}
+            <EditDishForm dish={dish} />
           </div>
         ))}
       </div>
