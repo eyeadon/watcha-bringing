@@ -19,6 +19,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
 
   const [editItemDisplay, setEditItemDisplay] = useState(false);
+  const [hovered, setHovered] = useState(false);
+  const [selectedDish, setSelectedDish] = useState();
 
   // const [isExpanded, setIsExpanded] = useState(false);
   // const showChild = isExpanded ? children : null;
@@ -69,8 +71,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   return (
     <>
       <div className="container border border-2 border-primary-subtle">
-        <div className="row" key="header">
-          <div className="col-sm p-2 border border-primary-subtle bg-primary-subtle">
+        <div className="row bg-primary-subtle" key="header">
+          <div className="col-sm p-2 border border-primary-subtle">
             <strong>Chef</strong>
           </div>
           <div className="col-sm p-2 border border-primary-subtle">
@@ -88,7 +90,16 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <div className="col-sm p-2 border border-primary-subtle">&nbsp;</div>
         </div>
         {eventDishes.map((dish: DishDocumentType) => (
-          <div className="row" key={dish.publicId}>
+          <div
+            className={hovered ? "row bg-info-subtle" : "row"}
+            key={dish.publicId}
+            onMouseEnter={() => {
+              setHovered(true);
+            }}
+            onMouseLeave={() => {
+              setHovered(false);
+            }}
+          >
             <div className="col-sm p-2 border border-primary-subtle">
               {capitalizeFirstLetter(dish.userName)}
             </div>
@@ -107,36 +118,40 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 return index === arr.length - 1 ? diet : `${diet}, `;
               })}
             </div>
+
             <div className="col-sm p-2 border border-primary-subtle">
-              <button
-                className="btn btn-outline-primary btn-sm me-2 mb-2"
-                onClick={() => {
-                  // make EditDishForm appear
-                  setEditItemDisplay(!editItemDisplay);
-                }}
-              >
-                Edit
-              </button>
+              <>
+                <button
+                  className="btn btn-outline-primary btn-sm me-2 mb-2"
+                  onClick={() => {
+                    // make EditDishForm appear
+                    setEditItemDisplay(!editItemDisplay);
+                  }}
+                >
+                  Edit
+                </button>
 
-              <button
-                className="btn btn-outline-danger btn-sm mb-2"
-                onClick={async () => {
-                  if (selectedEvent._id === undefined)
-                    throw new Error("selectedEvent._id is undefined");
-                  if (dish._id === undefined)
-                    throw new Error("dish._id is undefined");
+                <button
+                  className="btn btn-outline-danger btn-sm mb-2"
+                  onClick={async () => {
+                    if (selectedEvent._id === undefined)
+                      throw new Error("selectedEvent._id is undefined");
+                    if (dish._id === undefined)
+                      throw new Error("dish._id is undefined");
 
-                  const result = await deleteDishMutateAsync({
-                    eventId: selectedEvent._id.toString(),
-                    itemId: dish._id.toString(),
-                    itemKind: "dish",
-                  });
-                  console.log(result);
-                }}
-              >
-                Delete
-              </button>
+                    const result = await deleteDishMutateAsync({
+                      eventId: selectedEvent._id.toString(),
+                      itemId: dish._id.toString(),
+                      itemKind: "dish",
+                    });
+                    console.log(result);
+                  }}
+                >
+                  Delete
+                </button>
+              </>
             </div>
+
             {editItemDisplay && (
               <EditDishForm
                 dish={dish}
