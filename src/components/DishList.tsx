@@ -63,7 +63,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <div className="col-sm p-2 border border-primary-subtle">
             <strong>Dietary</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle">&nbsp;</div>
+          <div className="col-sm p-2 border border-primary-subtle d-none d-sm-block"></div>
         </div>
 
         {eventDishes.map((dish: DishDocumentType) => (

@@ -58,7 +58,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
           <div className="col-sm p-2 border border-primary-subtle">
             <strong>Amount</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle">&nbsp;</div>
+          <div className="col-sm p-2 border border-primary-subtle d-none d-sm-block"></div>
         </div>
 
         {eventBevs.map((bev) => (
