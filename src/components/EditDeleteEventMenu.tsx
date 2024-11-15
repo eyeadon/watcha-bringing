@@ -8,10 +8,15 @@ import { EventDocumentType } from "../interfaces/interfaces";
 
 interface Props {
   selectedEvent: EventDocumentType;
+  editEventDisplay: boolean;
   onClick: () => void;
 }
 
-const EditDeleteEventMenu = ({ selectedEvent, onClick }: Props) => {
+const EditDeleteEventMenu = ({
+  selectedEvent,
+  editEventDisplay,
+  onClick,
+}: Props) => {
   if (selectedEvent === undefined) return null;
 
   const context = useContext(SelectedEventContext);
@@ -28,17 +33,7 @@ const EditDeleteEventMenu = ({ selectedEvent, onClick }: Props) => {
     status: deleteEventStatus,
   } = useDeleteEvent();
 
-  const [plusMinusColor, setPlusMinusColor] = useState("#0d6efd");
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const editEventButton = isExpanded ? (
-    <DashLg key="dashlg" color={plusMinusColor} className="me-1" />
-  ) : (
-    [
-      <PlusLg key="pluslg" color={plusMinusColor} className="me-1" />,
-      "Edit Event",
-    ]
-  );
+  const editEventButton = editEventDisplay ? "—" : "Edit Event";
 
   return (
     <>
@@ -49,8 +44,6 @@ const EditDeleteEventMenu = ({ selectedEvent, onClick }: Props) => {
             variant="outline-primary"
             type="button"
             onClick={onClick}
-            onMouseEnter={() => setPlusMinusColor("#ffffff")}
-            onMouseLeave={() => setPlusMinusColor("#0d6efd")}
           >
             {editEventButton}
           </Button>

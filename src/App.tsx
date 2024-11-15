@@ -90,6 +90,7 @@ function App() {
                 )}
                 <EditDeleteEventMenu
                   selectedEvent={selectedEvent}
+                  editEventDisplay={editEventDisplay}
                   onClick={() => setEditEventDisplay(!editEventDisplay)}
                 />
               </>
