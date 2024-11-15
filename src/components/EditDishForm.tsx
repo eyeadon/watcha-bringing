@@ -33,9 +33,10 @@ interface Props {
   dish: DishDocumentType;
   editItemDisplay: boolean;
   onSubmit: () => void;
+  onCancel: () => void;
 }
 
-const EditDishForm = ({ dish, editItemDisplay, onSubmit }: Props) => {
+const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
   // returns object
   const {
     register,
@@ -200,8 +201,16 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit }: Props) => {
 
           <div className="col-sm p-2 border border-primary-subtle">
             <button
+              className="btn btn-light btn-sm me-2"
+              onClick={onCancel}
+              type="button"
+            >
+              Cancel
+            </button>
+
+            <button
               disabled={!isValid}
-              className="btn btn-primary"
+              className="btn btn-primary btn-sm"
               type="submit"
             >
               Submit

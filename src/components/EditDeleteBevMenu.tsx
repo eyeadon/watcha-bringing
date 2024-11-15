@@ -60,6 +60,7 @@ const EditDeleteBevMenu = ({ selectedEvent, bev }: Props) => {
           bev={bev}
           editItemDisplay={editItemDisplay}
           onSubmit={() => setEditItemDisplay(false)}
+          onCancel={() => setEditItemDisplay(false)}
         />
       )}
     </>
