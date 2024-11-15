@@ -112,7 +112,7 @@ function App() {
               {/* end row */}
             </div>
 
-            <div className="row mb-1">
+            <div className="row w-100 mb-1">
               <div className="mb-3">
                 <h2>Who's Bringing What?</h2>
                 <h3>Dishes</h3>
