@@ -1,14 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { ReactNode, useState } from "react";
-import Collapse from "react-bootstrap/Collapse";
+import { useState } from "react";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
 } from "../functions/functions";
-import useDeleteDish from "../hooks/useDeleteDish";
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
-import EditDishForm from "./EditDishForm";
 import EditDeleteListMenu from "./EditDeleteListMenu";
 
 interface Props {
@@ -20,9 +17,6 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
 
   const [selectedDish, setSelectedDish] = useState();
-
-  // const [isExpanded, setIsExpanded] = useState(false);
-  // const showChild = isExpanded ? children : null;
 
   const queryClient = useQueryClient();
   // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
