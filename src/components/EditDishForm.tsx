@@ -67,7 +67,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit }: Props) => {
   } = usePutDish();
 
   return (
-    <Fade in={editItemDisplay} className="mb-4">
+    <Fade in={editItemDisplay}>
       <form
         // handleSubmit from react hook form, this function will receive the form data if form validation is successful
         // data is ready to send to the server
