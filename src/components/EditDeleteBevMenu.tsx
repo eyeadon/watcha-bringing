@@ -1,28 +1,27 @@
 import { useState } from "react";
-import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
-import useDeleteDish from "../hooks/useDeleteDish";
-import EditDishForm from "./EditDishForm";
+import { BevDocumentType, EventDocumentType } from "../interfaces/interfaces";
+import useDeleteBev from "../hooks/useDeleteBev";
+import EditBevForm from "./EditBevForm";
 
 interface Props {
   selectedEvent: EventDocumentType;
-  dish: DishDocumentType;
+  bev: BevDocumentType;
 }
 
-const EditDeleteListMenu = ({ selectedEvent, dish }: Props) => {
+const EditDeleteBevMenu = ({ selectedEvent, bev }: Props) => {
   const [editItemDisplay, setEditItemDisplay] = useState(false);
-  const [hovered, setHovered] = useState(false);
 
   const {
-    data: deleteDishData,
-    error: deleteDishError,
-    isError: deleteDishIsError,
-    isPending: deleteDishIsPending,
-    isSuccess: deleteDishIsSuccess,
-    mutate: deleteDishMutate,
-    mutateAsync: deleteDishMutateAsync,
-    reset: deleteDishReset,
-    status: deleteDishStatus,
-  } = useDeleteDish();
+    data: deleteBevData,
+    error: deleteBevError,
+    isError: deleteBevIsError,
+    isPending: deleteBevIsPending,
+    isSuccess: deleteBevIsSuccess,
+    mutate: deleteBevMutate,
+    mutateAsync: deleteBevMutateAsync,
+    reset: deleteBevReset,
+    status: deleteBevStatus,
+  } = useDeleteBev();
 
   return (
     <>
@@ -30,7 +29,7 @@ const EditDeleteListMenu = ({ selectedEvent, dish }: Props) => {
         <button
           className="btn btn-outline-primary btn-sm me-2 mb-2"
           onClick={() => {
-            // show EditDishForm
+            // show EditBevForm
             setEditItemDisplay(!editItemDisplay);
           }}
         >
@@ -42,13 +41,12 @@ const EditDeleteListMenu = ({ selectedEvent, dish }: Props) => {
           onClick={async () => {
             if (selectedEvent._id === undefined)
               throw new Error("selectedEvent._id is undefined");
-            if (dish._id === undefined)
-              throw new Error("dish._id is undefined");
+            if (bev._id === undefined) throw new Error("bev._id is undefined");
 
-            const result = await deleteDishMutateAsync({
+            const result = await deleteBevMutateAsync({
               eventId: selectedEvent._id.toString(),
-              itemId: dish._id.toString(),
-              itemKind: "dish",
+              itemId: bev._id.toString(),
+              itemKind: "bev",
             });
             console.log(result);
           }}
@@ -58,8 +56,8 @@ const EditDeleteListMenu = ({ selectedEvent, dish }: Props) => {
       </div>
 
       {editItemDisplay && (
-        <EditDishForm
-          dish={dish}
+        <EditBevForm
+          bev={bev}
           editItemDisplay={editItemDisplay}
           onSubmit={() => setEditItemDisplay(false)}
         />
@@ -68,4 +66,4 @@ const EditDeleteListMenu = ({ selectedEvent, dish }: Props) => {
   );
 };
 
-export default EditDeleteListMenu;
+export default EditDeleteBevMenu;

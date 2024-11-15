@@ -91,7 +91,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit }: Props) => {
           reset();
         })}
       >
-        <div className="row" key="formRow">
+        <div className="row bg-info-subtle" key={dish._id?.toString()}>
           <div className="col-sm p-2 border border-primary-subtle">
             <label htmlFor="userName" className="form-label">
               Your Name

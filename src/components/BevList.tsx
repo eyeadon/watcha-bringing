@@ -1,12 +1,11 @@
-import { BevDocumentType, EventDocumentType } from "../interfaces/interfaces";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
 } from "../functions/functions";
 import useEventSubDoc from "../hooks/useEventSubDoc";
-import { useQueryClient } from "@tanstack/react-query";
-import useDeleteBev from "../hooks/useDeleteBev";
-import usePutBev from "../hooks/usePutBev";
+import { EventDocumentType } from "../interfaces/interfaces";
+import EditDeleteBevMenu from "./EditDeleteBevMenu";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -16,30 +15,6 @@ interface Props {
 
 const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   if (selectedEvent.bevs === undefined) return null;
-
-  const {
-    data: putBevData,
-    error: putBevError,
-    isError: putBevIsError,
-    isPending: putBevIsPending,
-    isSuccess: putBevIsSuccess,
-    mutate: putBevMutate,
-    mutateAsync: putBevMutateAsync,
-    reset: putBevReset,
-    status: putBevStatus,
-  } = usePutBev();
-
-  const {
-    data: deleteBevData,
-    error: deleteBevError,
-    isError: deleteBevIsError,
-    isPending: deleteBevIsPending,
-    isSuccess: deleteBevIsSuccess,
-    mutate: deleteBevMutate,
-    mutateAsync: deleteBevMutateAsync,
-    reset: deleteBevReset,
-    status: deleteBevStatus,
-  } = useDeleteBev();
 
   const queryClient = useQueryClient();
   // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
@@ -68,74 +43,44 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   // refetch();
 
   return (
-    <table className="table table-bordered" key="bevTable">
-      <thead>
-        <tr>
-          <th>Libationer</th>
-          <th>Category</th>
-          <th>Name</th>
-          <th>Amount</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody key="bevTableBody">
+    <>
+      <div className="container border border-2 border-primary-subtle">
+        <div className="row bg-primary-subtle" key="header">
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Libationer</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Category</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Beverage Name</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Amount</strong>
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">&nbsp;</div>
+        </div>
+
         {eventBevs.map((bev) => (
-          <tr key={bev.publicId}>
-            <td>{capitalizeFirstLetter(bev.userName)}</td>
-            <td>{capitalizeFirstLetter(bev.category)}</td>
-            <td>{capitalizeFirstLetter(bev.name)}</td>
-            <td>{bev.amount}</td>
-            <td>
-              <button
-                className="btn btn-outline-primary btn-sm me-2 mb-2"
-                onClick={async () => {
-                  if (bev._id === undefined)
-                    throw new Error("bev._id is undefined");
+          <div className="row" key={bev.publicId}>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {capitalizeFirstLetter(bev.userName)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {capitalizeFirstLetter(bev.category)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {capitalizeFirstLetter(bev.name)}
+            </div>
 
-                  const bevWithoutId = { ...bev };
-                  delete bevWithoutId._id;
-
-                  const result = await putBevMutateAsync({
-                    itemId: bev._id.toString(),
-                    data: bevWithoutId,
-                  });
-                  console.log(result);
-                }}
-              >
-                Edit
-              </button>
-
-              <button
-                className="btn btn-outline-danger btn-sm mb-2"
-                onClick={async () => {
-                  if (selectedEvent._id === undefined)
-                    throw new Error("selectedEvent._id is undefined");
-                  if (bev._id === undefined)
-                    throw new Error("bev._id is undefined");
-
-                  const result = await deleteBevMutateAsync({
-                    eventId: selectedEvent._id.toString(),
-                    itemId: bev._id.toString(),
-                    itemKind: "bev",
-                  });
-                  console.log(result);
-                }}
-              >
-                Delete
-              </button>
-            </td>
-          </tr>
+            <div className="col-sm p-2 border border-primary-subtle">
+              {bev.amount}
+            </div>
+            <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
+          </div>
         ))}
-      </tbody>
-      {/* <tfoot>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tfoot> */}
-    </table>
+      </div>
+    </>
   );
 };
 

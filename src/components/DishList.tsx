@@ -1,12 +1,11 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
 } from "../functions/functions";
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
-import EditDeleteListMenu from "./EditDeleteListMenu";
+import EditDeleteDishMenu from "./EditDeleteDishMenu";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -15,8 +14,6 @@ interface Props {
 
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent.dishes === undefined) return null;
-
-  const [selectedDish, setSelectedDish] = useState();
 
   const queryClient = useQueryClient();
   // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
@@ -46,8 +43,6 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   );
 
   // refetch();
-  // console.log("DishList run");
-  // console.log(eventDishes);
 
   return (
     <>
@@ -60,7 +55,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
             <strong>Category</strong>
           </div>
           <div className="col-sm p-2 border border-primary-subtle">
-            <strong>Name</strong>
+            <strong>Dish Name</strong>
           </div>
           <div className="col-sm p-2 border border-primary-subtle">
             <strong>Amount</strong>
@@ -91,7 +86,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 return index === arr.length - 1 ? diet : `${diet}, `;
               })}
             </div>
-            <EditDeleteListMenu selectedEvent={selectedEvent} dish={dish} />
+            <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
           </div>
         ))}
       </div>
