@@ -86,20 +86,42 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
         {eventBevs.map((bev) => (
           <div className="row d-flex d-sm-none" key={bev.publicId}>
             <div className="col-sm p-2 border border-primary-subtle">
-              <strong>Libationer: </strong>
-              {capitalizeFirstLetter(bev.userName)}
+              <div className="row">
+                <div className="col-4">
+                  <strong>Libationer: </strong>
+                </div>
+                <div className="col-8 ms-auto">
+                  {capitalizeFirstLetter(bev.userName)}
+                </div>
+              </div>
             </div>
             <div className="col-sm p-2 border border-primary-subtle">
-              <strong>Category: </strong>
-              {capitalizeFirstLetter(bev.category)}
+              <div className="row">
+                <div className="col-4">
+                  <strong>Category: </strong>
+                </div>
+                <div className="col-8 ms-auto">
+                  {capitalizeFirstLetter(bev.category)}
+                </div>
+              </div>
             </div>
             <div className="col-sm p-2 border border-primary-subtle">
-              <strong>Beverage Name: </strong>
-              {capitalizeFirstLetter(bev.name)}
+              <div className="row">
+                <div className="col-4">
+                  <strong>Beverage Name: </strong>
+                </div>
+                <div className="col-8 ms-auto">
+                  {capitalizeFirstLetter(bev.name)}
+                </div>
+              </div>
             </div>
             <div className="col-sm p-2 border border-primary-subtle">
-              <strong>Amount: </strong>
-              {bev.amount}
+              <div className="row">
+                <div className="col-4">
+                  <strong>Amount: </strong>
+                </div>
+                <div className="col-8 ms-auto">{bev.amount}</div>
+              </div>
             </div>
             <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
           </div>
