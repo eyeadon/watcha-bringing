@@ -120,14 +120,14 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
                 <strong>Dish Name: </strong>
               </div>
               <div className="col-8 ms-auto">
-                {capitalizeFirstLetter(dish.name)}{" "}
+                {capitalizeFirstLetter(dish.name)}
               </div>
             </div>
           </div>
           <div className="col-sm p-2 border border-primary-subtle">
             <div className="row">
               <div className="col-4">
-                <strong>Amount: </strong>{" "}
+                <strong>Amount: </strong>
               </div>
               <div className="col-8 ms-auto">{dish.amount} </div>
             </div>
@@ -135,13 +135,13 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <div className="col-sm p-2 border border-primary-subtle">
             <div className="row">
               <div className="col-4">
-                <strong>Dietary: </strong>{" "}
+                <strong>Dietary: </strong>
               </div>
               <div className="col-8 ms-auto">
                 {dish.dietary?.map((diet, index, arr) => {
                   // last item has no comma after it
                   return index === arr.length - 1 ? diet : `${diet}, `;
-                })}{" "}
+                })}
               </div>
             </div>
           </div>
