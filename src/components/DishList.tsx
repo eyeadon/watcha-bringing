@@ -45,52 +45,82 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // refetch();
 
   return (
-    <>
-      <div className="container border border-2 border-primary-subtle">
-        <div className="row bg-primary-subtle" key="header">
-          <div className="col-sm p-2 border border-primary-subtle">
-            <strong>Chef</strong>
-          </div>
-          <div className="col-sm p-2 border border-primary-subtle">
-            <strong>Category</strong>
-          </div>
-          <div className="col-sm p-2 border border-primary-subtle">
-            <strong>Dish Name</strong>
-          </div>
-          <div className="col-sm p-2 border border-primary-subtle">
-            <strong>Amount</strong>
-          </div>
-          <div className="col-sm p-2 border border-primary-subtle">
-            <strong>Dietary</strong>
-          </div>
-          <div className="col-sm p-2 border border-primary-subtle d-none d-sm-block"></div>
+    <div className="container border border-2 border-primary-subtle">
+      {/* sm screens and larger */}
+      <div className="row bg-primary-subtle d-none d-sm-flex" key="header">
+        <div className="col-sm-2 p-2 border border-primary-subtle">
+          <strong>Chef</strong>
         </div>
-
-        {eventDishes.map((dish: DishDocumentType) => (
-          <div className="row" key={dish.publicId}>
-            <div className="col-sm p-2 border border-primary-subtle">
-              {capitalizeFirstLetter(dish.userName)}
-            </div>
-            <div className="col-sm p-2 border border-primary-subtle">
-              {capitalizeFirstLetter(dish.category)}
-            </div>
-            <div className="col-sm p-2 border border-primary-subtle">
-              {capitalizeFirstLetter(dish.name)}
-            </div>
-            <div className="col-sm p-2 border border-primary-subtle">
-              {dish.amount}
-            </div>
-            <div className="col-sm p-2 border border-primary-subtle">
-              {dish.dietary?.map((diet, index, arr) => {
-                // last item has no comma after it
-                return index === arr.length - 1 ? diet : `${diet}, `;
-              })}
-            </div>
-            <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
-          </div>
-        ))}
+        <div className="col-sm-2 p-2 border border-primary-subtle">
+          <strong>Category</strong>
+        </div>
+        <div className="col-sm-2 p-2 border border-primary-subtle">
+          <strong>Dish Name</strong>
+        </div>
+        <div className="col-sm-2 p-2 border border-primary-subtle">
+          <strong>Amount</strong>
+        </div>
+        <div className="col-sm-2 p-2 border border-primary-subtle">
+          <strong>Dietary</strong>
+        </div>
+        <div className="col-sm-2 p-2 border border-primary-subtle"></div>
       </div>
-    </>
+
+      {/* sm screens and larger */}
+      {eventDishes.map((dish: DishDocumentType) => (
+        <div className="row d-none d-sm-flex" key={dish.publicId}>
+          <div className="col-sm-2 p-2 border border-primary-subtle">
+            {capitalizeFirstLetter(dish.userName)}
+          </div>
+          <div className="col-sm-2 p-2 border border-primary-subtle">
+            {capitalizeFirstLetter(dish.category)}
+          </div>
+          <div className="col-sm-2 p-2 border border-primary-subtle">
+            {capitalizeFirstLetter(dish.name)}
+          </div>
+          <div className="col-sm-2 p-2 border border-primary-subtle">
+            {dish.amount}
+          </div>
+          <div className="col-sm-2 p-2 border border-primary-subtle">
+            {dish.dietary?.map((diet, index, arr) => {
+              // last item has no comma after it
+              return index === arr.length - 1 ? diet : `${diet}, `;
+            })}
+          </div>
+          <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
+        </div>
+      ))}
+
+      {/* xs screens only */}
+      {eventDishes.map((dish: DishDocumentType) => (
+        <div className="row d-flex d-sm-none" key={dish._id?.toString()}>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Chef: </strong>
+            {capitalizeFirstLetter(dish.userName)}
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Category: </strong>
+            {capitalizeFirstLetter(dish.category)}
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Dish Name: </strong>
+            {capitalizeFirstLetter(dish.name)}
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Amount: </strong>
+            {dish.amount}
+          </div>
+          <div className="col-sm p-2 border border-primary-subtle">
+            <strong>Dietary: </strong>
+            {dish.dietary?.map((diet, index, arr) => {
+              // last item has no comma after it
+              return index === arr.length - 1 ? diet : `${diet}, `;
+            })}
+          </div>
+          <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
+        </div>
+      ))}
+    </div>
   );
 };
 
