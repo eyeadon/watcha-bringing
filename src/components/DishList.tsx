@@ -48,7 +48,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     <div className="container border border-2 border-primary-subtle">
       {/* sm screens and larger */}
       <div className="row bg-primary-subtle d-none d-sm-flex" key="header">
-        <div className="col-sm-2 p-2 border border-primary-subtle">
+        <div className="col-sm-3 p-2 border border-primary-subtle">
           <strong>Chef</strong>
         </div>
         <div className="col-sm-2 p-2 border border-primary-subtle">
@@ -57,7 +57,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
         <div className="col-sm-2 p-2 border border-primary-subtle">
           <strong>Dish Name</strong>
         </div>
-        <div className="col-sm-2 p-2 border border-primary-subtle">
+        <div className="col-sm-1 p-2 border border-primary-subtle">
           <strong>Amount</strong>
         </div>
         <div className="col-sm-2 p-2 border border-primary-subtle">
@@ -69,7 +69,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       {/* sm screens and larger */}
       {eventDishes.map((dish: DishDocumentType) => (
         <div className="row d-none d-sm-flex" key={dish.publicId}>
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-sm-3 p-2 border border-primary-subtle">
             {capitalizeFirstLetter(dish.userName)}
           </div>
           <div className="col-sm-2 p-2 border border-primary-subtle">
@@ -78,7 +78,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <div className="col-sm-2 p-2 border border-primary-subtle">
             {capitalizeFirstLetter(dish.name)}
           </div>
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-sm-1 p-2 border border-primary-subtle">
             {dish.amount}
           </div>
           <div className="col-sm-2 p-2 border border-primary-subtle">

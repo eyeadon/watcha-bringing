@@ -93,7 +93,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
         })}
       >
         <div className="row bg-info-subtle" key={dish._id?.toString()}>
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-sm-3 p-2 border border-primary-subtle">
             <label htmlFor="userName" className="form-label">
               Your Name
             </label>
@@ -145,7 +145,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-sm-1 p-2 border border-primary-subtle">
             <label htmlFor="amount" className="form-label">
               Amount
             </label>
