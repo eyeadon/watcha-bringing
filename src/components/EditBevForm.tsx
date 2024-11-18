@@ -86,7 +86,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
         })}
       >
         <div className="row bg-info-subtle" key={bev._id?.toString()}>
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-sm-3 p-2 border border-primary-subtle">
             <label htmlFor="userName" className="form-label">
               Your Name
             </label>

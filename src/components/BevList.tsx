@@ -47,7 +47,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
       <div className="container border border-2 border-primary-subtle">
         {/* sm screens and larger */}
         <div className="row bg-primary-subtle d-none d-sm-flex" key="header">
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-sm-3 p-2 border border-primary-subtle">
             <strong>Libationer</strong>
           </div>
           <div className="col-sm p-2 border border-primary-subtle">
@@ -65,7 +65,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
         {/* sm screens and larger */}
         {eventBevs.map((bev) => (
           <div className="row d-none d-sm-flex" key={bev.publicId}>
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-sm-3 p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.userName)}
             </div>
             <div className="col-sm p-2 border border-primary-subtle">
