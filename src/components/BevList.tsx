@@ -45,7 +45,8 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   return (
     <>
       <div className="container border border-2 border-primary-subtle">
-        <div className="row bg-primary-subtle" key="header">
+        {/* sm screens and larger */}
+        <div className="row bg-primary-subtle d-none d-sm-flex" key="header">
           <div className="col-sm p-2 border border-primary-subtle">
             <strong>Libationer</strong>
           </div>
@@ -58,11 +59,12 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
           <div className="col-sm p-2 border border-primary-subtle">
             <strong>Amount</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle d-none d-sm-block"></div>
+          <div className="col-sm p-2 border border-primary-subtle"></div>
         </div>
 
+        {/* sm screens and larger */}
         {eventBevs.map((bev) => (
-          <div className="row" key={bev.publicId}>
+          <div className="row d-none d-sm-flex" key={bev.publicId}>
             <div className="col-sm p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.userName)}
             </div>
@@ -74,6 +76,29 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             </div>
 
             <div className="col-sm p-2 border border-primary-subtle">
+              {bev.amount}
+            </div>
+            <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
+          </div>
+        ))}
+
+        {/* xs screens only */}
+        {eventBevs.map((bev) => (
+          <div className="row d-flex d-sm-none" key={bev.publicId}>
+            <div className="col-sm p-2 border border-primary-subtle">
+              <strong>Libationer: </strong>
+              {capitalizeFirstLetter(bev.userName)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              <strong>Category: </strong>
+              {capitalizeFirstLetter(bev.category)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              <strong>Beverage Name: </strong>
+              {capitalizeFirstLetter(bev.name)}
+            </div>
+            <div className="col-sm p-2 border border-primary-subtle">
+              <strong>Amount: </strong>
               {bev.amount}
             </div>
             <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
