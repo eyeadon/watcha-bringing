@@ -86,7 +86,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
         })}
       >
         <div className="row bg-info-subtle" key={bev._id?.toString()}>
-          <div className="col-sm-3 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-3 p-2 border border-primary-subtle">
             <label htmlFor="userName" className="form-label">
               Your Name
             </label>
@@ -101,7 +101,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-xs col-lg p-2 border border-primary-subtle">
             <label htmlFor="category" className="form-label">
               Category
             </label>
@@ -123,7 +123,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-xs col-lg p-2 border border-primary-subtle">
             <label htmlFor="name" className="form-label">
               Beverage Name (optional)
             </label>
@@ -138,7 +138,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-xs col-lg p-2 border border-primary-subtle">
             <label htmlFor="amount" className="form-label">
               Amount
             </label>
@@ -153,7 +153,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-xs col-lg p-2 border border-primary-subtle">
             <button
               className="btn btn-light btn-sm me-2"
               onClick={onCancel}

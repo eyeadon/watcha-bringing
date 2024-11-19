@@ -93,7 +93,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
         })}
       >
         <div className="row bg-info-subtle" key={dish._id?.toString()}>
-          <div className="col-sm-3 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-3 p-2 border border-primary-subtle">
             <label htmlFor="userName" className="form-label">
               Your Name
             </label>
@@ -108,7 +108,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-2 p-2 border border-primary-subtle">
             <label htmlFor="category" className="form-label">
               Category
             </label>
@@ -130,7 +130,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-2 p-2 border border-primary-subtle">
             <label htmlFor="name" className="form-label">
               Dish Name
             </label>
@@ -145,7 +145,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm-1 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-1 p-2 border border-primary-subtle">
             <label htmlFor="amount" className="form-label">
               Amount
             </label>
@@ -160,7 +160,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-2 p-2 border border-primary-subtle">
             <label className="form-label">
               Dietary Considerations Included (optional)
             </label>
@@ -199,7 +199,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
             )}
           </div>
 
-          <div className="col-sm-2 p-2 border border-primary-subtle">
+          <div className="col-xs col-lg-2 p-2 border border-primary-subtle">
             <button
               className="btn btn-light btn-sm me-2"
               onClick={onCancel}

@@ -25,7 +25,7 @@ const EditDeleteBevMenu = ({ selectedEvent, bev }: Props) => {
 
   return (
     <>
-      <div className="col-sm p-2 border border-primary-subtle">
+      <div className="col p-2 border border-primary-subtle">
         <button
           className="btn btn-outline-primary btn-sm me-2 mb-2"
           onClick={() => {

@@ -45,37 +45,37 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   return (
     <>
       <div className="container border border-2 border-primary-subtle">
-        {/* sm screens and larger */}
-        <div className="row bg-primary-subtle d-none d-sm-flex" key="header">
-          <div className="col-sm-3 p-2 border border-primary-subtle">
+        {/* lg screens and larger */}
+        <div className="row bg-primary-subtle d-none d-lg-flex" key="header">
+          <div className="col-lg-3 p-2 border border-primary-subtle">
             <strong>Libationer</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-lg p-2 border border-primary-subtle">
             <strong>Category</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-lg p-2 border border-primary-subtle">
             <strong>Beverage Name</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle">
+          <div className="col-lg p-2 border border-primary-subtle">
             <strong>Amount</strong>
           </div>
-          <div className="col-sm p-2 border border-primary-subtle"></div>
+          <div className="col-lg p-2 border border-primary-subtle"></div>
         </div>
 
-        {/* sm screens and larger */}
+        {/* lg screens and larger */}
         {eventBevs.map((bev) => (
-          <div className="row d-none d-sm-flex" key={bev.publicId}>
-            <div className="col-sm-3 p-2 border border-primary-subtle">
+          <div className="row d-none d-lg-flex" key={bev.publicId}>
+            <div className="col-lg-3 p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.userName)}
             </div>
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-lg p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.category)}
             </div>
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-lg p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.name)}
             </div>
 
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-lg p-2 border border-primary-subtle">
               {bev.amount}
             </div>
             <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
@@ -84,8 +84,8 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
 
         {/* xs screens only */}
         {eventBevs.map((bev) => (
-          <div className="row d-flex d-sm-none" key={bev.publicId}>
-            <div className="col-sm p-2 border border-primary-subtle">
+          <div className="row d-flex d-lg-none" key={bev.publicId}>
+            <div className="col-xs p-2 border border-primary-subtle">
               <div className="row">
                 <div className="col-4">
                   <strong>Libationer: </strong>
@@ -95,7 +95,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
                 </div>
               </div>
             </div>
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-xs p-2 border border-primary-subtle">
               <div className="row">
                 <div className="col-4">
                   <strong>Category: </strong>
@@ -105,7 +105,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
                 </div>
               </div>
             </div>
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-xs p-2 border border-primary-subtle">
               <div className="row">
                 <div className="col-4">
                   <strong>Beverage Name: </strong>
@@ -115,7 +115,7 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
                 </div>
               </div>
             </div>
-            <div className="col-sm p-2 border border-primary-subtle">
+            <div className="col-xs p-2 border border-primary-subtle">
               <div className="row">
                 <div className="col-4">
                   <strong>Amount: </strong>
