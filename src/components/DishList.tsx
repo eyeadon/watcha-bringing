@@ -47,7 +47,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   return (
     <div className="container border border-2 border-primary-subtle">
       {/* lg screens and larger */}
-      {eventDishes.length !== 0 && (
+      {eventDishes.length !== 0 ? (
         <div className="row bg-primary-subtle d-none d-lg-flex" key="header">
           <div className="col-lg-3 p-2 border border-primary-subtle">
             <strong>Chef</strong>
@@ -66,6 +66,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           </div>
           <div className="col-lg-2 p-2 border border-primary-subtle"></div>
         </div>
+      ) : (
+        <div>No dishes</div>
       )}
 
       {/* lg screens and larger */}
