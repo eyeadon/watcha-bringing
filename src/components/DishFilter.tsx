@@ -2,15 +2,17 @@ import { dishCategories } from "../categories/dishCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {
+  selectedDishCategory: string;
   onSelectCategory: (category: string) => void;
 }
 
-const DishFilter = ({ onSelectCategory }: Props) => {
+const DishFilter = ({ selectedDishCategory, onSelectCategory }: Props) => {
   return (
     <select
       name="select"
       className="form-select"
       onChange={(event) => onSelectCategory(event.target.value)}
+      value={selectedDishCategory}
     >
       <option value="">All Dish Categories</option>
       {dishCategories.map((category) => (

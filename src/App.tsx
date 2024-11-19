@@ -46,8 +46,8 @@ function App() {
         <EventMenu
           onSelectEvent={(ev) => {
             setSelectedEvent(ev);
-            // console.log(ev);
-            // console.log(selectedEvent);
+            setSelectedDishCategory("");
+            setSelectedBevCategory("");
           }}
         />
 
@@ -118,6 +118,7 @@ function App() {
                 <h2>Who's Bringing What?</h2>
                 <h3>Dishes</h3>
                 <DishFilter
+                  selectedDishCategory={selectedDishCategory}
                   onSelectCategory={(category) => {
                     setSelectedDishCategory(category);
                   }}
@@ -133,6 +134,7 @@ function App() {
               <div className="mb-3">
                 <h3>Beverages</h3>
                 <BevFilter
+                  selectedBevCategory={selectedBevCategory}
                   onSelectCategory={(category) =>
                     setSelectedBevCategory(category)
                   }
