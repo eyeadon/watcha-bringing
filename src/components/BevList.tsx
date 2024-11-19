@@ -46,21 +46,23 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
     <>
       <div className="container border border-2 border-primary-subtle">
         {/* lg screens and larger */}
-        <div className="row bg-primary-subtle d-none d-lg-flex" key="header">
-          <div className="col-lg-3 p-2 border border-primary-subtle">
-            <strong>Libationer</strong>
+        {eventBevs.length !== 0 && (
+          <div className="row bg-primary-subtle d-none d-lg-flex" key="header">
+            <div className="col-lg-3 p-2 border border-primary-subtle">
+              <strong>Libationer</strong>
+            </div>
+            <div className="col-lg p-2 border border-primary-subtle">
+              <strong>Category</strong>
+            </div>
+            <div className="col-lg p-2 border border-primary-subtle">
+              <strong>Beverage Name</strong>
+            </div>
+            <div className="col-lg p-2 border border-primary-subtle">
+              <strong>Amount</strong>
+            </div>
+            <div className="col-lg p-2 border border-primary-subtle"></div>
           </div>
-          <div className="col-lg p-2 border border-primary-subtle">
-            <strong>Category</strong>
-          </div>
-          <div className="col-lg p-2 border border-primary-subtle">
-            <strong>Beverage Name</strong>
-          </div>
-          <div className="col-lg p-2 border border-primary-subtle">
-            <strong>Amount</strong>
-          </div>
-          <div className="col-lg p-2 border border-primary-subtle"></div>
-        </div>
+        )}
 
         {/* lg screens and larger */}
         {eventBevs.map((bev) => (
