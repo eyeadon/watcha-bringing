@@ -180,20 +180,6 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
                 </label>
               </div>
             ))}
-            {/* 
-        // bootstrap checkbox format
-        <div className="form-check">
-          <input
-          className="form-check-input"
-          type="checkbox"
-          value=""
-          id="flexCheckChecked"
-          checked
-          />
-          <label className="form-check-label" htmlFor="flexCheckChecked">
-          Checked checkbox
-          </label>
-        </div> */}
             {errors.dietary && (
               <p className="text-danger">{errors.dietary.message}</p>
             )}

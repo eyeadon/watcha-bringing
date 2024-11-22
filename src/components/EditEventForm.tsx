@@ -40,9 +40,15 @@ interface Props {
   selectedEvent: EventDocumentType;
   editEventDisplay: boolean;
   onSubmit: (data: EventDocumentType) => void;
+  onCancel: () => void;
 }
 
-const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
+const EventForm = ({
+  selectedEvent,
+  editEventDisplay,
+  onSubmit,
+  onCancel,
+}: Props) => {
   // returns object
   const {
     register,
@@ -339,10 +345,23 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
             {/* end row */}
           </div>
 
-          {/* Submit */}
-          <button disabled={!isValid} className="btn btn-primary" type="submit">
-            Submit
-          </button>
+          <div>
+            <button
+              disabled={!isValid}
+              className="btn btn-primary me-2"
+              type="submit"
+            >
+              Submit
+            </button>
+
+            <button
+              className="btn btn-outline-primary"
+              onClick={onCancel}
+              type="button"
+            >
+              Cancel
+            </button>
+          </div>
         </form>
       </Fade>
     </LocalizationProvider>

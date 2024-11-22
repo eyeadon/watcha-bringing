@@ -19,7 +19,6 @@ import {
 } from "./contexts/contexts";
 import { EventDocumentType } from "./interfaces/interfaces";
 import EditDeleteEventMenu from "./components/EditDeleteEventMenu";
-import { Fade } from "@mui/material";
 import EditEventForm from "./components/EditEventForm";
 
 function App() {
@@ -70,31 +69,28 @@ function App() {
         {selectedEvent.publicId !== "none" && (
           <>
             <SelectedEventTitle selectedEvent={selectedEvent} />
-            {selectedEvent.publicId !== "none" && (
-              <>
-                {editEventDisplay === false && (
-                  <SelectedEventDataDisplay
-                    selectedEvent={selectedEvent}
-                    editEventDisplay={editEventDisplay}
-                  />
-                )}
-                {editEventDisplay && (
-                  <EditEventForm
-                    selectedEvent={selectedEvent}
-                    editEventDisplay={editEventDisplay}
-                    onSubmit={(newEventResult: EventDocumentType) => {
-                      setSelectedEvent(newEventResult);
-                      setEditEventDisplay(!editEventDisplay);
-                    }}
-                  />
-                )}
-                <EditDeleteEventMenu
-                  selectedEvent={selectedEvent}
-                  editEventDisplay={editEventDisplay}
-                  onClick={() => setEditEventDisplay(!editEventDisplay)}
-                />
-              </>
+            {editEventDisplay ? (
+              <EditEventForm
+                selectedEvent={selectedEvent}
+                editEventDisplay={editEventDisplay}
+                onSubmit={(newEventResult: EventDocumentType) => {
+                  setSelectedEvent(newEventResult);
+                  setEditEventDisplay(false);
+                }}
+                onCancel={() => setEditEventDisplay(false)}
+              />
+            ) : (
+              <SelectedEventDataDisplay
+                selectedEvent={selectedEvent}
+                editEventDisplay={editEventDisplay}
+              />
             )}
+
+            <EditDeleteEventMenu
+              selectedEvent={selectedEvent}
+              editEventDisplay={editEventDisplay}
+              onClick={() => setEditEventDisplay(!editEventDisplay)}
+            />
 
             <div className="row mb-1">
               <div className="col-sm mb-3">
