@@ -43,6 +43,9 @@ class APIClient<T> {
         // added <T[]> here, not using FetchResponse<T>
         .get<T[]>(this.endpoint, config)
         .then((res) => res.data)
+        .catch((error) => {
+          console.log(error);
+        })
     );
   };
 
@@ -50,14 +53,20 @@ class APIClient<T> {
   get = (id: number | string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // get single object by publicId
   getSingleByPublicId = (id: number | string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/public/" + id)
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // get sub doc
@@ -66,7 +75,10 @@ class APIClient<T> {
       .get<T>(this.endpoint + "/subdoc/items", {
         params: { publicId: id, itemKind: itemKind },
       })
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   post = (data: T) => {
@@ -75,6 +87,9 @@ class APIClient<T> {
         // .post<FetchResponse<T>>(this.endpoint, data)
         .post<T>(this.endpoint, data)
         .then((res) => res.data)
+        .catch((error) => {
+          console.log(error);
+        })
     );
   };
 
@@ -84,13 +99,19 @@ class APIClient<T> {
         // .put<FetchResponse<T>>(this.endpoint + "/" + id, data)
         .put<T>(this.endpoint + "/" + id, data)
         .then((res) => res.data)
+        .catch((error) => {
+          console.log(error);
+        })
     );
   };
 
   delete = (id: number | string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/" + id)
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   deleteItem = (eventId: number | string, itemId: string, itemKind: string) => {
@@ -98,7 +119,10 @@ class APIClient<T> {
       .delete<T>(this.endpoint + "/subdoc/deleteitem", {
         params: { eventId: eventId, itemId: itemId, itemKind: itemKind },
       })
-      .then((res) => res.data);
+      .then((res) => res.data)
+      .catch((error) => {
+        console.log(error);
+      });
   };
 }
 
