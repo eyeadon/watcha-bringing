@@ -38,10 +38,10 @@ const EditDeleteEventMenu = ({
   return (
     <>
       <div className="d-flex mb-3">
-        <div className="me-2">
+        <div className="me-3">
           <Button
             className="btn-sm mb-3"
-            variant="outline-primary"
+            variant="outline-secondary"
             type="button"
             onClick={onClick}
           >

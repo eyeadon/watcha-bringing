@@ -27,7 +27,7 @@ const EditDeleteDishMenu = ({ selectedEvent, dish }: Props) => {
     <>
       <div className="col-xs col-lg-2 p-2 border border-primary-subtle">
         <button
-          className="btn btn-outline-primary btn-sm me-2 mb-2"
+          className="btn btn-outline-secondary btn-sm me-3 mb-2"
           onClick={() => {
             // show EditDishForm
             setEditItemDisplay(!editItemDisplay);
