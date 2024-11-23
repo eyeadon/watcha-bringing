@@ -45,6 +45,7 @@ class APIClient<T> {
         .then((res) => res.data)
         .catch((error) => {
           console.log(error);
+          return undefined;
         })
     );
   };
@@ -56,6 +57,7 @@ class APIClient<T> {
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);
+        return undefined;
       });
   };
 
@@ -66,6 +68,7 @@ class APIClient<T> {
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);
+        return undefined;
       });
   };
 
@@ -78,6 +81,7 @@ class APIClient<T> {
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);
+        return undefined;
       });
   };
 
@@ -89,6 +93,7 @@ class APIClient<T> {
         .then((res) => res.data)
         .catch((error) => {
           console.log(error);
+          return undefined;
         })
     );
   };
@@ -101,6 +106,7 @@ class APIClient<T> {
         .then((res) => res.data)
         .catch((error) => {
           console.log(error);
+          return undefined;
         })
     );
   };
@@ -111,6 +117,7 @@ class APIClient<T> {
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);
+        return undefined;
       });
   };
 
@@ -122,6 +129,7 @@ class APIClient<T> {
       .then((res) => res.data)
       .catch((error) => {
         console.log(error);
+        return undefined;
       });
   };
 }
