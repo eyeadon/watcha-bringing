@@ -5,3 +5,8 @@ html {
 #selectedEventTitle {
   color: #0000b3;
 }
+
+.eventMenuLink {
+  font-weight: bold;
+  text-decoration: none;
+}

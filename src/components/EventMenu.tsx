@@ -29,18 +29,21 @@ const EventMenu = ({ onSelectEvent }: Props) => {
   }
 
   return (
-    <div className="d-flex mb-3">
+    <div className="d-flex flex-row flex-wrap mb-3">
       {data?.map((ev) => (
-        <div className="p-2" key={ev.publicId}>
-          <a
-            href="#"
-            onClick={(event) => {
-              event.preventDefault();
-              onSelectEvent(ev);
-            }}
-          >
-            {capitalizeFirstLetter(ev.name)}
-          </a>
+        <div className="card me-1 mb-1" key={ev.publicId}>
+          <div className="card-body p-2">
+            <a
+              className="eventMenuLink stretched-link"
+              href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                onSelectEvent(ev);
+              }}
+            >
+              {capitalizeFirstLetter(ev.name)}
+            </a>
+          </div>
         </div>
       ))}
     </div>
