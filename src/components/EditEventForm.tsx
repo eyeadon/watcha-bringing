@@ -40,15 +40,10 @@ interface Props {
   selectedEvent: EventDocumentType;
   editEventDisplay: boolean;
   onSubmit: (data: EventDocumentType) => void;
-  onCancel: () => void;
+  // onCancel: () => void;
 }
 
-const EventForm = ({
-  selectedEvent,
-  editEventDisplay,
-  onSubmit,
-  onCancel,
-}: Props) => {
+const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
   // returns object
   const {
     register,
@@ -354,13 +349,13 @@ const EventForm = ({
               Submit
             </button>
 
-            <button
+            {/* <button
               className="btn btn-outline-primary"
               onClick={onCancel}
               type="button"
             >
               Cancel
-            </button>
+            </button> */}
           </div>
         </form>
       </Fade>

@@ -77,7 +77,7 @@ function App() {
                   setSelectedEvent(newEventResult);
                   setEditEventDisplay(false);
                 }}
-                onCancel={() => setEditEventDisplay(false)}
+                // onCancel={() => setEditEventDisplay(false)}
               />
             ) : (
               <SelectedEventDataDisplay
