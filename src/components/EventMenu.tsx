@@ -31,7 +31,7 @@ const EventMenu = ({ onSelectEvent }: Props) => {
   return (
     <div className="d-flex flex-row flex-wrap mb-3">
       {data?.map((ev) => (
-        <div className="card me-1 mb-1" key={ev.publicId}>
+        <div className="card me-2 mb-1" key={ev.publicId}>
           <div className="card-body p-2">
             <a
               className="eventMenuLink stretched-link"
