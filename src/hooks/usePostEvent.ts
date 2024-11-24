@@ -41,6 +41,10 @@ const usePostEvent = () => {
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, newEvent, context) => {
+      if (error) {
+        console.log(error);
+        console.log(newEvent);
+      }
       if (!context) return;
 
       queryClient.setQueryData<Event[]>(["events"], context.previousEvents);

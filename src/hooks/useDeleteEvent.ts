@@ -56,12 +56,16 @@ const useDeleteEvent = () => {
       return { previousEvents, previousSelectedEvent };
     },
     // (data, variables, context)
-    onSuccess: (mutationResult, id) => {
+    onSuccess: (mutationResult) => {
       return mutationResult;
     },
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, id, context) => {
+      if (error) {
+        console.log(error);
+        console.log(id);
+      }
       if (!context) return;
 
       queryClient.setQueryData<EventDocumentType[]>(

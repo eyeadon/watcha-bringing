@@ -7,10 +7,8 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
-import { useContext } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { EventFormIsExpandedContext } from "../contexts/contexts";
 import { dateStringToDayJs, setTimeDayJs } from "../functions/functions";
 import usePutEvent from "../hooks/usePutEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
@@ -70,17 +68,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
   });
 
   // put Event
-  const {
-    data: putEventData,
-    error: putEventError,
-    isError: putEventIsError,
-    isPending: putEventIsPending,
-    isSuccess: putEventIsSuccess,
-    mutate: putEventMutate,
-    mutateAsync: putEventMutateAsync,
-    reset: putEventReset,
-    status: putEventStatus,
-  } = usePutEvent(selectedEvent);
+  const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

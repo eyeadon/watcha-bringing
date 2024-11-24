@@ -1,18 +1,18 @@
-import { z } from "zod";
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  dishCategories,
-  dishCategoriesEnum,
-} from "../categories/dishCategories";
+import { Fade } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import {
   dietaryConsiderations,
   dietaryConsiderationsEnum,
 } from "../categories/dietaryConsiderations";
+import {
+  dishCategories,
+  dishCategoriesEnum,
+} from "../categories/dishCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
 import usePutDish from "../hooks/usePutDish";
-import { Dish, DishDocumentType } from "../interfaces/interfaces";
-import { Fade } from "@mui/material";
+import { DishDocumentType } from "../interfaces/interfaces";
 
 const dishSchema = z.object({
   userName: z
@@ -55,17 +55,7 @@ const EditDishForm = ({ dish, editItemDisplay, onSubmit, onCancel }: Props) => {
     },
   });
 
-  const {
-    data: putDishData,
-    error: putDishError,
-    isError: putDishIsError,
-    isPending: putDishIsPending,
-    isSuccess: putDishIsSuccess,
-    mutate: putDishMutate,
-    mutateAsync: putDishMutateAsync,
-    reset: putDishReset,
-    status: putDishStatus,
-  } = usePutDish();
+  const { mutateAsync: putDishMutateAsync } = usePutDish();
 
   return (
     <Fade in={editItemDisplay}>

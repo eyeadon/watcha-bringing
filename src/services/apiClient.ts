@@ -43,10 +43,10 @@ class APIClient<T> {
         // added <T[]> here, not using FetchResponse<T>
         .get<T[]>(this.endpoint, config)
         .then((res) => res.data)
-        .catch((error) => {
-          console.log(error);
-          return undefined;
-        })
+      // .catch((error) => {
+      //   console.log(error);
+      //   return undefined;
+      // })
     );
   };
 
@@ -54,22 +54,22 @@ class APIClient<T> {
   get = (id: number | string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-        return undefined;
-      });
+      .then((res) => res.data);
+    // .catch((error) => {
+    //   console.log(error);
+    //   return undefined;
+    // });
   };
 
   // get single object by publicId
   getSingleByPublicId = (id: number | string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/public/" + id)
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-        return undefined;
-      });
+      .then((res) => res.data);
+    // .catch((error) => {
+    //   console.log(error);
+    //   return undefined;
+    // });
   };
 
   // get sub doc
@@ -78,11 +78,11 @@ class APIClient<T> {
       .get<T>(this.endpoint + "/subdoc/items", {
         params: { publicId: id, itemKind: itemKind },
       })
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-        return undefined;
-      });
+      .then((res) => res.data);
+    // .catch((error) => {
+    //   console.log(error);
+    //   return undefined;
+    // });
   };
 
   post = (data: T) => {
@@ -91,10 +91,10 @@ class APIClient<T> {
         // .post<FetchResponse<T>>(this.endpoint, data)
         .post<T>(this.endpoint, data)
         .then((res) => res.data)
-        .catch((error) => {
-          console.log(error);
-          return undefined;
-        })
+      // .catch((error) => {
+      //   console.log(error);
+      //   return undefined;
+      // })
     );
   };
 
@@ -104,21 +104,21 @@ class APIClient<T> {
         // .put<FetchResponse<T>>(this.endpoint + "/" + id, data)
         .put<T>(this.endpoint + "/" + id, data)
         .then((res) => res.data)
-        .catch((error) => {
-          console.log(error);
-          return undefined;
-        })
+      // .catch((error) => {
+      //   console.log(error);
+      //   return undefined;
+      // })
     );
   };
 
   delete = (id: number | string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/" + id)
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-        return undefined;
-      });
+      .then((res) => res.data);
+    // .catch((error) => {
+    //   console.log(error);
+    //   return undefined;
+    // });
   };
 
   deleteItem = (eventId: number | string, itemId: string, itemKind: string) => {
@@ -126,11 +126,11 @@ class APIClient<T> {
       .delete<T>(this.endpoint + "/subdoc/deleteitem", {
         params: { eventId: eventId, itemId: itemId, itemKind: itemKind },
       })
-      .then((res) => res.data)
-      .catch((error) => {
-        console.log(error);
-        return undefined;
-      });
+      .then((res) => res.data);
+    // .catch((error) => {
+    //   console.log(error);
+    //   return undefined;
+    // });
   };
 }
 

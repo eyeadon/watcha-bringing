@@ -1,5 +1,4 @@
-import { useContext, useState } from "react";
-import { DashLg, PlusLg } from "react-bootstrap-icons";
+import { useContext } from "react";
 import Button from "react-bootstrap/Button";
 import { emptyEvent } from "../constants/constants";
 import { SelectedEventContext } from "../contexts/contexts";
@@ -21,17 +20,7 @@ const EditDeleteEventMenu = ({
 
   const context = useContext(SelectedEventContext);
 
-  const {
-    data: deleteEventData,
-    error: deleteEventError,
-    isError: deleteEventIsError,
-    isPending: deleteEventIsPending,
-    isSuccess: deleteEventIsSuccess,
-    mutate: deleteEventMutate,
-    mutateAsync: deleteEventMutateAsync,
-    reset: deleteEventReset,
-    status: deleteEventStatus,
-  } = useDeleteEvent();
+  const { mutateAsync: deleteEventMutateAsync } = useDeleteEvent();
 
   const editEventButton = editEventDisplay ? "—" : "Edit Event";
 

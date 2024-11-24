@@ -9,16 +9,7 @@ interface Props {
 
 const EventMenu = ({ onSelectEvent }: Props) => {
   // get all events
-  const {
-    data,
-    error,
-    isError,
-    isLoading,
-    isPending,
-    isSuccess,
-    refetch,
-    status,
-  } = useEvents();
+  const { data, error, isLoading } = useEvents();
 
   if (isLoading) {
     return <p>Loading...</p>;

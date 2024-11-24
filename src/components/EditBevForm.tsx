@@ -49,17 +49,7 @@ const EditBevForm = ({ bev, editItemDisplay, onSubmit, onCancel }: Props) => {
     },
   });
 
-  const {
-    data: putBevData,
-    error: putBevError,
-    isError: putBevIsError,
-    isPending: putBevIsPending,
-    isSuccess: putBevIsSuccess,
-    mutate: putBevMutate,
-    mutateAsync: putBevMutateAsync,
-    reset: putBevReset,
-    status: putBevStatus,
-  } = usePutBev();
+  const { mutateAsync: putBevMutateAsync } = usePutBev();
 
   return (
     <Fade in={editItemDisplay}>

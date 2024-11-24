@@ -36,7 +36,7 @@ const usePutEvent = (selectedEvent: EventDocumentType) => {
       // can access in onError callback
       return { previousEvents };
     },
-    onSuccess: (savedEvent, eventToUpdate: Event) => {
+    onSuccess: (savedEvent) => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Event[]>(["events"], (events) => {
         // replace eventToUpdate instance set by onMutate with proper savedEvent
@@ -49,6 +49,10 @@ const usePutEvent = (selectedEvent: EventDocumentType) => {
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, newEvent, context) => {
+      if (error) {
+        console.log(error);
+        console.log(newEvent);
+      }
       if (!context) return;
 
       queryClient.setQueryData<Event[]>(["events"], context.previousEvents);

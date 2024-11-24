@@ -40,7 +40,7 @@ const usePutBev = () => {
       return { previousBevs };
     },
     // (data, variables, context)
-    onSuccess: (savedBev, obj) => {
+    onSuccess: (savedBev) => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Bev[]>(["bevs"], (bevs) => {
         // replace obj instance set by onMutate with proper savedBev
@@ -53,6 +53,10 @@ const usePutBev = () => {
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, obj, context) => {
+      if (error) {
+        console.log(error);
+        console.log(obj);
+      }
       if (!context) return;
 
       queryClient.setQueryData<BevDocumentType[]>(

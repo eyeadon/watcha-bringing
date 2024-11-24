@@ -46,12 +46,16 @@ const useDeleteBev = () => {
       return { previousBevs };
     },
     // (data, variables, context)
-    onSuccess: (mutationResult, obj) => {
+    onSuccess: (mutationResult) => {
       return mutationResult;
     },
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, obj, context) => {
+      if (error) {
+        console.log(error);
+        console.log(obj);
+      }
       if (!context) return;
 
       queryClient.setQueryData<BevDocumentType[]>(

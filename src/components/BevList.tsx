@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
@@ -16,12 +15,12 @@ interface Props {
 const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
   if (selectedEvent.bevs === undefined) return null;
 
-  const queryClient = useQueryClient();
+  // const queryClient = useQueryClient();
   // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
 
   // get array of full bev objects from selectedEvent by using its publicId
   // returns UseQueryResult
-  const { data, isLoading, status, refetch, error } = useEventSubDoc(
+  const { data, isLoading, error } = useEventSubDoc(
     selectedEvent.publicId,
     "bev"
   );

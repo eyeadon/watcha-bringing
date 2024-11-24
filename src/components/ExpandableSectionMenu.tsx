@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import { Event } from "../interfaces/interfaces";
 // import { capitalizeFirstLetter } from "../functions/functions";
 

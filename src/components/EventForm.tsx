@@ -66,17 +66,7 @@ const EventForm = ({ onSubmit }: Props) => {
   const contextEventFormIsExpanded = useContext(EventFormIsExpandedContext);
 
   // post Event
-  const {
-    data: postEventData,
-    error: postEventError,
-    isError: postEventIsError,
-    isPending: postEventIsPending,
-    isSuccess: postEventIsSuccess,
-    mutate: postEventMutate,
-    mutateAsync: postEventMutateAsync,
-    reset: postEventReset,
-    status: postEventStatus,
-  } = usePostEvent();
+  const { mutateAsync: postEventMutateAsync } = usePostEvent();
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>

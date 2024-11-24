@@ -45,6 +45,10 @@ const usePostDish = () => {
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, newDish, context) => {
+      if (error) {
+        console.log(error);
+        console.log(newDish);
+      }
       if (!context) return;
 
       queryClient.setQueryData<DishDocumentType[]>(

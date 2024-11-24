@@ -40,7 +40,7 @@ const usePutDish = () => {
       return { previousDishes };
     },
     // (data, variables, context)
-    onSuccess: (savedDish, obj) => {
+    onSuccess: (savedDish) => {
       //                              (queryKey, updater, options?)
       queryClient.setQueryData<Dish[]>(["dishes"], (dishes) => {
         // replace obj instance set by onMutate with proper savedDish
@@ -53,6 +53,10 @@ const usePutDish = () => {
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, obj, context) => {
+      if (error) {
+        console.log(error);
+        console.log(obj);
+      }
       if (!context) return;
 
       queryClient.setQueryData<DishDocumentType[]>(

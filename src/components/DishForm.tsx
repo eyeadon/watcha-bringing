@@ -44,30 +44,10 @@ const DishForm = ({ selectedEvent }: Props) => {
     },
   });
 
-  const {
-    data: postDishData,
-    error: postDishError,
-    isError: postDishIsError,
-    isPending: postDishIsPending,
-    isSuccess: postDishIsSuccess,
-    mutate: postDishMutate,
-    mutateAsync: postDishMutateAsync,
-    reset: postDishReset,
-    status: postDishStatus,
-  } = usePostDish();
+  const { mutateAsync: postDishMutateAsync } = usePostDish();
 
   // put Event
-  const {
-    data: putEventData,
-    error: putEventError,
-    isError: putEventIsError,
-    isPending: putEventIsPending,
-    isSuccess: putEventIsSuccess,
-    mutate: putEventMutate,
-    mutateAsync: putEventMutateAsync,
-    reset: putEventReset,
-    status: putEventStatus,
-  } = usePutEvent(selectedEvent);
+  const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
   return (
     <form

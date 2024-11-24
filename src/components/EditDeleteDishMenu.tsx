@@ -11,17 +11,7 @@ interface Props {
 const EditDeleteDishMenu = ({ selectedEvent, dish }: Props) => {
   const [editItemDisplay, setEditItemDisplay] = useState(false);
 
-  const {
-    data: deleteDishData,
-    error: deleteDishError,
-    isError: deleteDishIsError,
-    isPending: deleteDishIsPending,
-    isSuccess: deleteDishIsSuccess,
-    mutate: deleteDishMutate,
-    mutateAsync: deleteDishMutateAsync,
-    reset: deleteDishReset,
-    status: deleteDishStatus,
-  } = useDeleteDish();
+  const { mutateAsync: deleteDishMutateAsync } = useDeleteDish();
 
   return (
     <>

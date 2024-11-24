@@ -11,17 +11,7 @@ interface Props {
 const EditDeleteBevMenu = ({ selectedEvent, bev }: Props) => {
   const [editItemDisplay, setEditItemDisplay] = useState(false);
 
-  const {
-    data: deleteBevData,
-    error: deleteBevError,
-    isError: deleteBevIsError,
-    isPending: deleteBevIsPending,
-    isSuccess: deleteBevIsSuccess,
-    mutate: deleteBevMutate,
-    mutateAsync: deleteBevMutateAsync,
-    reset: deleteBevReset,
-    status: deleteBevStatus,
-  } = useDeleteBev();
+  const { mutateAsync: deleteBevMutateAsync } = useDeleteBev();
 
   return (
     <>

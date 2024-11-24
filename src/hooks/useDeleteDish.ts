@@ -1,9 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Dish,
-  DishDocumentType,
-  EventDocumentType,
-} from "../interfaces/interfaces";
+import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
 
 interface DeleteDishContext {
@@ -50,12 +46,16 @@ const useDeleteDish = () => {
       return { previousDishes };
     },
     // (data, variables, context)
-    onSuccess: (mutationResult, obj) => {
+    onSuccess: (mutationResult) => {
       return mutationResult;
     },
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, obj, context) => {
+      if (error) {
+        console.log(error);
+        console.log(obj);
+      }
       if (!context) return;
 
       queryClient.setQueryData<DishDocumentType[]>(

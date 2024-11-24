@@ -45,30 +45,10 @@ const BevForm = ({ selectedEvent }: Props) => {
     },
   });
 
-  const {
-    data: postBevData,
-    error: postBevError,
-    isError: postBevIsError,
-    isPending: postBevIsPending,
-    isSuccess: postBevIsSuccess,
-    mutate: postBevMutate,
-    mutateAsync: postBevMutateAsync,
-    reset: postBevReset,
-    status: postBevStatus,
-  } = usePostBev();
+  const { mutateAsync: postBevMutateAsync } = usePostBev();
 
   // put Event
-  const {
-    data: putEventData,
-    error: putEventError,
-    isError: putEventIsError,
-    isPending: putEventIsPending,
-    isSuccess: putEventIsSuccess,
-    mutate: putEventMutate,
-    mutateAsync: putEventMutateAsync,
-    reset: putEventReset,
-    status: putEventStatus,
-  } = usePutEvent(selectedEvent);
+  const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
   return (
     <form

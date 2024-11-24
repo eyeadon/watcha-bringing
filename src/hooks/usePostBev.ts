@@ -45,6 +45,10 @@ const usePostBev = () => {
     //       (error, variables, context)
     // use context in case request fails
     onError: (error, newBev, context) => {
+      if (error) {
+        console.log(error);
+        console.log(newBev);
+      }
       if (!context) return;
 
       queryClient.setQueryData<BevDocumentType[]>(

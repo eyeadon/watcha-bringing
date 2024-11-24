@@ -1,8 +1,8 @@
-import { ReactNode, useContext, useState } from "react";
-import { PlusLg, DashLg } from "react-bootstrap-icons";
-import { EventFormIsExpandedContext } from "../contexts/contexts";
+import { ReactNode, useContext } from "react";
+import { DashLg, PlusLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
+import { EventFormIsExpandedContext } from "../contexts/contexts";
 
 interface Props {
   children: ReactNode;

@@ -1,7 +1,6 @@
-import { Dish, DishDocumentType } from "../interfaces/interfaces";
 import { useQuery } from "@tanstack/react-query";
+import { DishDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
-import ms from "ms";
 
 const apiClient = new APIClient<DishDocumentType>("/dishes");
 
