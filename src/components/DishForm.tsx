@@ -116,7 +116,7 @@ const DishForm = ({ selectedEvent }: Props) => {
         </label>
         {/* // hook form register function, spread result, copy all previous values */}
         <select {...register("category")} id="category" className="form-select">
-          <option value="Select">Select Dish</option>
+          <option value="Select">Select Dish Category</option>
           {dishCategories.map((category) => (
             <option key={category} value={category}>
               {capitalizeFirstLetter(category)}
