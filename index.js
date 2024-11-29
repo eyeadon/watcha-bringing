@@ -1,10 +1,10 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import "express-async-errors";
 import dishes from "./routes/dishes.js";
 import bevs from "./routes/bevs.js";
 import events from "./routes/events.js";
-import "express-async-errors";
 
 const app = express();
 
