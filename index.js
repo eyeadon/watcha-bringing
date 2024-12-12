@@ -10,12 +10,12 @@ import events from "./routes/events.js";
 import error from "./middleware/error.js";
 import logging from "./startup/logging.js";
 
-logging("mongodb://localhost/watcha-bringing");
-// logging(process.env.MONGODB_URI + process.env.DB_NAME);
+// logging("mongodb://localhost/watcha-bringing");
+logging(process.env.MONGODB_URI + process.env.DB_NAME);
 
 mongoose
-  .connect("mongodb://localhost/watcha-bringing")
-  // .connect(process.env.MONGODB_URI + process.env.DB_NAME)
+  // .connect("mongodb://localhost/watcha-bringing")
+  .connect(process.env.MONGODB_URI + process.env.DB_NAME)
   .then(() => console.log("Connected to MongoDB..."))
   .catch((err) => console.error("Could not connect to MongoDB", err));
 
