@@ -12,7 +12,7 @@ const EventMenu = ({ onSelectEvent }: Props) => {
   const { data, error, isLoading } = useEvents();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <p>Loading events...</p>;
   }
 
   if (error) {
