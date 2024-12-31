@@ -10,14 +10,15 @@ import events from "./routes/events.js";
 import error from "./middleware/error.js";
 import logging from "./startup/logging.js";
 
-// logging("mongodb://localhost/watcha-bringing");
-logging(process.env.MONGODB_URI + process.env.DB_NAME);
+const db = process.env.MONGODB_URI + process.env.DB_NAME;
+
+logging("mongodb://localhost/watcha-bringing");
+// logging(db);
 
 mongoose
-  // .connect("mongodb://localhost/watcha-bringing")
-  .connect(process.env.MONGODB_URI + process.env.DB_NAME)
-  .then(() => console.log("Connected to MongoDB..."))
-  .catch((err) => console.error("Could not connect to MongoDB", err));
+  .connect("mongodb://localhost/watcha-bringing")
+  // .connect(db)
+  .then(() => winston.info("Connected to MongoDB..."));
 
 app.use(cors());
 app.use(express.json());

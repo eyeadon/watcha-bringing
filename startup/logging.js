@@ -34,6 +34,7 @@ export default function logging(connectionString) {
     new transports.MongoDB({
       db: connectionString,
       level: "info",
+      collection: "log",
     })
   );
 }
