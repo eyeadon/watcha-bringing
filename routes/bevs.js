@@ -1,6 +1,8 @@
 import express from "express";
 const router = express.Router();
-import { Bev, validateBev as validate } from "../models/bev.js";
+import { Bev, validateBev } from "../models/bev.js";
+import { validateObjectId } from "../middleware/validateObjectId.js";
+import { validate } from "../middleware/validate.js";
 
 // get all
 router.get("/", async (req, res) => {
@@ -10,7 +12,7 @@ router.get("/", async (req, res) => {
 });
 
 // get single
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const bev = await Bev.findById(req.params.id);
 
   if (!bev)
@@ -37,10 +39,7 @@ router.get("/public/:publicId", async (req, res) => {
   res.send(bev);
 });
 
-router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", validate(validateBev), async (req, res) => {
   const bev = new Bev({
     publicId: req.body.publicId,
     userName: req.body.userName,
@@ -60,32 +59,33 @@ router.post("/", async (req, res) => {
   res.send(bev);
 });
 
-router.put("/:id", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const bev = await Bev.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        publicId: req.body.publicId,
-        userName: req.body.userName,
-        category: req.body.category,
-        name: req.body.name,
-        amount: req.body.amount,
+router.put(
+  "/:id",
+  [validateObjectId, validate(validateBev)],
+  async (req, res) => {
+    const bev = await Bev.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          publicId: req.body.publicId,
+          userName: req.body.userName,
+          category: req.body.category,
+          name: req.body.name,
+          amount: req.body.amount,
+        },
       },
-    },
-    // get updated document
-    { new: true }
-  );
+      // get updated document
+      { new: true }
+    );
 
-  if (!bev)
-    return res.status(404).send("The bev with the given ID was not found.");
+    if (!bev)
+      return res.status(404).send("The bev with the given ID was not found.");
 
-  res.send(bev);
-});
+    res.send(bev);
+  }
+);
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateObjectId, async (req, res) => {
   const bev = await Bev.findByIdAndDelete(req.params.id);
 
   if (!bev)

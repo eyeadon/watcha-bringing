@@ -109,6 +109,4 @@ function validateEvent(event) {
   return schema.validate(event);
 }
 
-// exports.Event = Event;
-// exports.validate = validateEvent;
 export { Event, validateEvent };

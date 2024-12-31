@@ -58,6 +58,4 @@ function validateDish(dish) {
   return schema.validate(dish);
 }
 
-// exports.Dish = Dish;
-// exports.validate = validateDish;
 export { Dish, dishSchema, validateDish };

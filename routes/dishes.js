@@ -1,6 +1,8 @@
 import express from "express";
 const router = express.Router();
-import { Dish, validateDish as validate } from "../models/dish.js";
+import { Dish, validateDish } from "../models/dish.js";
+import { validateObjectId } from "../middleware/validateObjectId.js";
+import { validate } from "../middleware/validate.js";
 
 // get all
 router.get("/", async (req, res) => {
@@ -10,7 +12,7 @@ router.get("/", async (req, res) => {
 });
 
 // get single
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const dish = await Dish.findById(req.params.id);
 
   if (!dish)
@@ -35,10 +37,7 @@ router.get("/public/:publicId", async (req, res) => {
   res.send(dish);
 });
 
-router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", validate(validateDish), async (req, res) => {
   const dish = new Dish({
     publicId: req.body.publicId,
     userName: req.body.userName,
@@ -59,33 +58,34 @@ router.post("/", async (req, res) => {
   res.send(dish);
 });
 
-router.put("/:id", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const dish = await Dish.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        publicId: req.body.publicId,
-        userName: req.body.userName,
-        category: req.body.category,
-        name: req.body.name,
-        amount: req.body.amount,
-        dietary: req.body.dietary,
+router.put(
+  "/:id",
+  [validateObjectId, validate(validateDish)],
+  async (req, res) => {
+    const dish = await Dish.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          publicId: req.body.publicId,
+          userName: req.body.userName,
+          category: req.body.category,
+          name: req.body.name,
+          amount: req.body.amount,
+          dietary: req.body.dietary,
+        },
       },
-    },
-    // get updated document
-    { new: true }
-  );
+      // get updated document
+      { new: true }
+    );
 
-  if (!dish)
-    return res.status(404).send("The dish with the given ID was not found.");
+    if (!dish)
+      return res.status(404).send("The dish with the given ID was not found.");
 
-  res.send(dish);
-});
+    res.send(dish);
+  }
+);
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateObjectId, async (req, res) => {
   const dish = await Dish.findByIdAndDelete(req.params.id);
 
   if (!dish)

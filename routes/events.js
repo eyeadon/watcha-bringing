@@ -1,8 +1,10 @@
 import express from "express";
-import { Event, validateEvent as validate } from "../models/event.js";
+import { Event, validateEvent } from "../models/event.js";
 import { Dish } from "../models/dish.js";
 import { Bev } from "../models/bev.js";
 const router = express.Router();
+import { validateObjectId } from "../middleware/validateObjectId.js";
+import { validate } from "../middleware/validate.js";
 
 // get all
 router.get("/", async (req, res) => {
@@ -12,7 +14,7 @@ router.get("/", async (req, res) => {
 });
 
 // get single
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const selectedEvent = await Event.findById(req.params.id);
   if (!selectedEvent)
     return res.status(404).send("The event with the given ID was not found.");
@@ -69,10 +71,7 @@ router.get("/subdoc/items", async (req, res) => {
   res.send(resultArray);
 });
 
-router.post("/", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", validate(validateEvent), async (req, res) => {
   const event = new Event({
     publicId: req.body.publicId,
     // category: req.body.category,
@@ -97,38 +96,39 @@ router.post("/", async (req, res) => {
   res.send(event);
 });
 
-router.put("/:id", async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  const event = await Event.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: {
-        publicId: req.body.publicId,
-        // category: req.body.category,
-        name: req.body.name,
-        host: req.body.host,
-        address: req.body.address,
-        date: req.body.date,
-        startDateTime: req.body.startDateTime,
-        endDateTime: req.body.endDateTime,
-        dishes: req.body.dishes,
-        bevs: req.body.bevs,
+router.put(
+  "/:id",
+  [validateObjectId, validate(validateEvent)],
+  async (req, res) => {
+    const event = await Event.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          publicId: req.body.publicId,
+          // category: req.body.category,
+          name: req.body.name,
+          host: req.body.host,
+          address: req.body.address,
+          date: req.body.date,
+          startDateTime: req.body.startDateTime,
+          endDateTime: req.body.endDateTime,
+          dishes: req.body.dishes,
+          bevs: req.body.bevs,
+        },
       },
-    },
-    // get updated document
-    { new: true }
-  );
+      // get updated document
+      { new: true }
+    );
 
-  if (!event)
-    return res.status(404).send("The Event with the given ID was not found.");
+    if (!event)
+      return res.status(404).send("The Event with the given ID was not found.");
 
-  // console.log(event);
-  res.send(event);
-});
+    // console.log(event);
+    res.send(event);
+  }
+);
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", validateObjectId, async (req, res) => {
   const event = await Event.findByIdAndDelete(req.params.id);
 
   if (!event)
