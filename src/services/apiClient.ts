@@ -9,18 +9,13 @@ import axios, { AxiosRequestConfig } from "axios";
 const axiosInstance = axios.create({
   baseURL: "https://watcha-bringing.vercel.app/api",
   // baseURL: "http://localhost:3000/api",
+  headers: {
+    "Access-Control-Allow-Origin": "https://watcha-bringing.vercel.app",
+  },
   // params: {
   //   key: "",
   // },
 });
-
-// from tutorial
-// const axiosInstance = axios.create({
-//   baseURL: "https://api.rawg.io/api",
-//   params: {
-//     key: "d3da0a5c41f84d899720ab939875da2e",
-//   },
-// });
 
 class APIClient<T> {
   endpoint: string;
