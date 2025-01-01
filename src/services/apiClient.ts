@@ -7,11 +7,7 @@ import axios, { AxiosRequestConfig } from "axios";
 // }
 
 const axiosInstance = axios.create({
-  baseURL: "https://watcha-bringing.vercel.app/api",
-  // baseURL: "http://localhost:3000/api",
-  // params: {
-  //   key: "",
-  // },
+  baseURL: process.env.REACT_APP_BASE_URL,
 });
 
 class APIClient<T> {
