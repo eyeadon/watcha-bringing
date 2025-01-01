@@ -3,6 +3,9 @@ const router = express.Router();
 import { Dish, validateDish } from "../models/dish.js";
 import { validateObjectId } from "../middleware/validateObjectId.js";
 import { validate } from "../middleware/validate.js";
+import cors from "cors";
+
+app.use(cors());
 
 // get all
 router.get("/", async (req, res) => {

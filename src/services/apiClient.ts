@@ -9,9 +9,6 @@ import axios, { AxiosRequestConfig } from "axios";
 const axiosInstance = axios.create({
   baseURL: "https://watcha-bringing.vercel.app/api",
   // baseURL: "http://localhost:3000/api",
-  headers: {
-    "Access-Control-Allow-Origin": "https://watcha-bringing.vercel.app",
-  },
   // params: {
   //   key: "",
   // },

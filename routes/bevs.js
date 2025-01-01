@@ -3,6 +3,9 @@ const router = express.Router();
 import { Bev, validateBev } from "../models/bev.js";
 import { validateObjectId } from "../middleware/validateObjectId.js";
 import { validate } from "../middleware/validate.js";
+import cors from "cors";
+
+app.use(cors());
 
 // get all
 router.get("/", async (req, res) => {
