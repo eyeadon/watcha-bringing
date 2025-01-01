@@ -12,13 +12,9 @@ import logging from "./startup/logging.js";
 
 const db = process.env.MONGODB_URI + process.env.DB_NAME;
 
-// logging("mongodb://localhost/watcha-bringing");
 logging(db);
 
-mongoose
-  // .connect("mongodb://localhost/watcha-bringing")
-  .connect(db)
-  .then(() => winston.info("Connected to MongoDB..."));
+mongoose.connect(db).then(() => winston.info("Connected to MongoDB..."));
 
 app.use(cors());
 app.use(express.json());
