@@ -1,4 +1,5 @@
 import express from "express";
+const app = express();
 const router = express.Router();
 import { Dish, validateDish } from "../models/dish.js";
 import { validateObjectId } from "../middleware/validateObjectId.js";

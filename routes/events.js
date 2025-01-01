@@ -1,8 +1,9 @@
 import express from "express";
+const app = express();
+const router = express.Router();
 import { Event, validateEvent } from "../models/event.js";
 import { Dish } from "../models/dish.js";
 import { Bev } from "../models/bev.js";
-const router = express.Router();
 import { validateObjectId } from "../middleware/validateObjectId.js";
 import { validate } from "../middleware/validate.js";
 import cors from "cors";
