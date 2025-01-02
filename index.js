@@ -16,9 +16,12 @@ logging(db);
 
 mongoose.connect(db).then(() => winston.info("Connected to MongoDB..."));
 
+// Allow cross origin access
 app.use(cors());
+
 app.use(express.json());
 app.use("/", express.static("dist"));
+
 app.use("/api/dishes", dishes);
 app.use("/api/bevs", bevs);
 app.use("/api/events", events);
