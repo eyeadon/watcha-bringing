@@ -12,12 +12,17 @@ import usePutEvent from "../hooks/usePutEvent";
 const dishSchema = z.object({
   userName: z
     .string()
+    .trim()
     .min(2, { message: "Enter at least 2 characters" })
     .max(50),
   category: z.enum(dishCategories, {
     errorMap: () => ({ message: "Category is required" }),
   }),
-  name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
+  name: z
+    .string()
+    .trim()
+    .min(2, { message: "Enter at least 2 characters" })
+    .max(50),
   amount: z.number({ invalid_type_error: "Amount is required" }).min(1).max(99),
   dietary: z.enum(dietaryConsiderations).array().optional(),
 });

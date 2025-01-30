@@ -21,16 +21,29 @@ import { EventDocumentType } from "../interfaces/interfaces";
 // dayjs.tz.setDefault("America/New_York");
 
 const eventSchema = z.object({
-  name: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
-  host: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
+  name: z
+    .string()
+    .trim()
+    .min(2, { message: "Enter at least 2 characters" })
+    .max(50),
+  host: z
+    .string()
+    .trim()
+    .min(2, { message: "Enter at least 2 characters" })
+    .max(50),
   address: z.object({
     street: z
       .string()
+      .trim()
       .min(2, { message: "Enter at least 2 characters" })
       .max(50),
-    city: z.string().min(2, { message: "Enter at least 2 characters" }).max(50),
-    state: z.string().min(2).max(2),
-    zipcode: z.string().min(5).max(5),
+    city: z
+      .string()
+      .trim()
+      .min(2, { message: "Enter at least 2 characters" })
+      .max(50),
+    state: z.string().trim().min(2).max(2),
+    zipcode: z.string().trim().min(5).max(5),
   }),
   startDate: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),
   endDate: z.custom<Dayjs>((val) => val instanceof dayjs, "Invalid date"),

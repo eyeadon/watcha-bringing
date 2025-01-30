@@ -10,6 +10,7 @@ import { Fade } from "@mui/material";
 const bevSchema = z.object({
   userName: z
     .string()
+    .trim()
     .min(2, { message: "Enter at least 2 characters" })
     .max(50),
   category: z.enum(bevCategories, {
@@ -17,6 +18,7 @@ const bevSchema = z.object({
   }),
   name: z
     .string()
+    .trim()
     .min(0, { message: "Enter at least 2 characters" })
     .max(50)
     .optional(),
