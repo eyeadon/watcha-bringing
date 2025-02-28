@@ -50,3 +50,9 @@ export interface Event {
 export interface EventDocumentType extends Event {
   _id?: Types.ObjectId;
 }
+
+export type User = {
+  id: number;
+  name: string;
+  isAdmin?: boolean;
+};
