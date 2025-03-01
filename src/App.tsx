@@ -21,6 +21,7 @@ import { EventDocumentType } from "./interfaces/interfaces";
 import EditDeleteEventMenu from "./components/EditDeleteEventMenu";
 import EditEventForm from "./components/EditEventForm";
 import AuthProvider from "./providers/AuthProvider";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [eventFormisExpanded, setEventFormIsExpanded] = useState(false);
@@ -38,6 +39,7 @@ function App() {
 
   return (
     <AuthProvider>
+      <NavBar />
       <div className="container">
         <div className="mt-2 mb-2">
           <h1>Watcha Bringing?</h1>

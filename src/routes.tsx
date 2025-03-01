@@ -1,6 +1,5 @@
 import { RouteObject } from "react-router-dom";
 import App from "./App.tsx";
-import HomePage from "./pages/HomePage.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
 import AdminHomePage from "./pages/admin/AdminHomePage.tsx";
 import AdminLayout from "./pages/admin/AdminLayout.tsx";
@@ -11,7 +10,7 @@ const routes: RouteObject[] = [
     element: <App />,
     errorElement: <ErrorPage />,
     children: [
-      { index: true, element: <HomePage /> },
+      // { index: true, element: <HomePage or OtherContent /> },
       {
         path: "admin",
         element: <AdminLayout />,
