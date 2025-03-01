@@ -42,8 +42,7 @@ function App() {
       <NavBar />
       <div className="container">
         <div className="mt-2 mb-2">
-          <h1>Watcha Bringing?</h1>
-          <h2>Events</h2>
+          <h1>Events</h1>
         </div>
         <SelectedEventContext.Provider
           value={{ selectedEvent, setSelectedEvent }}

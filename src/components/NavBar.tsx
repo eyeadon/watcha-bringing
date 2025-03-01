@@ -41,7 +41,7 @@ const NavBar = () => {
             color="common.black"
             sx={{ flexGrow: 1 }}
           >
-            Events
+            Watcha Bringing?
           </Typography>
           <AuthStatus />
           {/* <Button color="inherit">Login</Button> */}
