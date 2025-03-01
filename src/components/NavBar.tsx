@@ -1,28 +1,42 @@
-import { Badge, Flex, Text } from "@radix-ui/themes";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { MdHome } from "react-icons/md";
 import { Link, NavLink } from "react-router-dom";
-import { useCart } from "../hooks/useCart";
 import AuthStatus from "./AuthStatus";
-import LanguageSelector from "./LanguageSelector";
+import Grid from "@mui/material/Grid2";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+  ...theme.applyStyles("dark", {
+    backgroundColor: "#1A2027",
+  }),
+}));
 
 const NavBar = () => {
-  const { getItemCount } = useCart();
-
   const links = [
-    { label: "Products", href: "/products" },
-    { label: "Playground", href: "/playground" },
+    { label: "Events", href: "/events" },
     { label: "Admin", href: "/admin" },
   ];
 
   return (
-    <Flex p="4" className="border-b" justify="between" role="navigation">
-      <Flex gap="2" align="start">
-        <Text className="font-medium">
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid size={8}>
+          <Item>size=8</Item>
+        </Grid>
+        <Grid size={4}>
+          <Item>size=4</Item>
+        </Grid>
+        <Item>
           <Link to="/">
             <MdHome size={24} color="#000" />
           </Link>
-        </Text>
+        </Item>
         <ul className="flex space-x-8 ml-10">
           {links.map((link) => (
             <li key={link.href}>
@@ -39,16 +53,9 @@ const NavBar = () => {
             </li>
           ))}
         </ul>
-      </Flex>
-      <Flex gap="2" align="center">
-        <Flex align="center" gap="1">
-          <AiOutlineShoppingCart />
-          <Badge role="status">{getItemCount()}</Badge>
-        </Flex>
-        <LanguageSelector />
         <AuthStatus />
-      </Flex>
-    </Flex>
+      </Grid>
+    </Box>
   );
 };
 
