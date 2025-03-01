@@ -1,60 +1,52 @@
-import { MdHome } from "react-icons/md";
-import { Link, NavLink } from "react-router-dom";
 import AuthStatus from "./AuthStatus";
-import Grid from "@mui/material/Grid2";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
+// import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-  ...theme.applyStyles("dark", {
-    backgroundColor: "#1A2027",
-  }),
-}));
+// nav bar
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+// import Button from "@mui/material/Button";
+// import IconButton from "@mui/material/IconButton";
+// import MenuIcon from "@mui/icons-material/Menu";
+
+// const Item = styled(Paper)(({ theme }) => ({
+//   backgroundColor: "#fff",
+//   ...theme.typography.body2,
+//   padding: theme.spacing(1),
+//   textAlign: "center",
+//   color: theme.palette.text.secondary,
+//   ...theme.applyStyles("dark", {
+//     backgroundColor: "#1A2027",
+//   }),
+// }));
 
 const NavBar = () => {
-  const links = [
-    { label: "Events", href: "/events" },
-    { label: "Admin", href: "/admin" },
-  ];
-
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
-        <Grid size={8}>
-          <Item>size=8</Item>
-        </Grid>
-        <Grid size={4}>
-          <Item>size=4</Item>
-        </Grid>
-        <Item>
-          <Link to="/">
-            <MdHome size={24} color="#000" />
-          </Link>
-        </Item>
-        <ul className="flex space-x-8 ml-10">
-          {links.map((link) => (
-            <li key={link.href}>
-              <NavLink
-                to={link.href}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-zinc-800"
-                    : "text-zinc-700 hover:text-blue-500"
-                }
-              >
-                {link.label}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-        <AuthStatus />
-      </Grid>
+    <Box sx={{ flexGrow: 1, marginBottom: 3 }}>
+      <AppBar position="static" elevation={0} sx={{ padding: "10px 0" }}>
+        <Toolbar>
+          {/* <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton> */}
+          <Typography
+            variant="h6"
+            component="div"
+            color="common.black"
+            sx={{ flexGrow: 1 }}
+          >
+            Events
+          </Typography>
+          <AuthStatus />
+          {/* <Button color="inherit">Login</Button> */}
+        </Toolbar>
+      </AppBar>
     </Box>
   );
 };

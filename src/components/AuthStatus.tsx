@@ -9,8 +9,9 @@ const AuthStatus = () => {
 
   if (isAuthenticated)
     return (
-      <div className="flex space-x-2 items-center">
-        <h4>{user!.name}</h4>
+      // TODO fix styles
+      <div className="">
+        <h4 style={{ color: "black", marginBottom: "0" }}>{user!.name}</h4>
         <LogoutButton />
       </div>
     );
