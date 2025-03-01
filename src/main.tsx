@@ -32,7 +32,7 @@ theme = createTheme(theme, {
     MuiAppBar: {
       styleOverrides: {
         colorPrimary: {
-          backgroundColor: "#84b5ff",
+          backgroundColor: "#b0cfff",
         },
       },
     },
