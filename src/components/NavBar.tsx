@@ -24,7 +24,7 @@ import Typography from "@mui/material/Typography";
 const NavBar = () => {
   return (
     <Box sx={{ flexGrow: 1, marginBottom: 3 }}>
-      <AppBar position="static" elevation={0} sx={{ padding: "10px 0" }}>
+      <AppBar position="static" elevation={0}>
         <Toolbar>
           {/* <IconButton
             size="large"

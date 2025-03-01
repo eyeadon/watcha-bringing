@@ -31,8 +31,14 @@ theme = createTheme(theme, {
   components: {
     MuiAppBar: {
       styleOverrides: {
-        colorPrimary: {
+        root: {
           backgroundColor: "#b0cfff",
+          [theme.breakpoints.up("md")]: {
+            padding: "10px 10px",
+          },
+          [theme.breakpoints.up("lg")]: {
+            padding: "10px 50px",
+          },
         },
       },
     },

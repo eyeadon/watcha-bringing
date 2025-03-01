@@ -11,7 +11,7 @@ const AuthStatus = () => {
     return (
       // TODO fix styles
       <div className="">
-        <h4 style={{ color: "black", marginBottom: "0" }}>{user!.name}</h4>
+        <h4 style={{ color: "black" }}>{user!.name}</h4>
         <LogoutButton />
       </div>
     );
