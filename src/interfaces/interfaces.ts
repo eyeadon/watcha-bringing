@@ -52,7 +52,7 @@ export interface EventDocumentType extends Event {
 }
 
 export type User = {
-  id: number;
+  id: string;
   name: string;
   isAdmin?: boolean;
 };
