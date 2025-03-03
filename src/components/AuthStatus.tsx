@@ -7,7 +7,9 @@ const AuthStatus = () => {
 
   if (isLoading) return <div>Loading...</div>;
 
-  if (isAuthenticated)
+  if (isAuthenticated) {
+    // check if new user
+
     return (
       // TODO fix styles
       <div className="">
@@ -15,6 +17,7 @@ const AuthStatus = () => {
         <LogoutButton />
       </div>
     );
+  }
 
   return <LoginButton />;
 };

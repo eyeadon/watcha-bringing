@@ -55,4 +55,7 @@ export type User = {
   id: string;
   name: string;
   isAdmin?: boolean;
+  eventsOwned?: string[];
+  dishesOwned?: string[];
+  bevsOwned?: string[];
 };
