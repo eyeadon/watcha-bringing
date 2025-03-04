@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
@@ -41,6 +42,8 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
 
   // refetch();
 
+  const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
+
   return (
     <>
       <div className="container border border-2 border-primary-subtle">
@@ -50,16 +53,16 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             <div className="col-lg-3 p-2 border border-primary-subtle">
               <strong>Libationer</strong>
             </div>
-            <div className="col-lg p-2 border border-primary-subtle">
+            <div className="col-lg-2 p-2 border border-primary-subtle">
               <strong>Category</strong>
             </div>
-            <div className="col-lg p-2 border border-primary-subtle">
+            <div className="col-lg-3 p-2 border border-primary-subtle">
               <strong>Beverage Name</strong>
             </div>
-            <div className="col-lg p-2 border border-primary-subtle">
+            <div className="col-lg-2 p-2 border border-primary-subtle">
               <strong>Amount</strong>
             </div>
-            <div className="col-lg p-2 border border-primary-subtle"></div>
+            <div className="col-lg-2 p-2 border border-primary-subtle"></div>
           </div>
         ) : (
           <div>No beverages</div>
@@ -71,17 +74,26 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
             <div className="col-lg-3 p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.userName)}
             </div>
-            <div className="col-lg p-2 border border-primary-subtle">
+            <div className="col-lg-2 p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.category)}
             </div>
-            <div className="col-lg p-2 border border-primary-subtle">
+            <div className="col-lg-3 p-2 border border-primary-subtle">
               {capitalizeFirstLetter(bev.name)}
             </div>
-
-            <div className="col-lg p-2 border border-primary-subtle">
-              {bev.amount}
-            </div>
-            <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
+            {isLoadingAuth === false && isAuthenticated ? (
+              <>
+                <div className="col-lg-2 p-2 border border-primary-subtle">
+                  {bev.amount}
+                </div>
+                <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
+              </>
+            ) : (
+              <>
+                <div className="col-lg-4 p-2 border border-primary-subtle">
+                  {bev.amount}
+                </div>
+              </>
+            )}
           </div>
         ))}
 
@@ -126,7 +138,13 @@ const BevList = ({ selectedEvent, selectedBevCategory }: Props) => {
                 <div className="col-8 ms-auto">{bev.amount}</div>
               </div>
             </div>
-            <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
+            {isLoadingAuth === false && isAuthenticated ? (
+              <EditDeleteBevMenu selectedEvent={selectedEvent} bev={bev} />
+            ) : (
+              <div className="col-xs p-2 border border-primary-subtle bg-info bg-gradient">
+                <div className="row"></div>
+              </div>
+            )}
           </div>
         ))}
       </div>

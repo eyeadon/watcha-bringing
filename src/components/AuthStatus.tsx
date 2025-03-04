@@ -4,7 +4,7 @@ import LogoutButton from "./LogoutButton";
 
 const AuthStatus = () => {
   // access auth state
-  const { user: auth0user, isAuthenticated, isLoading } = useAuth0();
+  const { user: auth0User, isAuthenticated, isLoading } = useAuth0();
 
   if (isLoading) return <div>Loading...</div>;
 
@@ -22,7 +22,7 @@ const AuthStatus = () => {
     return (
       // TODO fix styles
       <div className="">
-        <p style={{ color: "#999999", margin: 0 }}>{auth0user!.name}</p>
+        <p style={{ color: "#999999", margin: 0 }}>{auth0User!.name}</p>
         <LogoutButton />
       </div>
     );

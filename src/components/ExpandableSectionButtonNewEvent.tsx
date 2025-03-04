@@ -3,6 +3,7 @@ import { DashLg, PlusLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
 import { EventFormIsExpandedContext } from "../contexts/contexts";
+import { useAuth0 } from "@auth0/auth0-react";
 
 interface Props {
   children: ReactNode;
@@ -20,27 +21,35 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
     [<PlusLg key="pluslg" color="white" className="me-1" />, buttonLabelText]
   );
 
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
   return (
-    <>
-      {/* <button
+    isAuthenticated && (
+      <>
+        {/* <button
         type="button"
         className="btn btn-primary mb-3"
         onClick={() => cont.setIsExpanded(!cont.EventFormisExpanded)}
       > */}
-      <Button
-        className="mb-3"
-        variant="primary"
-        type="button"
-        onClick={() =>
-          context.setEventFormIsExpanded(!context.eventFormisExpanded)
-        }
-      >
-        {renderIcon}
-      </Button>
-      <Collapse in={context.eventFormisExpanded}>
-        <div>{showDiv}</div>
-      </Collapse>
-    </>
+        <Button
+          className="mb-3"
+          variant="primary"
+          type="button"
+          onClick={() =>
+            context.setEventFormIsExpanded(!context.eventFormisExpanded)
+          }
+        >
+          {renderIcon}
+        </Button>
+        <Collapse in={context.eventFormisExpanded}>
+          <div>{showDiv}</div>
+        </Collapse>
+      </>
+    )
   );
 };
 

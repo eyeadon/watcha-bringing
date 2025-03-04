@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import {
   capitalizeFirstLetter,
   visibleItemsFilterHelper,
@@ -43,6 +44,14 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   // refetch();
 
+  const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
+
+  const getDietaryList = (dish: DishDocumentType) =>
+    dish.dietary?.map((diet, index, arr) => {
+      // last item has no comma after it
+      return index === arr.length - 1 ? diet : `${diet}, `;
+    });
+
   return (
     <div className="container border border-2 border-primary-subtle">
       {/* lg screens and larger */}
@@ -84,13 +93,18 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <div className="col-lg-1 p-2 border border-primary-subtle">
             {dish.amount}
           </div>
-          <div className="col-lg-2 p-2 border border-primary-subtle">
-            {dish.dietary?.map((diet, index, arr) => {
-              // last item has no comma after it
-              return index === arr.length - 1 ? diet : `${diet}, `;
-            })}
-          </div>
-          <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
+          {isLoadingAuth === false && isAuthenticated ? (
+            <>
+              <div className="col-lg-2 p-2 border border-primary-subtle">
+                {getDietaryList(dish)}
+              </div>
+              <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
+            </>
+          ) : (
+            <div className="col-lg-4 p-2 border border-primary-subtle">
+              {getDietaryList(dish)}
+            </div>
+          )}
         </div>
       ))}
 
@@ -140,15 +154,16 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
               <div className="col-4">
                 <strong>Dietary: </strong>
               </div>
-              <div className="col-8 ms-auto">
-                {dish.dietary?.map((diet, index, arr) => {
-                  // last item has no comma after it
-                  return index === arr.length - 1 ? diet : `${diet}, `;
-                })}
-              </div>
+              <div className="col-8 ms-auto">{getDietaryList(dish)}</div>
             </div>
           </div>
-          <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
+          {isLoadingAuth === false && isAuthenticated ? (
+            <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
+          ) : (
+            <div className="col-xs p-2 border border-primary-subtle bg-info bg-gradient">
+              <div className="row"></div>
+            </div>
+          )}
         </div>
       ))}
     </div>

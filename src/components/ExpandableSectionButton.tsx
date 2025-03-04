@@ -1,3 +1,4 @@
+import { useAuth0 } from "@auth0/auth0-react";
 import { ReactNode, useState } from "react";
 import { PlusLg, DashLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
@@ -19,25 +20,33 @@ const ExpandableSectionButton = ({ children, buttonLabelText }: Props) => {
     [<PlusLg key="pluslg" color="white" className="me-1" />, buttonLabelText]
   );
 
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    return <div>Loading ...</div>;
+  }
+
   return (
-    <>
-      {/* <button
+    isAuthenticated && (
+      <>
+        {/* <button
         type="button"
         className="btn btn-primary mb-3"
         onClick={() => setIsExpanded(!isExpanded)}
       > */}
-      <Button
-        className="mb-3"
-        variant="primary"
-        type="button"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        {renderIcon}
-      </Button>
-      <Collapse in={isExpanded}>
-        <div>{showDiv}</div>
-      </Collapse>
-    </>
+        <Button
+          className="mb-3"
+          variant="primary"
+          type="button"
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          {renderIcon}
+        </Button>
+        <Collapse in={isExpanded}>
+          <div>{showDiv}</div>
+        </Collapse>
+      </>
+    )
   );
 };
 
