@@ -22,7 +22,7 @@ const AuthStatus = () => {
     return (
       // TODO fix styles
       <div className="">
-        <h4 style={{ color: "black" }}>{auth0user!.name}</h4>
+        <p style={{ color: "#999999", margin: 0 }}>{auth0user!.name}</p>
         <LogoutButton />
       </div>
     );
