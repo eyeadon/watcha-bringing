@@ -6,6 +6,7 @@ import { Types } from "mongoose";
 
 export interface Dish {
   publicId: string;
+  // owner: string;
   userName: string;
   category: string;
   name: string;
@@ -19,6 +20,7 @@ export interface DishDocumentType extends Dish {
 
 export interface Bev {
   publicId: string;
+  // owner: string;
   userName: string;
   category: string;
   name?: string;
@@ -33,6 +35,7 @@ export interface Event {
   publicId: string;
   // category: string;
   name: string;
+  // owner: string;
   host: string;
   address: {
     street: string;

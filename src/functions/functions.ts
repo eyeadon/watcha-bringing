@@ -76,3 +76,7 @@ export function dateStringToDayJs(dateString: string) {
       date.getMinutes()
   );
 }
+
+export function isOwned(itemId: string, userOwnedArray: string[]) {
+  return userOwnedArray.includes(itemId);
+}
