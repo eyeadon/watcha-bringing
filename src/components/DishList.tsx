@@ -63,7 +63,7 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   if (isLoadingUser) {
     // return <p>Loading...</p>;
-    user = emptyUser;
+    user = user ?? emptyUser;
   }
 
   if (errorUser) {
