@@ -1,11 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   capitalizeFirstLetter,
+  isOwned,
   visibleItemsFilterHelper,
 } from "../functions/functions";
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import EditDeleteDishMenu from "./EditDeleteDishMenu";
+import useUser from "../hooks/useUser";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -45,6 +47,20 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   // refetch();
 
   const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
+
+  const {
+    data: user,
+    error: errorUser,
+    isLoading: isLoadingUser,
+  } = useUser(selectedEvent.host);
+
+  if (isLoadingUser) {
+    return <p>Loading...</p>;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
+  }
 
   const getDietaryList = (dish: DishDocumentType) =>
     dish.dietary?.map((diet, index, arr) => {
@@ -93,7 +109,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
           <div className="col-lg-1 p-2 border border-primary-subtle">
             {dish.amount}
           </div>
-          {isLoadingAuth === false && isAuthenticated ? (
+          {isLoadingAuth ? (
+            <div>Loading...</div>
+          ) : isAuthenticated && isOwned(dish.publicId, user!.dishesOwned) ? (
             <>
               <div className="col-lg-2 p-2 border border-primary-subtle">
                 {getDietaryList(dish)}
@@ -157,7 +175,9 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
               <div className="col-8 ms-auto">{getDietaryList(dish)}</div>
             </div>
           </div>
-          {isLoadingAuth === false && isAuthenticated ? (
+          {isLoadingAuth ? (
+            <div>Loading...</div>
+          ) : isAuthenticated && isOwned(dish.publicId, user!.dishesOwned) ? (
             <EditDeleteDishMenu selectedEvent={selectedEvent} dish={dish} />
           ) : (
             <div className="col-xs p-2 border border-primary-subtle bg-info bg-gradient">

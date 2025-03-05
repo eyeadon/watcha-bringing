@@ -10,7 +10,6 @@ const useDish = (publicId: string) =>
     // queryFn: () =>
     //   apiClient.get<FetchResponse<Dish>>("/dishes").then((res) => res.data),
     queryFn: () => apiClient.getSingleByPublicId(publicId),
-
     staleTime: 0,
   });
 
