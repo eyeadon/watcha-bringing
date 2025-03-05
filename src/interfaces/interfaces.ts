@@ -55,10 +55,14 @@ export interface EventDocumentType extends Event {
 }
 
 export type User = {
-  id: string;
+  publicId: string;
   name: string;
   isAdmin?: boolean;
   eventsOwned?: string[];
   dishesOwned?: string[];
   bevsOwned?: string[];
 };
+
+export interface UserDocumentType extends User {
+  _id?: Types.ObjectId;
+}
