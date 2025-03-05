@@ -9,6 +9,7 @@ const useUser = (publicId: string) =>
     queryKey: ["user", publicId],
     queryFn: () => apiClient.getSingleByPublicId(publicId),
     staleTime: 0,
+    enabled: !!publicId,
   });
 
 export default useUser;

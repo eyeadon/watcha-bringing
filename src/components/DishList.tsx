@@ -16,7 +16,10 @@ interface Props {
 }
 
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
+  if (selectedEvent === undefined) return null;
   if (selectedEvent.dishes === undefined) return null;
+
+  const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
 
   // const queryClient = useQueryClient();
   // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
@@ -28,6 +31,13 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     "dish"
   );
 
+  // dependent query, dependent on useUser parameter
+  let {
+    data: user,
+    error: errorUser,
+    isLoading: isLoadingUser,
+  } = useUser(selectedEvent.host);
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -36,7 +46,15 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     return <p>Error: {error.message}</p>;
   }
 
-  // console.log(data);
+  // get user
+  if (isLoadingUser) {
+    // return <p>Loading...</p>;
+    user = user ?? emptyUser;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
+  }
 
   const eventDishes = visibleItemsFilterHelper(
     // dishes,
@@ -52,23 +70,6 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
       // last item has no comma after it
       return index === arr.length - 1 ? diet : `${diet}, `;
     });
-
-  const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
-
-  let {
-    data: user,
-    error: errorUser,
-    isLoading: isLoadingUser,
-  } = useUser(selectedEvent.host);
-
-  if (isLoadingUser) {
-    // return <p>Loading...</p>;
-    user = user ?? emptyUser;
-  }
-
-  if (errorUser) {
-    return <p>Error: {errorUser.message}</p>;
-  }
 
   return (
     <div className="container border border-2 border-primary-subtle">
