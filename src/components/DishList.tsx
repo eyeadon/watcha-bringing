@@ -8,6 +8,7 @@ import useEventSubDoc from "../hooks/useEventSubDoc";
 import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import EditDeleteDishMenu from "./EditDeleteDishMenu";
 import useUser from "../hooks/useUser";
+import { emptyUser } from "../constants/constants";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -46,27 +47,28 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
 
   // refetch();
 
+  const getDietaryList = (dish: DishDocumentType) =>
+    dish.dietary?.map((diet, index, arr) => {
+      // last item has no comma after it
+      return index === arr.length - 1 ? diet : `${diet}, `;
+    });
+
   const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
 
-  const {
+  let {
     data: user,
     error: errorUser,
     isLoading: isLoadingUser,
   } = useUser(selectedEvent.host);
 
   if (isLoadingUser) {
-    return <p>Loading...</p>;
+    // return <p>Loading...</p>;
+    user = emptyUser;
   }
 
   if (errorUser) {
     return <p>Error: {errorUser.message}</p>;
   }
-
-  const getDietaryList = (dish: DishDocumentType) =>
-    dish.dietary?.map((diet, index, arr) => {
-      // last item has no comma after it
-      return index === arr.length - 1 ? diet : `${diet}, `;
-    });
 
   return (
     <div className="container border border-2 border-primary-subtle">

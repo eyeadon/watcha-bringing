@@ -1,4 +1,4 @@
-import { EventDocumentType } from "../interfaces/interfaces";
+import { EventDocumentType, UserDocumentType } from "../interfaces/interfaces";
 
 export const emptyEvent: EventDocumentType = {
   publicId: "none",
@@ -14,4 +14,13 @@ export const emptyEvent: EventDocumentType = {
   endDateTime: new Date(),
   dishes: [],
   bevs: [],
+};
+
+export const emptyUser: UserDocumentType = {
+  publicId: "none",
+  name: "",
+  isAdmin: false,
+  eventsOwned: [],
+  dishesOwned: [],
+  bevsOwned: [],
 };

@@ -77,7 +77,10 @@ export function dateStringToDayJs(dateString: string) {
   );
 }
 
-export function isOwned(itemId: string, userOwnedArray: string[] | undefined) {
+export function isOwned(
+  itemId: string,
+  userOwnedArray: string[] | undefined
+): null | boolean {
   if (userOwnedArray === undefined) return null;
   return userOwnedArray.includes(itemId);
 }
