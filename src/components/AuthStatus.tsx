@@ -6,7 +6,7 @@ import useUserByEmail from "../hooks/useUserByEmail";
 
 const AuthStatus = () => {
   // access auth state
-  let { user: auth0User, isAuthenticated, isLoading } = useAuth0();
+  let { user: auth0User, error, isLoading, isAuthenticated } = useAuth0();
 
   // check if user exists in mongoDB database, get by email
   // dependent query, dependent on useUser parameter
@@ -14,7 +14,9 @@ const AuthStatus = () => {
     data: user,
     error: errorUser,
     isLoading: isLoadingUser,
-  } = useUserByEmail(auth0User!.email);
+  } = useUserByEmail(auth0User!.email!);
+
+  if (error) throw new Error("User not found");
 
   // if user not found -> if (error), create new user, post, return user
   // publicId: create publicId
