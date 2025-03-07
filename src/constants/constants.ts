@@ -19,6 +19,7 @@ export const emptyEvent: EventDocumentType = {
 export const emptyUser: UserDocumentType = {
   publicId: "none",
   name: "",
+  email: "",
   isAdmin: false,
   eventsOwned: [],
   dishesOwned: [],

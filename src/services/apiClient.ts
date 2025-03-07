@@ -61,6 +61,17 @@ class APIClient<T> {
     // });
   };
 
+  // get single object by email
+  getSingleByEmail = (email: string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/email/" + email)
+      .then((res) => res.data);
+    // .catch((error) => {
+    //   console.log(error);
+    //   return undefined;
+    // });
+  };
+
   // get sub doc
   getSubDoc = (id: number | string, itemKind: string) => {
     return axiosInstance

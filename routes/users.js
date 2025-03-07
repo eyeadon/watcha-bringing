@@ -21,14 +21,14 @@ router.get("/:id", validateObjectId, async (req, res) => {
   res.send(user);
 });
 
-// get single by publicId
-router.get("/public/:publicId", async (req, res) => {
-  if (req.params.publicId === "none") {
+// get single by email
+router.get("/email/:email", async (req, res) => {
+  if (req.params.email === "none") {
     res.send([]);
     return;
   }
 
-  const user = await User.findOne({ publicId: req.params.publicId });
+  const user = await User.findOne({ email: req.params.email });
 
   if (!user)
     return res.status(404).send("The user with the given ID was not found.");
@@ -40,6 +40,7 @@ router.post("/", validate(validateUser), async (req, res) => {
   const user = new User({
     publicId: req.body.publicId,
     name: req.body.name,
+    email: req.body.email,
     isAdmin: req.body.isAdmin,
     eventsOwned: req.body.eventsOwned,
     dishesOwned: req.body.dishesOwned,
@@ -67,6 +68,7 @@ router.put(
         $set: {
           publicId: req.body.publicId,
           name: req.body.name,
+          email: req.body.email,
           isAdmin: req.body.isAdmin,
           eventsOwned: req.body.eventsOwned,
           dishesOwned: req.body.dishesOwned,

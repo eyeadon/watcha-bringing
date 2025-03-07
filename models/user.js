@@ -12,6 +12,14 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
+    email: {
+      type: String,
+      required: true,
+      minlength: 2,
+      maxlength: 255,
+      lowercase: true,
+      trim: true,
+    },
     isAdmin: {
       type: Boolean,
     },
@@ -33,8 +41,11 @@ const User = mongoose.model("User", userSchema);
 
 function validateUser(user) {
   const schema = Joi.object({
-    publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
+    publicId: Joi.string()
+      .pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid")
+      .required(),
     name: Joi.string().min(2).max(255).required(),
+    email: Joi.string().email().required(),
     isAdmin: Joi.boolean(),
     eventsOwned: Joi.array().items(Joi.string().min(2).max(255)),
     dishesOwned: Joi.array().items(Joi.string().min(2).max(255)),

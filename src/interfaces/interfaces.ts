@@ -57,6 +57,7 @@ export interface EventDocumentType extends Event {
 export type User = {
   publicId: string;
   name: string;
+  email: string;
   isAdmin?: boolean;
   eventsOwned?: string[];
   dishesOwned?: string[];
