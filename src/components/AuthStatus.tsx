@@ -8,17 +8,6 @@ const AuthStatus = () => {
   // access auth state
   let { user: auth0User, isAuthenticated, isLoading } = useAuth0();
 
-  if (isLoading) {
-    // return <div>Loading...</div>;
-    auth0User = auth0User ?? emptyUser;
-  }
-
-  if (isAuthenticated) {
-    auth0User = auth0User ?? emptyUser;
-  }
-
-  auth0User = auth0User ?? emptyUser;
-
   // check if user exists in mongoDB database, get by email
   // dependent query, dependent on useUser parameter
   let {
@@ -35,6 +24,11 @@ const AuthStatus = () => {
   // actions in outside component
   // add event to user.eventsOwned, put
   // add dish to user.dishesOwned, put
+
+  if (isLoading) {
+    // auth0User = auth0User ?? emptyUser;
+    return <div>Loading...</div>;
+  }
 
   if (isAuthenticated) {
     // so we can add our own user data, events/dishes owned:

@@ -84,3 +84,11 @@ export function isOwned(
   if (userOwnedArray === undefined) return null;
   return userOwnedArray.includes(itemId);
 }
+
+function mustFind<T>(arr: Array<T>, predicate: (t: T) => boolean): T {
+  const item = arr.find(predicate);
+
+  if (!item) throw new Error("Item not found");
+
+  return item;
+}
