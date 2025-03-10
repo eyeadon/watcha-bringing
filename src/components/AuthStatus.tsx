@@ -3,10 +3,16 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import { emptyUser } from "../constants/constants";
 import useUserByEmail from "../hooks/useUserByEmail";
+import { nanoid } from "nanoid";
 
-const AuthStatus = () => {
+const AuthStatus = async () => {
   // access auth state
-  let { user: auth0User, error, isLoading, isAuthenticated } = useAuth0();
+  let {
+    user: auth0User,
+    error,
+    isLoading: isLoadingAuth,
+    isAuthenticated,
+  } = useAuth0();
 
   if (auth0User === undefined) auth0User = emptyUser;
 
@@ -20,25 +26,30 @@ const AuthStatus = () => {
 
   if (error) throw new Error("User not found");
 
-  // if user not found -> if (error), create new user, post, return user
-  // publicId: create publicId
+  // if user not found, create new user (post), update user variable
+  if (errorUser) {
+    const { mutateAsync: putUserMutateAsync } = usePutUser();
+    const publicId = nanoid();
 
-  // if user found -> return user
+    const newUserWithPublicId = {
+      ...emptyUser,
+      publicId: publicId,
+      name: auth0User.name,
+      email: auth0User.email,
+    };
 
-  // actions in outside component
-  // add event to user.eventsOwned, put
-  // add dish to user.dishesOwned, put
+    const result = await putUserMutateAsync(newUserWithPublicId);
+    console.log(result);
+    user = result;
+  }
 
-  if (isLoading) {
+  if (isLoadingAuth) {
     return <div>Loading...</div>;
   }
 
   if (isAuthenticated) {
-    // so we can add our own user data, events/dishes owned:
-
     if (isLoadingUser) {
-      // return <p>Loading...</p>;
-      user = user ?? emptyUser;
+      return <div>Loading...</div>;
     }
 
     if (errorUser) {
@@ -48,7 +59,7 @@ const AuthStatus = () => {
     return (
       // TODO fix styles
       <div className="">
-        <p style={{ color: "#999999", margin: 0 }}>{auth0User!.name}</p>
+        <p style={{ color: "#999999", margin: 0 }}>{user!.name}</p>
         <LogoutButton />
       </div>
     );
@@ -58,3 +69,6 @@ const AuthStatus = () => {
 };
 
 export default AuthStatus;
+function usePutUser(): { mutateAsync: any } {
+  throw new Error("Function not implemented.");
+}
