@@ -8,13 +8,15 @@ const AuthStatus = () => {
   // access auth state
   let { user: auth0User, error, isLoading, isAuthenticated } = useAuth0();
 
+  if (auth0User === undefined) auth0User = emptyUser;
+
   // check if user exists in mongoDB database, get by email
   // dependent query, dependent on useUser parameter
   let {
     data: user,
     error: errorUser,
     isLoading: isLoadingUser,
-  } = useUserByEmail(auth0User!.email!);
+  } = useUserByEmail(auth0User.email!);
 
   if (error) throw new Error("User not found");
 
@@ -28,7 +30,6 @@ const AuthStatus = () => {
   // add dish to user.dishesOwned, put
 
   if (isLoading) {
-    // auth0User = auth0User ?? emptyUser;
     return <div>Loading...</div>;
   }
 
