@@ -39,7 +39,6 @@ function App() {
 
   return (
     <AuthProvider>
-      <NavBar />
       <div className="container">
         <div className="mt-2 mb-2">
           <h1>Events</h1>

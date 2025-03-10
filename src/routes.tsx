@@ -5,14 +5,15 @@ import AdminHomePage from "./pages/admin/AdminHomePage.tsx";
 import AdminLayout from "./pages/admin/AdminLayout.tsx";
 import UserLayout from "./pages/user/UserLayout.tsx";
 import { UserPage } from "./pages/user/UserPage.tsx";
+import Layout from "./pages/Layout.tsx";
 
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: <App />,
+    element: <Layout />,
     errorElement: <ErrorPage />,
     children: [
-      // { index: true, element: <HomePage or OtherContent /> },
+      { index: true, element: <App /> },
       {
         path: "user",
         element: <UserLayout />,

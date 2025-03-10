@@ -5,7 +5,7 @@ const Layout = () => {
   return (
     <>
       <NavBar />
-      <main className="prose p-5">
+      <main className="">
         <Outlet />
       </main>
     </>
