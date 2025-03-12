@@ -3,6 +3,7 @@ const router = express.Router();
 import { User, validateUser } from "../models/user.js";
 import { validateObjectId } from "../middleware/validateObjectId.js";
 import { validate } from "../middleware/validate.js";
+import { emptyUser } from "../src/constants/constants.js";
 
 // get all
 router.get("/", async (req, res) => {
@@ -23,15 +24,16 @@ router.get("/:id", validateObjectId, async (req, res) => {
 
 // get single by email
 router.get("/email/:email", async (req, res) => {
-  if (req.params.email === "none") {
-    res.send([]);
+  if (req.params.email === "") {
+    res.send(emptyUser);
     return;
   }
 
   const user = await User.findOne({ email: req.params.email });
 
   if (!user)
-    return res.status(404).send("The user with the given ID was not found.");
+    // return res.status(404).send("The user with the given ID was not found.");
+    return emptyUser;
 
   res.send(user);
 });

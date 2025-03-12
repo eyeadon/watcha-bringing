@@ -16,6 +16,7 @@ const usePostUser = () => {
   // useMutation<data: get from backend, error, variables: data sent to backend, context>
   return useMutation<UserDocumentType, Error, User, PostUserContext>({
     mutationFn: (newUser: User) => {
+      // return user
       return apiClientUser.post(newUser);
     },
     onMutate: (newUser: User) => {

@@ -4,71 +4,62 @@ import LogoutButton from "./LogoutButton";
 import { emptyUser } from "../constants/constants";
 import useUserByEmail from "../hooks/useUserByEmail";
 import { nanoid } from "nanoid";
+import usePostUser from "../hooks/usePostUser";
 
-const AuthStatus = async () => {
+const AuthStatus = () => {
   // access auth state
-  let {
-    user: auth0User,
-    error,
-    isLoading: isLoadingAuth,
-    isAuthenticated,
-  } = useAuth0();
+  const { user: auth0User, error: errorAuth, isAuthenticated } = useAuth0();
 
-  if (auth0User === undefined) auth0User = emptyUser;
+  const userEmail = auth0User?.email ?? "";
 
-  // check if user exists in mongoDB database, get by email
-  // dependent query, dependent on useUser parameter
-  let {
-    data: user,
-    error: errorUser,
-    isLoading: isLoadingUser,
-  } = useUserByEmail(auth0User.email!);
+  // Dependent query, dependent on useUser parameter.
+  // Check if user exists in mongoDB database, get by email.
+  let { data: user, error: errorUser } = useUserByEmail(userEmail);
 
-  if (error) throw new Error("User not found");
+  const { mutateAsync: postUserMutateAsync } = usePostUser();
+
+  if (errorAuth) throw new Error("User not found");
+
+  // if (auth0User === undefined) return <LoginButton />;
+  // if (user === undefined) return <LoginButton />;
 
   // if user not found, create new user (post), update user variable
-  if (errorUser) {
-    const { mutateAsync: putUserMutateAsync } = usePutUser();
+  if (user?.publicId === "none") {
     const publicId = nanoid();
+    let newUserWithPublicId;
 
-    const newUserWithPublicId = {
-      ...emptyUser,
-      publicId: publicId,
-      name: auth0User.name,
-      email: auth0User.email,
-    };
+    if (auth0User === undefined) newUserWithPublicId = emptyUser;
+    else
+      newUserWithPublicId = {
+        ...emptyUser,
+        publicId: publicId,
+        name: auth0User.name!,
+        email: auth0User.email!,
+      };
 
-    const result = await putUserMutateAsync(newUserWithPublicId);
-    console.log(result);
-    user = result;
+    (async function () {
+      const userResult = await postUserMutateAsync(newUserWithPublicId);
+      console.log(userResult);
+      user = userResult;
+    })();
   }
 
-  if (isLoadingAuth) {
-    return <div>Loading...</div>;
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
   }
 
   if (isAuthenticated) {
-    if (isLoadingUser) {
-      return <div>Loading...</div>;
-    }
-
-    if (errorUser) {
-      return <p>Error: {errorUser.message}</p>;
-    }
-
     return (
       // TODO fix styles
       <div className="">
-        <p style={{ color: "#999999", margin: 0 }}>{user!.name}</p>
+        <p style={{ color: "#999999", margin: 0 }}>{user?.name}</p>
         <LogoutButton />
       </div>
     );
   }
 
+  // not logged in
   return <LoginButton />;
 };
 
 export default AuthStatus;
-function usePutUser(): { mutateAsync: any } {
-  throw new Error("Function not implemented.");
-}
