@@ -13,38 +13,40 @@ const AuthStatus = () => {
 
   const userEmail = auth0User?.email;
 
-  // Dependent query, dependent on useUser parameter.
+  // Dependent query, dependent on useUserByEmail parameter.
   // Check if user exists in mongoDB database, get by email.
   let { data: user, error: errorUser } = useUserByEmail(userEmail!);
   console.log(user);
 
-  const { mutateAsync: postUserMutateAsync } = usePostUser();
+  const { data, mutateAsync: postUserMutateAsync } = usePostUser();
+  console.log(data);
 
   if (errorAuth) throw new Error("User not found");
 
-  // if (auth0User === undefined) return <LoginButton />;
-  // if (user === undefined) return <LoginButton />;
-
   // if user not found, create new user (post), update user variable
-  if (user === null) {
+  if (user?.publicId === "none") {
+    console.log(user, "my if call");
+
     const publicId = nanoid();
-    let newUserWithPublicId: User = emptyUser;
+    let newUserWithPublicId: User | null;
 
     const postNewUser = async function () {
-      const userResult = await postUserMutateAsync(newUserWithPublicId);
+      const userResult = await postUserMutateAsync(newUserWithPublicId!);
       console.log(userResult);
+      // replace user with user from db with _id
       user = userResult;
     };
 
-    if (auth0User !== undefined)
-      newUserWithPublicId = {
-        ...emptyUser,
-        publicId: publicId,
-        name: auth0User.name!,
-        email: auth0User.email!,
-      };
+    auth0User !== undefined
+      ? (newUserWithPublicId = {
+          ...emptyUser,
+          publicId: publicId,
+          name: auth0User.name!,
+          email: auth0User.email!,
+        })
+      : (newUserWithPublicId = null);
 
-    if (newUserWithPublicId.publicId !== "none") postNewUser();
+    if (newUserWithPublicId !== null) postNewUser();
   }
 
   if (errorUser) {

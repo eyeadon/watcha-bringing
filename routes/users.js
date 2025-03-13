@@ -24,15 +24,17 @@ router.get("/:id", validateObjectId, async (req, res) => {
 // get single by email
 router.get("/email/:email", async (req, res) => {
   if (req.params.email === "") {
-    res.send(null);
+    res.send({ publicId: "none" });
     return;
   }
 
   const user = await User.findOne({ email: req.params.email });
 
-  if (!user)
+  if (!user) {
     // return res.status(404).send("The user with the given ID was not found.");
-    return null;
+    res.send({ publicId: "none" });
+    return;
+  }
 
   res.send(user);
 });
