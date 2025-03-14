@@ -18,8 +18,7 @@ const AuthStatus = () => {
   let { data: user, error: errorUser } = useUserByEmail(userEmail!);
   console.log(user);
 
-  const { data, mutateAsync: postUserMutateAsync } = usePostUser();
-  console.log(data);
+  const { mutateAsync: postUserMutateAsync } = usePostUser();
 
   if (errorAuth) throw new Error("User not found");
 
@@ -28,7 +27,6 @@ const AuthStatus = () => {
     console.log(user, "my if call");
 
     let newUserWithPublicId: User;
-    let doNotPostAgainFlag = false;
     const publicId = nanoid();
 
     const postNewUser = async function () {
@@ -45,10 +43,7 @@ const AuthStatus = () => {
       email: auth0User?.email!,
     };
 
-    if (doNotPostAgainFlag === false) {
-      postNewUser();
-      doNotPostAgainFlag = true;
-    }
+    postNewUser();
   }
 
   if (errorUser) {
