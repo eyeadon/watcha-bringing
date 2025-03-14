@@ -1,10 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { User, UserDocumentType } from "../interfaces/interfaces";
 import APIClient from "../services/apiClient";
-import { emptyUser } from "../constants/constants";
 
 interface PostUserContext {
-  previousUser: User;
+  previousUsers: User[];
 }
 
 const usePostUser = () => {
@@ -14,7 +13,7 @@ const usePostUser = () => {
   // post User
   // mutate: (variables: TVariables, { onSuccess, onSettled, onError }) => void
   // mutateAsync: (variables: TVariables, { onSuccess, onSettled, onError }) => Promise<TData>
-  // useMutation<data: get from backend, error, variables: data sent to backend, context -> interface created above >
+  // useMutation<data: get from backend, error, variables: data sent to backend, context>
   return useMutation<UserDocumentType, Error, User, PostUserContext>({
     mutationFn: (newUser: User) => {
       console.log(newUser);
@@ -22,23 +21,28 @@ const usePostUser = () => {
       return apiClientUser.post(newUser);
     },
     onMutate: (newUser: User) => {
-      const previousUser =
-        queryClient.getQueryData<UserDocumentType>(["user"]) || emptyUser;
+      // if undefined, return []
+      const previousUsers =
+        queryClient.getQueryData<UserDocumentType[]>(["users"]) || [];
 
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<UserDocumentType>(["user"], newUser);
+      queryClient.setQueryData<UserDocumentType[]>(["users"], (users) => [
+        newUser,
+        ...(users || []),
+      ]);
 
       // can access in onError callback
-      return { previousUser };
+      return { previousUsers };
     },
-    // onSuccess: (data: TData, variables: TVariables, context: TContext) => Promise<unknown> | unknown
-    onSuccess: (savedUser) => {
+    onSuccess: (savedUser, newUser: User) => {
       //                              (queryKey, updater, options?)
-      queryClient.setQueryData<UserDocumentType>(
-        ["user"],
+      queryClient.setQueryData<UserDocumentType[]>(["users"], (users) => {
         // replace newUser instance set by onMutate with proper savedUser
-        savedUser
-      );
+        users?.forEach((element) => {
+          if (element.publicId === newUser.publicId) element = savedUser;
+        });
+        return users;
+      });
     },
     //       (error, variables, context)
     // use context in case request fails
@@ -49,14 +53,14 @@ const usePostUser = () => {
       }
       if (!context) return;
 
-      queryClient.setQueryData<UserDocumentType>(
-        ["user"],
-        context.previousUser
+      queryClient.setQueryData<UserDocumentType[]>(
+        ["users"],
+        context.previousUsers
       );
     },
     // (data, error, variables, context)
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey: ["user"] });
+      queryClient.invalidateQueries({ queryKey: ["users"] });
       queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
     },
   });

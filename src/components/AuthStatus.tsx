@@ -27,26 +27,28 @@ const AuthStatus = () => {
   if (user?.publicId === "none") {
     console.log(user, "my if call");
 
+    let newUserWithPublicId: User;
+    let doNotPostAgainFlag = false;
     const publicId = nanoid();
-    let newUserWithPublicId: User | null;
 
     const postNewUser = async function () {
-      const userResult = await postUserMutateAsync(newUserWithPublicId!);
+      const userResult = await postUserMutateAsync(newUserWithPublicId);
       console.log(userResult);
-      // replace user with user from db with _id
+      // replace current user with user from db with _id
       user = userResult;
     };
 
-    auth0User !== undefined
-      ? (newUserWithPublicId = {
-          ...emptyUser,
-          publicId: publicId,
-          name: auth0User.name!,
-          email: auth0User.email!,
-        })
-      : (newUserWithPublicId = null);
+    newUserWithPublicId = {
+      ...emptyUser,
+      publicId: publicId,
+      name: auth0User?.name!,
+      email: auth0User?.email!,
+    };
 
-    if (newUserWithPublicId !== null) postNewUser();
+    if (doNotPostAgainFlag === false) {
+      postNewUser();
+      doNotPostAgainFlag = true;
+    }
   }
 
   if (errorUser) {
