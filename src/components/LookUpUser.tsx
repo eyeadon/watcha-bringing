@@ -10,12 +10,7 @@ interface Props {
 }
 
 const LookUpUser = ({ userName, userEmail }: Props) => {
-  if (userName === undefined) {
-    userName = "";
-  }
-  if (userEmail === undefined) {
-    userEmail = "";
-  }
+  let newUserWithPublicId: User;
 
   // Dependent query, dependent on useUserByEmail parameter.
   // Check if user exists in mongoDB database, get by email.
@@ -24,11 +19,24 @@ const LookUpUser = ({ userName, userEmail }: Props) => {
 
   const { mutateAsync: postUserMutateAsync } = usePostUser();
 
+  const postUser = async function () {
+    const userResult = await postUserMutateAsync(newUserWithPublicId);
+    console.log(userResult);
+    // replace current user with user from db with _id
+    user = userResult;
+  };
+
+  if (userName === undefined) {
+    userName = "";
+  }
+  if (userEmail === undefined) {
+    userEmail = "";
+  }
+
   // if user not found, create new user (post), update user variable
   if (user?.publicId === "none") {
     console.log(user, "my if call");
 
-    let newUserWithPublicId: User;
     const publicId = nanoid();
 
     newUserWithPublicId = {
@@ -39,14 +47,10 @@ const LookUpUser = ({ userName, userEmail }: Props) => {
     };
 
     if (userName !== "" && userEmail !== "") {
-      let postUser = async function () {
-        const userResult = await postUserMutateAsync(newUserWithPublicId);
-        console.log(userResult);
-        // replace current user with user from db with _id
-        // user = userResult;
-      };
       postUser();
     }
+  } else {
+    newUserWithPublicId = { ...emptyUser, publicId: "0" };
   }
 
   if (errorUser) {
