@@ -23,7 +23,7 @@ const AuthStatus = () => {
 
   const postUser = async () => {
     // if user not found and user is authenticated,
-    // create new user (post), update current user with db result user
+    // create new user (post)
     if (user?.publicId === "none") {
       console.log(user, "my if call");
 
@@ -38,6 +38,7 @@ const AuthStatus = () => {
 
       newUserResult = await postUserMutateAsync(newUserWithPublicId);
       console.log(newUserResult);
+      // TODO share newUserResult if _id needed
     }
   };
 
