@@ -14,7 +14,7 @@ const AuthStatus = () => {
 
   // Dependent query, dependent on useUserByEmail parameter.
   // Check if user exists in mongoDB database, get by email.
-  let { data: user, error: errorUser } = useUserByEmail(auth0User?.email!);
+  const { data: user, error: errorUser } = useUserByEmail(auth0User?.email!);
   console.log(user);
 
   let newUserResult: UserDocumentType;
@@ -52,8 +52,8 @@ const AuthStatus = () => {
     return (
       <div>
         <p style={{ color: "#999999", margin: 0 }}>{auth0User?.name}</p>
-        <LogoutButton />
         <Button onClick={() => postUser()}>Save User</Button>
+        <LogoutButton />
       </div>
     );
   }
