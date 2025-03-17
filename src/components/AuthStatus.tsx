@@ -43,7 +43,7 @@ const AuthStatus = () => {
       console.log(newUserResult);
       // TODO share newUserResult if _id needed
     }
-  }, [user, newUserResult]);
+  }, [user, isAuthenticated, newUserResult]);
 
   useEffect(() => {
     postUser();
