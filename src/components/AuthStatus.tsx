@@ -18,8 +18,6 @@ const AuthStatus = () => {
   const { data: user, error: errorUser } = useUserByEmail(auth0User?.email!);
   console.log(user);
 
-  let newUserResult: UserDocumentType = emptyUser;
-
   const { mutateAsync: postUserMutateAsync } = usePostUser();
 
   const postUser = useCallback(async () => {
@@ -39,11 +37,11 @@ const AuthStatus = () => {
         email: auth0User?.email!,
       };
 
-      newUserResult = await postUserMutateAsync(newUserWithPublicId);
+      const newUserResult = await postUserMutateAsync(newUserWithPublicId);
       console.log(newUserResult);
       // TODO share newUserResult if _id needed
     }
-  }, [user, isAuthenticated, newUserResult]);
+  }, [user, isAuthenticated]);
 
   useEffect(() => {
     postUser();
