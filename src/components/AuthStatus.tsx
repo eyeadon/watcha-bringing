@@ -7,6 +7,7 @@ import { User, UserDocumentType } from "../interfaces/interfaces";
 import { nanoid } from "nanoid";
 import { emptyUser } from "../constants/constants";
 import { Button } from "@mui/material";
+import { useCallback, useEffect } from "react";
 
 const AuthStatus = () => {
   // access auth state
@@ -17,11 +18,13 @@ const AuthStatus = () => {
   const { data: user, error: errorUser } = useUserByEmail(auth0User?.email!);
   console.log(user);
 
-  let newUserResult: UserDocumentType;
+  let newUserResult: UserDocumentType = emptyUser;
 
   const { mutateAsync: postUserMutateAsync } = usePostUser();
 
-  const postUser = async () => {
+  const postUser = useCallback(async () => {
+    console.log("postUser run initially");
+
     // if user not found and user is authenticated,
     // create new user (post)
     if (user?.publicId === "none") {
@@ -40,7 +43,11 @@ const AuthStatus = () => {
       console.log(newUserResult);
       // TODO share newUserResult if _id needed
     }
-  };
+  }, [user, newUserResult]);
+
+  useEffect(() => {
+    postUser();
+  }, [postUser]);
 
   if (errorAuth) throw new Error("User not found");
 
@@ -52,7 +59,7 @@ const AuthStatus = () => {
     return (
       <div>
         <p style={{ color: "#999999", margin: 0 }}>{auth0User?.name}</p>
-        <Button onClick={() => postUser()}>Save User</Button>
+        {/* <Button onClick={() => postUser()}>Save User</Button> */}
         <LogoutButton />
       </div>
     );
