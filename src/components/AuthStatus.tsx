@@ -3,10 +3,8 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import useUserByEmail from "../hooks/useUserByEmail";
 import usePostUser from "../hooks/usePostUser";
-import { User, UserDocumentType } from "../interfaces/interfaces";
 import { nanoid } from "nanoid";
 import { emptyUser } from "../constants/constants";
-import { Button } from "@mui/material";
 import { useCallback, useEffect } from "react";
 
 const AuthStatus = () => {

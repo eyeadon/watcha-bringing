@@ -7,6 +7,8 @@ import usePostBev from "../hooks/usePostBev";
 import usePutEvent from "../hooks/usePutEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
 import { nanoid } from "nanoid";
+import useUser from "../hooks/useUser";
+import usePutUser from "../hooks/usePutUser";
 
 const bevSchema = z.object({
   userName: z
@@ -52,6 +54,23 @@ const BevForm = ({ selectedEvent }: Props) => {
   // put Event
   const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
+  // dependent query, dependent on useUser parameter
+  let {
+    data: user,
+    error: errorUser,
+    isLoading: isLoadingUser,
+  } = useUser(selectedEvent.host);
+
+  const { mutateAsync: putUserMutateAsync } = usePutUser();
+
+  if (isLoadingUser) {
+    return <p>Loading...</p>;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
+  }
+
   return (
     <form
       // handleSubmit from react hook form
@@ -69,12 +88,10 @@ const BevForm = ({ selectedEvent }: Props) => {
 
         console.log(resultBevFromMutate);
 
-        // adding Bev to event
-
         if (resultBevFromMutate === undefined)
           throw new Error("resultBev is undefined");
 
-        const resultBevId = resultBevFromMutate._id?.toString();
+        const resultBevId = resultBevFromMutate!._id?.toString();
 
         if (resultBevId === undefined)
           throw new Error("resultBevId is undefined");
@@ -94,6 +111,24 @@ const BevForm = ({ selectedEvent }: Props) => {
         );
 
         console.log(resultEventFromMutate);
+
+        // add newBev id to user.bevsOwned
+        if (user === undefined) throw new Error("user is undefined");
+        if (user._id === undefined) throw new Error("user id is undefined");
+
+        user.publicId !== "none"
+          ? user.bevsOwned!.push(newBevWithPublicId.publicId)
+          : new Error("no bev selected");
+
+        const userWithoutId = { ...user };
+        delete userWithoutId._id;
+
+        const resultUserFromMutate = await putUserMutateAsync({
+          itemId: user._id.toString(),
+          data: userWithoutId,
+        });
+
+        console.log(resultUserFromMutate);
 
         reset();
       })}
