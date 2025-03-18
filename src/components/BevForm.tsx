@@ -118,7 +118,7 @@ const BevForm = ({ selectedEvent }: Props) => {
 
         user.publicId !== "none"
           ? user.bevsOwned!.push(newBevWithPublicId.publicId)
-          : new Error("no bev selected");
+          : new Error("no user selected");
 
         const userWithoutId = { ...user };
         delete userWithoutId._id;

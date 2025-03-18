@@ -8,6 +8,8 @@ import { nanoid } from "nanoid";
 import { EventDocumentType } from "../interfaces/interfaces";
 import usePostDish from "../hooks/usePostDish";
 import usePutEvent from "../hooks/usePutEvent";
+import usePutUser from "../hooks/usePutUser";
+import useUser from "../hooks/useUser";
 
 const dishSchema = z.object({
   userName: z
@@ -54,6 +56,23 @@ const DishForm = ({ selectedEvent }: Props) => {
   // put Event
   const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
+  // dependent query, dependent on useUser parameter
+  let {
+    data: user,
+    error: errorUser,
+    isLoading: isLoadingUser,
+  } = useUser(selectedEvent.host);
+
+  const { mutateAsync: putUserMutateAsync } = usePutUser();
+
+  if (isLoadingUser) {
+    return <p>Loading...</p>;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
+  }
+
   return (
     <form
       // handleSubmit from react hook form, this function will receive the form data if form validation is successful
@@ -97,6 +116,25 @@ const DishForm = ({ selectedEvent }: Props) => {
         );
 
         console.log(resultEventFromMutate);
+
+        // add newDish id to user.dishesOwned
+        if (user === undefined) throw new Error("user is undefined");
+        if (user._id === undefined) throw new Error("user id is undefined");
+
+        user.publicId !== "none"
+          ? user.dishesOwned!.push(newDishWithPublicId.publicId)
+          : new Error("no user selected");
+
+        const userWithoutId = { ...user };
+        delete userWithoutId._id;
+
+        const resultUserFromMutate = await putUserMutateAsync({
+          itemId: user._id.toString(),
+          data: userWithoutId,
+        });
+
+        console.log(resultUserFromMutate);
+
         reset();
       })}
     >
