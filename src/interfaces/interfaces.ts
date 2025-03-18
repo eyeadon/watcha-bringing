@@ -33,9 +33,7 @@ export interface BevDocumentType extends Bev {
 
 export interface Event {
   publicId: string;
-  // category: string;
   name: string;
-  // owner: string;
   host: string;
   address: {
     street: string;

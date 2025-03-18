@@ -3,6 +3,7 @@ const router = express.Router();
 import { Event, validateEvent } from "../models/event.js";
 import { Dish } from "../models/dish.js";
 import { Bev } from "../models/bev.js";
+import { User } from "../models/user.js";
 import { validateObjectId } from "../middleware/validateObjectId.js";
 import { validate } from "../middleware/validate.js";
 
@@ -57,7 +58,14 @@ router.get("/subdoc/items", async (req, res) => {
       })
         .populate({ path: "Bev", strictPopulate: false })
         .exec();
+    } else if (itemKind === "user") {
+      return await User.find({
+        _id: selectedEvent.host,
+      })
+        .populate({ path: "User", strictPopulate: false })
+        .exec();
     }
+
     return [];
   };
 
@@ -105,7 +113,6 @@ router.put(
       {
         $set: {
           publicId: req.body.publicId,
-          // category: req.body.category,
           name: req.body.name,
           host: req.body.host,
           address: req.body.address,
@@ -149,6 +156,11 @@ router.delete("/subdoc/deleteitem", async (req, res) => {
       return await Event.updateOne(
         { _id: req.query.eventId },
         { $pullAll: { bevs: [req.query.itemId] } }
+      );
+    } else if (itemKind === "user") {
+      return await Event.updateOne(
+        { _id: req.query.eventId },
+        { $pullAll: { user: [req.query.itemId] } }
       );
     }
     return [];

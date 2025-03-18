@@ -41,14 +41,6 @@ const Event = mongoose.model(
   new mongoose.Schema(
     {
       publicId: { type: String, required: true },
-      // category: {
-      //   type: String,
-      //   required: true,
-      //   minlength: 2,
-      //   maxlength: 50,
-      //   lowercase: true,
-      //   trim: true,
-      // },
       name: {
         type: String,
         required: true,
@@ -57,14 +49,7 @@ const Event = mongoose.model(
         lowercase: true,
         trim: true,
       },
-      host: {
-        type: String,
-        required: true,
-        minlength: 2,
-        maxlength: 50,
-        lowercase: true,
-        trim: true,
-      },
+      host: { type: String, required: true },
       address: {
         type: addressSchema,
         required: false,
@@ -88,9 +73,8 @@ const Event = mongoose.model(
 function validateEvent(event) {
   const schema = Joi.object({
     publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
-    // category: Joi.string().min(2).max(50).required(),
     name: Joi.string().min(2).max(50).required(),
-    host: Joi.string().min(2).max(50).required(),
+    host: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
     address: Joi.object({
       street: Joi.string().min(2).max(50),
       city: Joi.string().min(2).max(50),

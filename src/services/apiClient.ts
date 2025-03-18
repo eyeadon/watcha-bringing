@@ -40,7 +40,7 @@ class APIClient<T> {
   };
 
   // get single object
-  get = (id: number | string) => {
+  get = (id: string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/" + id)
       .then((res) => res.data);
@@ -51,7 +51,7 @@ class APIClient<T> {
   };
 
   // get single object by publicId
-  getSingleByPublicId = (id: number | string) => {
+  getSingleByPublicId = (id: string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/public/" + id)
       .then((res) => res.data);
@@ -73,7 +73,7 @@ class APIClient<T> {
   };
 
   // get sub doc
-  getSubDoc = (id: number | string, itemKind: string) => {
+  getSubDoc = (id: string, itemKind: string) => {
     return axiosInstance
       .get<T>(this.endpoint + "/subdoc/items", {
         params: { publicId: id, itemKind: itemKind },
@@ -98,7 +98,7 @@ class APIClient<T> {
     );
   };
 
-  put = (id: number | string, data: T) => {
+  put = (id: string, data: T) => {
     return (
       axiosInstance
         // .put<FetchResponse<T>>(this.endpoint + "/" + id, data)
@@ -111,7 +111,7 @@ class APIClient<T> {
     );
   };
 
-  delete = (id: number | string) => {
+  delete = (id: string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/" + id)
       .then((res) => res.data);
@@ -121,7 +121,7 @@ class APIClient<T> {
     // });
   };
 
-  deleteItem = (eventId: number | string, itemId: string, itemKind: string) => {
+  deleteItem = (eventId: string, itemId: string, itemKind: string) => {
     return axiosInstance
       .delete<T>(this.endpoint + "/subdoc/deleteitem", {
         params: { eventId: eventId, itemId: itemId, itemKind: itemKind },

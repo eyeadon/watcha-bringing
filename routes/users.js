@@ -13,7 +13,24 @@ router.get("/", async (req, res) => {
 
 // get single
 router.get("/:id", validateObjectId, async (req, res) => {
-  const user = await User.findById(req.params.id);
+  const user = await User.findById(req.params.id).exec();
+
+  if (!user)
+    return res.status(404).send("The user with the given ID was not found.");
+
+  res.send(user);
+});
+
+// get single by publicId
+router.get("/public/:publicId", async (req, res) => {
+  if (req.params.publicId === "none") {
+    res.send([]);
+    return;
+  }
+
+  // console.log(req.params.publicId);
+
+  const user = await User.findOne({ publicId: req.params.publicId });
 
   if (!user)
     return res.status(404).send("The user with the given ID was not found.");
