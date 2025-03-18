@@ -12,26 +12,11 @@ interface Props {
 }
 
 const SelectedEventTitle = ({ selectedEvent, editEventDisplay }: Props) => {
-  // dependent query, dependent on useUser parameter
-  let {
-    data: user,
-    error: errorUser,
-    isLoading: isLoadingUser,
-  } = useUser(selectedEvent.host);
-
-  if (isLoadingUser) {
-    return <p>Loading...</p>;
-  }
-
-  if (errorUser) {
-    return <p>Error: {errorUser.message}</p>;
-  }
-
   return (
     <>
       <Fade in={!editEventDisplay}>
         <div>
-          <h4>Host:&nbsp;{capitalizeFirstLetter(user?.name)}</h4>
+          <h4>Host:&nbsp;{capitalizeFirstLetter(selectedEvent.hostName)}</h4>
 
           <div className="d-flex mb-3">
             <div className="me-5">
