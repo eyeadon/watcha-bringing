@@ -8,7 +8,6 @@ import useEventSubDoc from "../hooks/useEventSubDoc";
 import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import EditDeleteDishMenu from "./EditDeleteDishMenu";
 import useUser from "../hooks/useUser";
-import { emptyUser } from "../constants/constants";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -46,10 +45,8 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     return <p>Error: {error.message}</p>;
   }
 
-  // get user
   if (isLoadingUser) {
     return <p>Loading...</p>;
-    // user = user ?? emptyUser;
   }
 
   if (errorUser) {
@@ -57,7 +54,6 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   }
 
   const eventDishes = visibleItemsFilterHelper(
-    // dishes,
     data,
     selectedDishCategory,
     "All Dish Categories"
