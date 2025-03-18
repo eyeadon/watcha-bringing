@@ -4,6 +4,7 @@ export const emptyEvent: EventDocumentType = {
   publicId: "none",
   name: "",
   host: "",
+  hostName: "",
   address: {
     street: "",
     city: "",

@@ -50,6 +50,14 @@ const Event = mongoose.model(
         trim: true,
       },
       host: { type: String, required: true },
+      hostName: {
+        type: String,
+        required: true,
+        minlength: 2,
+        maxlength: 50,
+        lowercase: true,
+        trim: true,
+      },
       address: {
         type: addressSchema,
         required: false,
@@ -75,6 +83,7 @@ function validateEvent(event) {
     publicId: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
     name: Joi.string().min(2).max(50).required(),
     host: Joi.string().pattern(/^[A-Za-z0-9_-]{21}$/, "nanoid"),
+    hostName: Joi.string().min(2).max(50).required(),
     address: Joi.object({
       street: Joi.string().min(2).max(50),
       city: Joi.string().min(2).max(50),

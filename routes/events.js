@@ -60,7 +60,7 @@ router.get("/subdoc/items", async (req, res) => {
         .exec();
     } else if (itemKind === "user") {
       return await User.find({
-        _id: selectedEvent.host,
+        publicId: selectedEvent.host,
       })
         .populate({ path: "User", strictPopulate: false })
         .exec();
@@ -85,6 +85,7 @@ router.post("/", validate(validateEvent), async (req, res) => {
     // category: req.body.category,
     name: req.body.name,
     host: req.body.host,
+    hostName: req.body.hostName,
     address: req.body.address,
     startDateTime: req.body.startDateTime,
     endDateTime: req.body.endDateTime,
@@ -115,6 +116,7 @@ router.put(
           publicId: req.body.publicId,
           name: req.body.name,
           host: req.body.host,
+          hostName: req.body.hostName,
           address: req.body.address,
           date: req.body.date,
           startDateTime: req.body.startDateTime,

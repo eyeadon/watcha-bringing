@@ -35,6 +35,7 @@ export interface Event {
   publicId: string;
   name: string;
   host: string;
+  hostName: string;
   address: {
     street: string;
     city: string;

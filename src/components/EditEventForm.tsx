@@ -12,6 +12,8 @@ import { z } from "zod";
 import { dateStringToDayJs, setTimeDayJs } from "../functions/functions";
 import usePutEvent from "../hooks/usePutEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
+import { useAuth0 } from "@auth0/auth0-react";
+import useUserByEmail from "../hooks/useUserByEmail";
 
 const eventSchema = z.object({
   name: z
@@ -19,7 +21,7 @@ const eventSchema = z.object({
     .trim()
     .min(2, { message: "Enter at least 2 characters" })
     .max(50),
-  host: z
+  hostName: z
     .string()
     .trim()
     .min(2, { message: "Enter at least 2 characters" })
@@ -66,7 +68,7 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
     resolver: zodResolver(eventSchema),
     defaultValues: {
       name: selectedEvent.name,
-      host: selectedEvent.host,
+      hostName: selectedEvent.hostName,
       address: {
         street: selectedEvent.address.street,
         city: selectedEvent.address.city,
@@ -83,16 +85,42 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
   // put Event
   const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
+  const { user: auth0User, error: errorAuth } = useAuth0();
+
+  // Dependent query, dependent on useUserByEmail parameter.
+  // Check if user exists in mongoDB database, get by email.
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    error: errorUser,
+  } = useUserByEmail(auth0User?.email!);
+
+  if (errorAuth) {
+    return <p>Error: {errorAuth.message}</p>;
+  }
+
+  if (isLoadingUser) {
+    return <p>Loading...</p>;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Fade in={editEventDisplay} className="mb-4">
         <form
           // handleSubmit from react hook form
           onSubmit={handleSubmit(async (eventFormData) => {
+            if (user === undefined) throw new Error("user is undefined");
+            if (user._id === undefined) throw new Error("user id is undefined");
+
             const eventWithPublicId = {
               publicId: selectedEvent.publicId,
               name: eventFormData.name,
-              host: eventFormData.host,
+              host: user.publicId,
+              hostName: eventFormData.hostName,
               address: eventFormData.address,
               startDateTime: setTimeDayJs(
                 eventFormData.startDate,
@@ -136,17 +164,17 @@ const EventForm = ({ selectedEvent, editEventDisplay, onSubmit }: Props) => {
               </div>
 
               <div className="mb-3">
-                <label htmlFor="host" className="form-label">
+                <label htmlFor="hostName" className="form-label">
                   Host Name
                 </label>
                 <input
-                  {...register("host")}
-                  id="host"
+                  {...register("hostName")}
+                  id="hostName"
                   type="text"
                   className="form-control"
                 />
-                {errors.host && (
-                  <p className="text-danger">{errors.host.message}</p>
+                {errors.hostName && (
+                  <p className="text-danger">{errors.hostName.message}</p>
                 )}
               </div>
 

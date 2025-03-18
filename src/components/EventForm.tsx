@@ -14,6 +14,9 @@ import { EventFormIsExpandedContext } from "../contexts/contexts";
 import { setTimeDayJs } from "../functions/functions";
 import usePostEvent from "../hooks/usePostEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
+import usePutUser from "../hooks/usePutUser";
+import { useAuth0 } from "@auth0/auth0-react";
+import useUserByEmail from "../hooks/useUserByEmail";
 // import utc from "dayjs/plugin/utc";
 // import timezone from "dayjs/plugin/timezone";
 // dayjs.extend(utc);
@@ -26,7 +29,7 @@ const eventSchema = z.object({
     .trim()
     .min(2, { message: "Enter at least 2 characters" })
     .max(50),
-  host: z
+  hostName: z
     .string()
     .trim()
     .min(2, { message: "Enter at least 2 characters" })
@@ -81,17 +84,45 @@ const EventForm = ({ onSubmit }: Props) => {
   // post Event
   const { mutateAsync: postEventMutateAsync } = usePostEvent();
 
+  const { user: auth0User, error: errorAuth } = useAuth0();
+
+  // Dependent query, dependent on useUserByEmail parameter.
+  // Check if user exists in mongoDB database, get by email.
+  const {
+    data: user,
+    isLoading: isLoadingUser,
+    error: errorUser,
+  } = useUserByEmail(auth0User?.email!);
+
+  const { mutateAsync: putUserMutateAsync } = usePutUser();
+
+  if (errorAuth) {
+    return <p>Error: {errorAuth.message}</p>;
+  }
+
+  if (isLoadingUser) {
+    return <p>Loading...</p>;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <form
         // handleSubmit from react hook form
         onSubmit={handleSubmit(async (newEventFormData) => {
+          if (user === undefined) throw new Error("user is undefined");
+          if (user._id === undefined) throw new Error("user id is undefined");
+
           const publicId = nanoid();
 
           const newEventWithPublicId = {
             publicId: publicId,
             name: newEventFormData.name,
-            host: newEventFormData.host,
+            host: user.publicId,
+            hostName: newEventFormData.hostName,
             address: newEventFormData.address,
             startDateTime: setTimeDayJs(
               newEventFormData.startDate,
@@ -111,6 +142,22 @@ const EventForm = ({ onSubmit }: Props) => {
 
           console.log(resultEventFromMutate);
 
+          // add event publicId to user.eventsOwned
+          user.publicId !== "none"
+            ? user.eventsOwned!.push(newEventWithPublicId.publicId)
+            : new Error("no user selected");
+
+          const userWithoutId = { ...user };
+          delete userWithoutId._id;
+
+          const resultUserFromMutate = await putUserMutateAsync({
+            itemId: user._id.toString(),
+            data: userWithoutId,
+          });
+
+          console.log(resultUserFromMutate);
+
+          // pass new event to parent
           onSubmit(resultEventFromMutate);
 
           contextEventFormIsExpanded.setEventFormIsExpanded(
@@ -139,17 +186,17 @@ const EventForm = ({ onSubmit }: Props) => {
             </div>
 
             <div className="mb-3">
-              <label htmlFor="host" className="form-label">
+              <label htmlFor="hostName" className="form-label">
                 Host Name
               </label>
               <input
-                {...register("host")}
-                id="host"
+                {...register("hostName")}
+                id="hostName"
                 type="text"
                 className="form-control"
               />
-              {errors.host && (
-                <p className="text-danger">{errors.host.message}</p>
+              {errors.hostName && (
+                <p className="text-danger">{errors.hostName.message}</p>
               )}
             </div>
 
