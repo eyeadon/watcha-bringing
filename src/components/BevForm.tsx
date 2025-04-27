@@ -9,6 +9,8 @@ import { EventDocumentType } from "../interfaces/interfaces";
 import { nanoid } from "nanoid";
 import useUser from "../hooks/useUser";
 import usePutUser from "../hooks/usePutUser";
+import { useAuth0 } from "@auth0/auth0-react";
+import useUserByEmail from "../hooks/useUserByEmail";
 
 const bevSchema = z.object({
   userName: z
@@ -54,12 +56,14 @@ const BevForm = ({ selectedEvent }: Props) => {
   // put Event
   const { mutateAsync: putEventMutateAsync } = usePutEvent(selectedEvent);
 
+  const { user: auth0User } = useAuth0();
+
   // dependent query, dependent on useUser parameter
   let {
     data: user,
     error: errorUser,
     isLoading: isLoadingUser,
-  } = useUser(selectedEvent.host);
+  } = useUserByEmail(auth0User?.email!);
 
   const { mutateAsync: putUserMutateAsync } = usePutUser();
 
