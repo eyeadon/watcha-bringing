@@ -1,17 +1,16 @@
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useAuth0 } from "@auth0/auth0-react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { dishCategories } from "../categories/dishCategories";
-import { dietaryConsiderations } from "../categories/dietaryConsiderations";
-import { capitalizeFirstLetter } from "../functions/functions";
 import { nanoid } from "nanoid";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { dietaryConsiderations } from "../categories/dietaryConsiderations";
+import { dishCategories } from "../categories/dishCategories";
+import { capitalizeFirstLetter } from "../functions/functions";
 import usePostDish from "../hooks/usePostDish";
 import usePutEvent from "../hooks/usePutEvent";
 import usePutUser from "../hooks/usePutUser";
-import useUser from "../hooks/useUser";
-import { useAuth0 } from "@auth0/auth0-react";
 import useUserByEmail from "../hooks/useUserByEmail";
+import { EventDocumentType } from "../interfaces/interfaces";
 
 const dishSchema = z.object({
   userName: z

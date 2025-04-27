@@ -1,16 +1,15 @@
-import { z } from "zod";
-import { useForm } from "react-hook-form";
+import { useAuth0 } from "@auth0/auth0-react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { nanoid } from "nanoid";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { bevCategories } from "../categories/bevCategories";
 import { capitalizeFirstLetter } from "../functions/functions";
 import usePostBev from "../hooks/usePostBev";
 import usePutEvent from "../hooks/usePutEvent";
-import { EventDocumentType } from "../interfaces/interfaces";
-import { nanoid } from "nanoid";
-import useUser from "../hooks/useUser";
 import usePutUser from "../hooks/usePutUser";
-import { useAuth0 } from "@auth0/auth0-react";
 import useUserByEmail from "../hooks/useUserByEmail";
+import { EventDocumentType } from "../interfaces/interfaces";
 
 const bevSchema = z.object({
   userName: z
