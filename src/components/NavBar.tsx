@@ -9,7 +9,7 @@ const NavBar = () => {
     >
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
-          Watcha Bringing?
+          Whatcha Bringing?
         </Link>
         <span className="navbar-text">
           <AuthStatus />
