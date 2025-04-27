@@ -3,7 +3,6 @@ import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import { capitalizeFirstLetter } from "../functions/functions";
 import { Event } from "../interfaces/interfaces";
-import useUser from "../hooks/useUser";
 dayjs.extend(localizedFormat);
 
 interface Props {

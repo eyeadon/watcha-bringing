@@ -7,7 +7,7 @@ import {
 import useEventSubDoc from "../hooks/useEventSubDoc";
 import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
 import EditDeleteDishMenu from "./EditDeleteDishMenu";
-import useUser from "../hooks/useUser";
+import useUserByEmail from "../hooks/useUserByEmail";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -17,8 +17,6 @@ interface Props {
 const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
   if (selectedEvent === undefined) return null;
   if (selectedEvent.dishes === undefined) return null;
-
-  const { isAuthenticated, isLoading: isLoadingAuth } = useAuth0();
 
   // const queryClient = useQueryClient();
   // queryClient.invalidateQueries({ queryKey: ["selectedEvent"] });
@@ -30,12 +28,18 @@ const DishList = ({ selectedEvent, selectedDishCategory }: Props) => {
     "dish"
   );
 
+  const {
+    isAuthenticated,
+    isLoading: isLoadingAuth,
+    user: auth0User,
+  } = useAuth0();
+
   // dependent query, dependent on useUser parameter
   let {
     data: user,
     error: errorUser,
     isLoading: isLoadingUser,
-  } = useUser(selectedEvent.host);
+  } = useUserByEmail(auth0User?.email!);
 
   if (isLoading) {
     return <p>Loading...</p>;

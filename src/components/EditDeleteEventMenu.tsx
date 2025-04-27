@@ -5,6 +5,9 @@ import { SelectedEventContext } from "../contexts/contexts";
 import useDeleteEvent from "../hooks/useDeleteEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
 import { useAuth0 } from "@auth0/auth0-react";
+import useUser from "../hooks/useUser";
+import { isOwned } from "../functions/functions";
+import useUserByEmail from "../hooks/useUserByEmail";
 
 interface Props {
   selectedEvent: EventDocumentType;
@@ -25,18 +28,37 @@ const EditDeleteEventMenu = ({
 
   const editEventButton = editEventDisplay ? "—" : "Edit Event";
 
-  const { isAuthenticated, isLoading } = useAuth0();
+  const {
+    isAuthenticated,
+    isLoading: isLoadingAuth,
+    user: auth0User,
+  } = useAuth0();
 
-  if (isLoading) {
-    return <div>Loading ...</div>;
+  // dependent query, dependent on useUser parameter
+  let {
+    data: user,
+    error: errorUser,
+    isLoading: isLoadingUser,
+  } = useUserByEmail(auth0User?.email!);
+
+  if (isLoadingUser) {
+    return <p>Loading...</p>;
+  }
+
+  if (errorUser) {
+    return <p>Error: {errorUser.message}</p>;
   }
 
   return (
-    isAuthenticated && (
-      <>
+    <>
+      {isLoadingAuth ? (
+        <div>Loading...</div>
+      ) : isAuthenticated &&
+        isOwned(selectedEvent.publicId, user!.eventsOwned) ? (
         <div className="d-flex mb-3">
           <div className="me-3">
             <Button
+              name="edit"
               className="btn-sm mb-3"
               variant="outline-secondary"
               type="button"
@@ -47,6 +69,7 @@ const EditDeleteEventMenu = ({
           </div>
           <div>
             <Button
+              name="delete"
               className="btn-sm mb-3"
               variant="outline-danger"
               type="button"
@@ -66,8 +89,8 @@ const EditDeleteEventMenu = ({
             </Button>
           </div>
         </div>
-      </>
-    )
+      ) : null}
+    </>
   );
 };
 
