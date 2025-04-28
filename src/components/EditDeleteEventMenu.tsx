@@ -5,7 +5,6 @@ import { SelectedEventContext } from "../contexts/contexts";
 import useDeleteEvent from "../hooks/useDeleteEvent";
 import { EventDocumentType } from "../interfaces/interfaces";
 import { useAuth0 } from "@auth0/auth0-react";
-import useUser from "../hooks/useUser";
 import { isOwned } from "../functions/functions";
 import useUserByEmail from "../hooks/useUserByEmail";
 
@@ -34,7 +33,7 @@ const EditDeleteEventMenu = ({
     user: auth0User,
   } = useAuth0();
 
-  // dependent query, dependent on useUser parameter
+  // dependent query, dependent on parameter
   let {
     data: user,
     error: errorUser,
