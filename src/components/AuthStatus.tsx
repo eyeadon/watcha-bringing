@@ -24,7 +24,7 @@ const AuthStatus = () => {
     // if user not found and user is authenticated,
     // create new user (post)
     if (user?.publicId === "none" && isAuthenticated) {
-      console.log(user, "my if call");
+      console.log(user, "new user being created");
 
       const publicId = nanoid();
 

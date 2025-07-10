@@ -161,7 +161,7 @@ const EventForm = ({ onSubmit }: Props) => {
           onSubmit(resultEventFromMutate);
 
           contextEventFormIsExpanded.setEventFormIsExpanded(
-            !contextEventFormIsExpanded.eventFormisExpanded
+            !contextEventFormIsExpanded.eventFormIsExpanded
           );
 
           reset();

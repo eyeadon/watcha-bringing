@@ -22,7 +22,7 @@ import EditDeleteEventMenu from "./components/EditDeleteEventMenu";
 import EditEventForm from "./components/EditEventForm";
 
 function App() {
-  const [eventFormisExpanded, setEventFormIsExpanded] = useState(false);
+  const [eventFormIsExpanded, setEventFormIsExpanded] = useState(false);
 
   // function setIsExpanded(isExpanded: boolean) {
   //   setEventFormIsExpanded(isExpanded);
@@ -53,7 +53,10 @@ function App() {
 
         <div className="row mb-1">
           <EventFormIsExpandedContext.Provider
-            value={{ eventFormisExpanded, setEventFormIsExpanded }}
+            value={{
+              eventFormIsExpanded: eventFormIsExpanded,
+              setEventFormIsExpanded,
+            }}
           >
             <div className="col-sm-12 mb-3">
               <ExpandableSectionButtonNewEvent buttonLabelText="Add Event">
