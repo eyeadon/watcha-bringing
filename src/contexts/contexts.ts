@@ -3,7 +3,7 @@ import { emptyEvent } from "../constants/constants";
 import { EventDocumentType } from "../interfaces/interfaces";
 
 export const EventFormIsExpandedContext = createContext({
-  eventFormisExpanded: false,
+  eventFormIsExpanded: false,
   setEventFormIsExpanded: (isExpanded: boolean) => {
     console.log("EventFormIsExpandedContext initial value used:", isExpanded);
   },
