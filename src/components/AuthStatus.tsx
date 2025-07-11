@@ -19,7 +19,7 @@ const AuthStatus = () => {
   const { mutateAsync: postUserMutateAsync } = usePostUser();
 
   const postUser = useCallback(async () => {
-    console.log("postUser run initially");
+    // console.log("postUser run initially");
 
     // if user not found and user is authenticated,
     // create new user (post)
