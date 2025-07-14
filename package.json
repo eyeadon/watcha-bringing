@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "main": "index.ts",
+  "main": "index.js",
   "proxy": "http://localhost:5173",
   "scripts": {
     "dev": "vite",
@@ -11,7 +11,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "test": "jest --watchAll --verbose --maxWorkers=1",
-    "start": "node api/index.ts"
+    "start": "concurrently \"node index.js\" \"npm run dev\""
   },
   "engines": {
     "node": "22.x"
