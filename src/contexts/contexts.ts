@@ -1,6 +1,6 @@
 import { createContext } from "react";
-import { emptyEvent } from "../constants/constants";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { emptyEvent } from "../constants/constants.js";
+import { EventDocumentType } from "../interfaces/interfaces.js";
 
 export const EventFormIsExpandedContext = createContext({
   eventFormIsExpanded: false,

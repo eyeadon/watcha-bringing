@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Event } from "../interfaces/interfaces";
+import { Event } from "../interfaces/interfaces.js";
 // import { capitalizeFirstLetter } from "../functions/functions";
 
 interface Props {

@@ -3,13 +3,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { bevCategories } from "../categories/bevCategories";
-import { capitalizeFirstLetter } from "../functions/functions";
-import usePostBev from "../hooks/usePostBev";
-import usePutEvent from "../hooks/usePutEvent";
-import usePutUser from "../hooks/usePutUser";
-import useUserByEmail from "../hooks/useUserByEmail";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { bevCategories } from "../categories/bevCategories.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
+import usePostBev from "../hooks/usePostBev.js";
+import usePutEvent from "../hooks/usePutEvent.js";
+import usePutUser from "../hooks/usePutUser.js";
+import useUserByEmail from "../hooks/useUserByEmail.js";
+import { EventDocumentType } from "../interfaces/interfaces.js";
 
 const bevSchema = z.object({
   userName: z

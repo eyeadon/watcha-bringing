@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { Bev } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import { Bev } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 const apiClient = new APIClient<Bev>("/bevs");
 

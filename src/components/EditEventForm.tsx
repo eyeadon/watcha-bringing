@@ -9,11 +9,11 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { type Dayjs } from "dayjs";
 import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
-import { dateStringToDayJs, setTimeDayJs } from "../functions/functions";
-import usePutEvent from "../hooks/usePutEvent";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { dateStringToDayJs, setTimeDayJs } from "../functions/functions.js";
+import usePutEvent from "../hooks/usePutEvent.js";
+import { EventDocumentType } from "../interfaces/interfaces.js";
 import { useAuth0 } from "@auth0/auth0-react";
-import useUserByEmail from "../hooks/useUserByEmail";
+import useUserByEmail from "../hooks/useUserByEmail.js";
 
 const eventSchema = z.object({
   name: z

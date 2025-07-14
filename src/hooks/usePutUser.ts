@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { User, UserDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
-import { emptyUser } from "../constants/constants";
+import { User, UserDocumentType } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
+import { emptyUser } from "../constants/constants.js";
 
 interface PutUserContext {
   previousUser: UserDocumentType;

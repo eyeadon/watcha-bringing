@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Dish, DishDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import { Dish, DishDocumentType } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 interface PutDishContext {
   previousDishes: DishDocumentType[];

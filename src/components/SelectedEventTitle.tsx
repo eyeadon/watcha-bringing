@@ -1,5 +1,5 @@
-import { Event } from "../interfaces/interfaces";
-import { capitalizeFirstLetter } from "../functions/functions";
+import { Event } from "../interfaces/interfaces.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
 
 interface Props {
   selectedEvent: Event;

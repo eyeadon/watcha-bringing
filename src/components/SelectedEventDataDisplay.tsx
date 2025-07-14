@@ -1,8 +1,8 @@
 import { Fade } from "@mui/material";
 import dayjs from "dayjs";
-import localizedFormat from "dayjs/plugin/localizedFormat";
-import { capitalizeFirstLetter } from "../functions/functions";
-import { Event } from "../interfaces/interfaces";
+import localizedFormat from "dayjs/plugin/localizedFormat.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
+import { Event } from "../interfaces/interfaces.js";
 dayjs.extend(localizedFormat);
 
 interface Props {

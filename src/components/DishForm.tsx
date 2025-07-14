@@ -3,14 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { nanoid } from "nanoid";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { dietaryConsiderations } from "../categories/dietaryConsiderations";
-import { dishCategories } from "../categories/dishCategories";
-import { capitalizeFirstLetter } from "../functions/functions";
-import usePostDish from "../hooks/usePostDish";
-import usePutEvent from "../hooks/usePutEvent";
-import usePutUser from "../hooks/usePutUser";
-import useUserByEmail from "../hooks/useUserByEmail";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { dietaryConsiderations } from "../categories/dietaryConsiderations.js";
+import { dishCategories } from "../categories/dishCategories.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
+import usePostDish from "../hooks/usePostDish.js";
+import usePutEvent from "../hooks/usePutEvent.js";
+import usePutUser from "../hooks/usePutUser.js";
+import useUserByEmail from "../hooks/useUserByEmail.js";
+import { EventDocumentType } from "../interfaces/interfaces.js";
 
 const dishSchema = z.object({
   userName: z

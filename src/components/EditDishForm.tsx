@@ -5,14 +5,14 @@ import { z } from "zod";
 import {
   dietaryConsiderations,
   dietaryConsiderationsEnum,
-} from "../categories/dietaryConsiderations";
+} from "../categories/dietaryConsiderations.js";
 import {
   dishCategories,
   dishCategoriesEnum,
-} from "../categories/dishCategories";
-import { capitalizeFirstLetter } from "../functions/functions";
-import usePutDish from "../hooks/usePutDish";
-import { DishDocumentType } from "../interfaces/interfaces";
+} from "../categories/dishCategories.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
+import usePutDish from "../hooks/usePutDish.js";
+import { DishDocumentType } from "../interfaces/interfaces.js";
 
 const dishSchema = z.object({
   userName: z

@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
-import useDeleteDish from "../hooks/useDeleteDish";
-import EditDishForm from "./EditDishForm";
+import {
+  DishDocumentType,
+  EventDocumentType,
+} from "../interfaces/interfaces.js";
+import useDeleteDish from "../hooks/useDeleteDish.js";
+import EditDishForm from "./EditDishForm.js";
 
 interface Props {
   selectedEvent: EventDocumentType;

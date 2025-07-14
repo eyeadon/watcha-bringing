@@ -2,7 +2,7 @@ import { ReactNode, useContext } from "react";
 import { DashLg, PlusLg } from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 import Collapse from "react-bootstrap/Collapse";
-import { EventFormIsExpandedContext } from "../contexts/contexts";
+import { EventFormIsExpandedContext } from "../contexts/contexts.js";
 import { useAuth0 } from "@auth0/auth0-react";
 
 interface Props {

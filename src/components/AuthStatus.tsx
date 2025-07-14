@@ -1,10 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
-import useUserByEmail from "../hooks/useUserByEmail";
-import usePostUser from "../hooks/usePostUser";
+import LoginButton from "./LoginButton.js";
+import LogoutButton from "./LogoutButton.js";
+import useUserByEmail from "../hooks/useUserByEmail.js";
+import usePostUser from "../hooks/usePostUser.js";
 import { nanoid } from "nanoid";
-import { emptyUser } from "../constants/constants";
+import { emptyUser } from "../constants/constants.js";
 import { useCallback, useEffect } from "react";
 
 const AuthStatus = () => {

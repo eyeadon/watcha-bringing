@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EventDocumentType, Event } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import { EventDocumentType, Event } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 interface PutEventContext {
   previousEvents: Event[];

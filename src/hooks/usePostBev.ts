@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Bev, BevDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import { Bev, BevDocumentType } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 interface PostBevContext {
   previousBevs: Bev[];

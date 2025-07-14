@@ -1,12 +1,12 @@
 import { useContext } from "react";
 import Button from "react-bootstrap/Button";
-import { emptyEvent } from "../constants/constants";
-import { SelectedEventContext } from "../contexts/contexts";
-import useDeleteEvent from "../hooks/useDeleteEvent";
-import { EventDocumentType } from "../interfaces/interfaces";
+import { emptyEvent } from "../constants/constants.js";
+import { SelectedEventContext } from "../contexts/contexts.js";
+import useDeleteEvent from "../hooks/useDeleteEvent.js";
+import { EventDocumentType } from "../interfaces/interfaces.js";
 import { useAuth0 } from "@auth0/auth0-react";
-import { isOwned } from "../functions/functions";
-import useUserByEmail from "../hooks/useUserByEmail";
+import { isOwned } from "../functions/functions.js";
+import useUserByEmail from "../hooks/useUserByEmail.js";
 
 interface Props {
   selectedEvent: EventDocumentType;

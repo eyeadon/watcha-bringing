@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { BevDocumentType, EventDocumentType } from "../interfaces/interfaces";
-import useDeleteBev from "../hooks/useDeleteBev";
-import EditBevForm from "./EditBevForm";
+import {
+  BevDocumentType,
+  EventDocumentType,
+} from "../interfaces/interfaces.js";
+import useDeleteBev from "../hooks/useDeleteBev.js";
+import EditBevForm from "./EditBevForm.js";
 
 interface Props {
   selectedEvent: EventDocumentType;

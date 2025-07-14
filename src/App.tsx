@@ -1,25 +1,25 @@
 import { useState } from "react";
 import "./App.css";
-import BevFilter from "./components/BevFilter";
-import BevForm from "./components/BevForm";
-import BevList from "./components/BevList";
-import DishFilter from "./components/DishFilter";
-import DishForm from "./components/DishForm";
-import DishList from "./components/DishList";
-import EventForm from "./components/EventForm";
-import EventMenu from "./components/EventMenu";
-import ExpandableSectionButton from "./components/ExpandableSectionButton";
-import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent";
-import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay";
-import SelectedEventTitle from "./components/SelectedEventTitle";
-import { emptyEvent } from "./constants/constants";
+import BevFilter from "./components/BevFilter.js";
+import BevForm from "./components/BevForm.js";
+import BevList from "./components/BevList.js";
+import DishFilter from "./components/DishFilter.js";
+import DishForm from "./components/DishForm.js";
+import DishList from "./components/DishList.js";
+import EventForm from "./components/EventForm.js";
+import EventMenu from "./components/EventMenu.js";
+import ExpandableSectionButton from "./components/ExpandableSectionButton.js";
+import ExpandableSectionButtonNewEvent from "./components/ExpandableSectionButtonNewEvent.js";
+import SelectedEventDataDisplay from "./components/SelectedEventDataDisplay.js";
+import SelectedEventTitle from "./components/SelectedEventTitle.js";
+import { emptyEvent } from "./constants/constants.js";
 import {
   EventFormIsExpandedContext,
   SelectedEventContext,
-} from "./contexts/contexts";
-import { EventDocumentType } from "./interfaces/interfaces";
-import EditDeleteEventMenu from "./components/EditDeleteEventMenu";
-import EditEventForm from "./components/EditEventForm";
+} from "./contexts/contexts.js";
+import { EventDocumentType } from "./interfaces/interfaces.js";
+import EditDeleteEventMenu from "./components/EditDeleteEventMenu.js";
+import EditEventForm from "./components/EditEventForm.js";
 
 function App() {
   const [eventFormIsExpanded, setEventFormIsExpanded] = useState(false);

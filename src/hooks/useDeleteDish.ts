@@ -1,6 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { DishDocumentType, EventDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import {
+  DishDocumentType,
+  EventDocumentType,
+} from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 interface DeleteDishContext {
   previousDishes: DishDocumentType[];

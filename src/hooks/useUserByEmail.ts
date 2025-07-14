@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { UserDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import { UserDocumentType } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 const apiClient = new APIClient<UserDocumentType>("/users");
 

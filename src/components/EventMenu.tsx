@@ -1,6 +1,6 @@
-import { Event } from "../interfaces/interfaces";
-import { capitalizeFirstLetter } from "../functions/functions";
-import useEvents from "../hooks/useEvents";
+import { Event } from "../interfaces/interfaces.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
+import useEvents from "../hooks/useEvents.js";
 
 interface Props {
   // children: ReactNode;

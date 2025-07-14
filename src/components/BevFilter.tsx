@@ -1,5 +1,5 @@
-import { bevCategories } from "../categories/bevCategories";
-import { capitalizeFirstLetter } from "../functions/functions";
+import { bevCategories } from "../categories/bevCategories.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
 
 interface Props {
   selectedBevCategory: string;

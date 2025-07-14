@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { User, UserDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
+import { User, UserDocumentType } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
 
 interface PostUserContext {
   previousUsers: User[];

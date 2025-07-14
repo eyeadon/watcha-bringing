@@ -1,5 +1,5 @@
-import { dishCategories } from "../categories/dishCategories";
-import { capitalizeFirstLetter } from "../functions/functions";
+import { dishCategories } from "../categories/dishCategories.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
 
 interface Props {
   selectedDishCategory: string;

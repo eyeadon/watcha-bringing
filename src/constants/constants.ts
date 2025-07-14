@@ -1,4 +1,7 @@
-import { EventDocumentType, UserDocumentType } from "../interfaces/interfaces";
+import {
+  EventDocumentType,
+  UserDocumentType,
+} from "../interfaces/interfaces.js";
 
 export const emptyEvent: EventDocumentType = {
   publicId: "none",

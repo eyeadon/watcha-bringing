@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from "dayjs";
-import { BevDocumentType, DishDocumentType } from "../interfaces/interfaces";
+import { BevDocumentType, DishDocumentType } from "../interfaces/interfaces.js";
 
 // function overload signatures
 export function visibleItemsFilterHelper(

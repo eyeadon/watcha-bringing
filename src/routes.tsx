@@ -1,11 +1,11 @@
 import { RouteObject } from "react-router-dom";
-import App from "./App.tsx";
-import ErrorPage from "./pages/ErrorPage.tsx";
-import AdminHomePage from "./pages/admin/AdminHomePage.tsx";
-import AdminLayout from "./pages/admin/AdminLayout.tsx";
-import UserLayout from "./pages/user/UserLayout.tsx";
-import { UserPage } from "./pages/user/UserPage.tsx";
-import Layout from "./pages/Layout.tsx";
+import App from "./App.js";
+import ErrorPage from "./pages/ErrorPage.js";
+import AdminHomePage from "./pages/admin/AdminHomePage.js";
+import AdminLayout from "./pages/admin/AdminLayout.js";
+import UserLayout from "./pages/user/UserLayout.js";
+import { UserPage } from "./pages/user/UserPage.js";
+import Layout from "./pages/Layout.js";
 
 const routes: RouteObject[] = [
   {

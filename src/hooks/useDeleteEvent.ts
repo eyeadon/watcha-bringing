@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { EventDocumentType } from "../interfaces/interfaces";
-import APIClient from "../services/apiClient";
-import { emptyEvent } from "../constants/constants";
+import { EventDocumentType } from "../interfaces/interfaces.js";
+import APIClient from "../services/apiClient.js";
+import { emptyEvent } from "../constants/constants.js";
 
 interface DeleteEventContext {
   previousEvents: EventDocumentType[];

@@ -1,8 +1,8 @@
 import { nanoid } from "nanoid";
-import { emptyUser } from "../constants/constants";
-import usePostUser from "../hooks/usePostUser";
-import useUserByEmail from "../hooks/useUserByEmail";
-import { User } from "../interfaces/interfaces";
+import { emptyUser } from "../constants/constants.js";
+import usePostUser from "../hooks/usePostUser.js";
+import useUserByEmail from "../hooks/useUserByEmail.js";
+import { User } from "../interfaces/interfaces.js";
 
 interface Props {
   userName: string | undefined;

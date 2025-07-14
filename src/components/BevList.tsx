@@ -3,11 +3,11 @@ import {
   capitalizeFirstLetter,
   isOwned,
   visibleItemsFilterHelper,
-} from "../functions/functions";
-import useEventSubDoc from "../hooks/useEventSubDoc";
-import { EventDocumentType } from "../interfaces/interfaces";
-import EditDeleteBevMenu from "./EditDeleteBevMenu";
-import useUserByEmail from "../hooks/useUserByEmail";
+} from "../functions/functions.js";
+import useEventSubDoc from "../hooks/useEventSubDoc.js";
+import { EventDocumentType } from "../interfaces/interfaces.js";
+import EditDeleteBevMenu from "./EditDeleteBevMenu.js";
+import useUserByEmail from "../hooks/useUserByEmail.js";
 
 interface Props {
   selectedEvent: EventDocumentType;

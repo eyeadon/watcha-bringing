@@ -1,10 +1,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { bevCategories, bevCategoriesEnum } from "../categories/bevCategories";
-import { capitalizeFirstLetter } from "../functions/functions";
-import usePutBev from "../hooks/usePutBev";
-import { BevDocumentType } from "../interfaces/interfaces";
+import {
+  bevCategories,
+  bevCategoriesEnum,
+} from "../categories/bevCategories.js";
+import { capitalizeFirstLetter } from "../functions/functions.js";
+import usePutBev from "../hooks/usePutBev.js";
+import { BevDocumentType } from "../interfaces/interfaces.js";
 import { Fade } from "@mui/material";
 
 const bevSchema = z.object({
