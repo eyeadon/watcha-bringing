@@ -1,8 +1,8 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { ReactNode, useState } from "react";
 import { PlusLg, DashLg } from "react-bootstrap-icons";
-import Button from "react-bootstrap/Button";
-import Collapse from "react-bootstrap/Collapse";
+import { Button } from "react-bootstrap";
+import { Collapse } from "react-bootstrap";
 
 interface Props {
   children: ReactNode;

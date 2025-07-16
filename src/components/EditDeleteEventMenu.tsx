@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import Button from "react-bootstrap/Button";
+import { Button } from "react-bootstrap";
 import { emptyEvent } from "../constants/constants.js";
 import { SelectedEventContext } from "../contexts/contexts.js";
 import useDeleteEvent from "../hooks/useDeleteEvent.js";
